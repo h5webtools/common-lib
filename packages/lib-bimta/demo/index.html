@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div data-stat-ea="home">
+        <div data-stat-eb="search" data-stat-visit="pv">
+            <a data-stat-ec="btn" data-stat-para="{'op_type': 'click'}" href="javascript:;">search</a>
+        </div>
+    </div>
+    <script src="../dist/bimta.dev.js"></script>
+    <script src="./config_map.js"></script>
+    <script>
+        (function() {
+            var bimta = new Bimta({
+                configMap: configMap,
+                platform: ['bi'],
+                debug: true,
+                env: 'test',
+                createCommonParams: function(defaults) {
+                    return {
+                        uuid: Date.now()
+                    };
+                }
+            });
+
+            bimta.start();
+
+            bimta.pageview({ ea: 'home', eb: 'search' }, { op_type: 'pv' });
+            bimta.event({ ea: 'home', eb: 'search', ec: 'input' });
+        })();
+    </script>
+</body>
+</html>
