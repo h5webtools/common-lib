@@ -258,6 +258,7 @@ class Bimta {
         }
 
         const commonParams = this.getCommonParams();
+        let mergeParams = {};
         let ids = '';
 
         if (_.isString(eventID)) {
@@ -270,7 +271,7 @@ class Bimta {
             return false;
         }
 
-        _.assign(commonParams, params);
+        mergeParams = _.assign(commonParams, params);
         _.each(this.options.platform, (p, i) => {
             let curr = null;
 
@@ -280,10 +281,10 @@ class Bimta {
                 curr = platform[i];
             }
 
-            curr[method](ids, params);
+            curr[method](ids, mergeParams);
         });
 
-        this._log(`[${method}] ids: ${ids}, params: ${JSON.stringify(params)}`);
+        this._log(`[${method}] ids: ${ids}, params: ${JSON.stringify(mergeParams)}`);
         return true;
     }
 }

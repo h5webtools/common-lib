@@ -2,6 +2,8 @@
  * util
  */
 
+import leftPad from './left_pad';
+
 const rhashcode = /\d\.\d{4}/;
 const UUID_KEY = '__DSTAT_UUID__';
 
@@ -44,19 +46,39 @@ export function getUUID() {
     }
 }
 
+export function getTime() {
+    const oDate = new Date();
+    const year = oDate.getFullYear();
+    const month = leftPad(oDate.getMonth() + 1, 2, '0');
+    const date = leftPad(oDate.getDate(), 2, '0');
+    const hours = leftPad(oDate.getHours(), 2, '0');
+    const minutes = leftPad(oDate.getMinutes(), 2, '0');
+    const second = leftPad(oDate.getSeconds(), 2, '0');
+
+    return `${year}-${month}-${date} ${hours}:${minutes}:${second}`;
+}
+
 export function makeHashCode(prefix) {
     prefix = prefix || 'bimta';
     return String(Math.random() + Math.random()).replace(rhashcode, prefix);
 }
 
-export function assign(from, to) {
-    for (let k in from) {
-        if (hasOwn.call(from, k) && to[k] === void 0) {
-            to[k] = from[k];
+export function assign(from, to, ignore = []) {
+    let obj = {};
+
+    for (let m in to) {
+        if (hasOwn.call(to, m) && !~ignore.indexOf(m)) {
+            obj[m] = to[m];
         }
     }
 
-    return to;
+    for (let n in from) {
+        if (hasOwn.call(from, n) && obj[n] === void 0) {
+            obj[n] = from[n];
+        }
+    }
+
+    return obj;
 }
 
 export function each(obj, cb) {
