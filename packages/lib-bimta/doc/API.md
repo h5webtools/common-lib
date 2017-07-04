@@ -104,13 +104,17 @@ pageview上报
 ```jsdoc
 @param {String|Object} eventID '10000.1.1'/{ea: 'bargain', eb: 'home'}
 @param {Object} params 参数
+@param {String} params.op_type 可取值click，touch，share，默认为click
+@param {String} params.act_id 活动ID，默认为空
+@param {Stirng} params.group 用户群，默认为空
+@param {String} params.source 渠道，默认获取url querystring中的from
 ```
 
 ```javascript
 instance.pageview();
 ```
 
-### event()
+### event(eventID, params)
 
 event上报
 
