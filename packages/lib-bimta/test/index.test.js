@@ -95,7 +95,7 @@ describe('src/index.js', () => {
         document.body.innerHTML = `
             <div data-stat-ea="home">
                 <div data-stat-eb="search" data-stat-visit="pv">
-                    <a class="search-btn" data-stat-ec="btn" data-stat-para="{'op_type': 'click'}" href="javascript:;">search</a>
+                    <a class="search-btn" data-stat-ec="btn" data-stat-para="{'action': 'click'}" href="javascript:;">search</a>
                 </div>
             </div>
         `;
@@ -124,7 +124,7 @@ describe('src/index.js', () => {
         should(objR2.ak).be.equal('KVQiUTJf');
         should(objR2Body.cmd).be.equal('65010000');
         should(objR2Body.data[0].op_object).be.equal('30000.1.2');
-        should(objR2Body.data[0].op_params.op_type).be.equal('click');
+        should(objR2Body.data[0].op_params.action).be.equal('click');
 
         should(oImage.loadQueue.length()).be.equal(0);
     });
@@ -143,6 +143,7 @@ describe('src/index.js', () => {
 
         should(objR1.ak).be.equal('KVQiUTJf');
         should(objR1Body.cmd).be.equal('65010000');
+        should(objR1Body.data[0].op_type).be.equal('pv');
         should(objR1Body.data[0].op_object).be.equal('30000.1.1');
 
         // event
