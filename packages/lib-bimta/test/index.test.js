@@ -2,12 +2,11 @@
  * index unit test
  */
 
-require('./helper/api');
-
-const Bimta = require('../src/index');
-const should = require('should');
-const report = require('./helper/report');
-const oImage = require('./helper/image');
+import './helper/api';
+import Bimta from '../src/index';
+import should from 'should';
+import * as report from './helper/report';
+import oImage from './helper/image';
 
 describe('src/index.js', () => {
     const map = {

@@ -7,7 +7,7 @@ const reportURL = {
     prod: '//report.jyblife.com'
 };
 
-function reportURLInverse(url) {
+export function reportURLInverse(url) {
     const arrURL = url.replace(`${reportURL.test}?`, '').split('&');
 
     return arrURL.reduce((obj, item) => {
@@ -18,6 +18,3 @@ function reportURLInverse(url) {
     }, {});
 }
 
-module.exports = {
-    reportURLInverse
-};
