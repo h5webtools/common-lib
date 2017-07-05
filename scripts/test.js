@@ -1,5 +1,10 @@
-// Karma configuration
-// Generated on Sat Jul 01 2017 22:56:40 GMT+0800 (CST)
+/**
+ * test
+ */
+
+const path = require('path');
+const Server = require('karma').Server;
+const getLibDefine = require('./get_define');
 
 // rollup plugin
 const resolve = require('rollup-plugin-node-resolve');
@@ -13,11 +18,15 @@ const karmaRollupPlugin = require('karma-rollup-plugin');
 const karmaCoverage = require('karma-coverage');
 
 const isCover = process.env.NODE_ENV === 'cover';
+const cwd = process.cwd();
 
-module.exports = function(config) {
+// 获取package libDefine字段
+const libDefineFields = getLibDefine();
+
+function getKarmaConfig(fields) {
     const karmaConfig = {
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: cwd,
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -39,12 +48,13 @@ module.exports = function(config) {
             plugins: [
                 resolve(),
                 babel({
+                    include: path.join(__dirname, 'node_modules'),
                     exclude: 'node_modules/**'
                 }),
                 commonjs()
             ],
             format: 'umd',
-            moduleName: 'Bimta',
+            moduleName: fields.moduleName,
             sourceMap: 'inline'
         },
 
@@ -61,7 +71,7 @@ module.exports = function(config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+        // logLevel: config.LOG_INFO,
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
@@ -97,5 +107,9 @@ module.exports = function(config) {
         karmaConfig.plugins.push(karmaCoverage);
     }
 
-    config.set(karmaConfig);
-};
+    return karmaConfig;
+}
+
+if (libDefineFields) {
+    new Server(getKarmaConfig(libDefineFields)).start();
+}
