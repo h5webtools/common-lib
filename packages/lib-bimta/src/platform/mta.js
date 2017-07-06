@@ -18,8 +18,7 @@ const mta = {
     _trackCache: [],
     init: function(env, options) {
         this.env = env;
-        this.options = options || {};
-        _.assign(defaultOptions, this.options);
+        this.options = _.assign(defaultOptions, options || {});
 
         // global
         window._mtac = {'performanceMonitor': 1};

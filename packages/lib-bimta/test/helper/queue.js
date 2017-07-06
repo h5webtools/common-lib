@@ -22,4 +22,5 @@ Queue.prototype.clear = function() {
     this.lists.length = 0;
 };
 
-module.exports = Queue;
+export default Queue;
+

@@ -2,8 +2,8 @@
  * 自定义数据属性处理测试
  */
 
-const should = require('should');
-const DataAttribute = require('../../src/dataset/index');
+import should from 'should';
+import DataAttribute from '../../src/dataset/index';
 
 describe('src/dataset/index.js', () => {
     const dataAttr = new DataAttribute();

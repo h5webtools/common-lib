@@ -2,7 +2,7 @@
  * image
  */
 
-const Queue = require('./queue');
+import Queue from './queue';
 
 function Image() {
     let srcStr = '';
@@ -30,4 +30,7 @@ Image.prototype.onerror = function() {
     console.log('onerror');
 };
 
-module.exports = window.Image = Image;
+window.Image = Image;
+
+export default Image;
+

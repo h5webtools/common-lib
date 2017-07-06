@@ -2,19 +2,15 @@
  * MTA
  */
 
-const Queue = require('./queue');
+import Queue from './queue';
 
 // mta上报队列
-const mtaQueue = new Queue();
+export const mtaQueue = new Queue();
 
-function clickStat(key, value) {
+export function clickStat(key, value) {
     mtaQueue.enqueue({
         id: key,
         params: value
     });
 }
 
-module.exports = {
-    clickStat,
-    mtaQueue
-};
