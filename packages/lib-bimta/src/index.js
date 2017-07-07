@@ -158,7 +158,7 @@ class Bimta {
         const dataAttribute = this.dataAttribute;
         const alias = dataAttribute.alias;
 
-        while (el !== document.documentElement) {
+        while (el && el !== document.documentElement) {
             dataAttribute.getDataSetObj(dataSetObj, attrs, el.dataset);
 
             // 如果第一个层级有值，跳出循环
