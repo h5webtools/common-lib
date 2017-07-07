@@ -69,7 +69,7 @@ const bi = {
                         in_app: os.jyb ? 1 : 0, // 1为加油宝app内，0为app外
                         cust_id: custId, // 客户id
                         uniq_id: custId || uuid, // 如果未登录设置此id,如果登录与custId一致
-                        source: _.getQuery('from') || '', // baidu
+                        source: _.getQuery('channel') || _.getQuery('from') || '', // baidu
                         act_id: '', // 活动ID
                         group: '' // 用户群
                     }, params, ['op_type'])
