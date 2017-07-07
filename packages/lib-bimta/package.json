@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-bimta",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "BI and MTA data statistic.",
   "main": "dist/bimta.js",
   "scripts": {
