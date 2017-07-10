@@ -17,7 +17,7 @@ npm i
 ```text
 |- lib-bimta
   |- demo # 放置例子
-  |-  doc # 放置文档
+  |- doc # 放置文档
   |- |- API.md # api文档
   |- |- CHANGELOG.md # 更新日志
   |- |- QuickStart.md # 快速开始
