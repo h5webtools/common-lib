@@ -37,9 +37,13 @@ class Bimta {
      * @return {Object}
      */
     start() {
-        this._init();
-        this._initPageviewReport();
-        this._initEventReport();
+        try {
+            this._init();
+            this._initPageviewReport();
+            this._initEventReport();
+        } catch (e) {
+            this._log(e);
+        }
         return this;
     }
 
