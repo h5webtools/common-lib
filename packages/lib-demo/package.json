@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/{{=name}}",
+  "version": "{{=version}}",
+  "description": "{{=description}}",
+  "main": "dist/demo.js",
+  "scripts": {
+    "dev": "NODE_ENV=dev node ../../scripts/build.js",
+    "build": "NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Demo",
+    "devDest": "dist/demo.dev.js",
+    "prodDest": "dist/demo.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
