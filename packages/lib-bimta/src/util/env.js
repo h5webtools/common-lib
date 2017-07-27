@@ -17,24 +17,24 @@ os.jyb = inApp;
 
 // android
 if (android) {
-    os.android = true;
-    os.version = android[2];
+  os.android = true;
+  os.version = android[2];
 }
 
 // ios
 if (iphone && !ipod) {
-    os.ios = os.iphone = true;
-    os.version = iphone[2].replace(/_/g, '.');
+  os.ios = os.iphone = true;
+  os.version = iphone[2].replace(/_/g, '.');
 }
 
 if (ipad) {
-    os.ios = os.ipad = true;
-    os.version = ipad[2].replace(/_/g, '.');
+  os.ios = os.ipad = true;
+  os.version = ipad[2].replace(/_/g, '.');
 }
 
 if (ipod) {
-    os.ios = os.ipod = true;
-    os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
+  os.ios = os.ipod = true;
+  os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
 }
 
 export default os;
