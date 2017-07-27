@@ -10,7 +10,13 @@
 npm i
 ```
 
-## 库规范
+## 开发
+
+### 初始化
+
+执行`jfet init --ls`，选择`template-common-lib`
+
+### 库规范
 
 目录结构：
 
@@ -27,4 +33,12 @@ npm i
   |- README.md
 ```
 
-其中`package.json`中需要配置`libDefine`字段，需要包含3个字段，`moduleName`,`devDest`,`prodDest`
+`package.json`中需要配置`libDefine`字段，包含3个字段：
+
+- `moduleName`，模块名称，引入库文件的时候，会挂载在`window`下
+- `devDest`，开发编译输出文件
+- `prodDest`，发布编译输出文件
+
+### 修改main字段
+
+一般跟`libDefine.prodDest`一致
