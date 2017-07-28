@@ -3,8 +3,7 @@
  */
 
 window.setTimeout = function(cb) {
-    if (typeof cb === 'function') {
-        cb();
-    }
+  if (typeof cb === 'function') {
+    cb();
+  }
 };
-

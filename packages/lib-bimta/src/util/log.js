@@ -7,7 +7,7 @@
  * @param {String} msg
  */
 export function info(msg) {
-    console.log(`INFO: ${msg}`);
+  console.log(`INFO: ${msg}`);
 }
 
 /**
@@ -15,7 +15,7 @@ export function info(msg) {
  * @param {String} msg
  */
 export function warn(msg) {
-    console.log(`WARN: ${msg}`);
+  console.log(`WARN: ${msg}`);
 }
 
 /**
@@ -23,5 +23,5 @@ export function warn(msg) {
  * @param {String} msg
  */
 export function error(msg) {
-    console.log(`ERROR: ${msg}`);
+  console.log(`ERROR: ${msg}`);
 }

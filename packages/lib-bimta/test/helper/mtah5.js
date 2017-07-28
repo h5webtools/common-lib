@@ -8,9 +8,8 @@ import Queue from './queue';
 export const mtaQueue = new Queue();
 
 export function clickStat(key, value) {
-    mtaQueue.enqueue({
-        id: key,
-        params: value
-    });
+  mtaQueue.enqueue({
+    id: key,
+    params: value
+  });
 }
-
