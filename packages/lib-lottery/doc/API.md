@@ -1,6 +1,7 @@
 # API
 
 ## 引用
+
 ```javascript
 import Lottery from '@jyb/lib-lottery'
 ```
@@ -16,6 +17,7 @@ let lottery = new Lottery(options);
 - Type: `Object`
 - Default: {}
 - 字段如下：
+
 ```javascript
 let config = {
     maxGrid: 8,                     // 最大格子数量
@@ -33,14 +35,17 @@ let config = {
 
 ## 方法
 - 设置奖品格子，最大值小于等于maxGrid
+
 ```javascript
 setPrizeIndex();
 ```
 - 设置最大旋转次数
+
 ```javascript
 setTimes()
 ```
 - 停止旋转
+
 ```javascript
 stop()
 ```

@@ -16,6 +16,7 @@ import Lottery from '@jyb/lib-lottery'
 
 ### 调用方法
 - 触发抽奖按钮动作后，按照如下方法调用组件
+
 ```javascript
 var lottery = new Lottery({
     maxGrid: 8,            // 最大格子数量
@@ -33,6 +34,7 @@ var lottery = new Lottery({
 })
 ```
 - 通常情况下点击抽奖按钮后需要从后端请求奖品，所以奖品需要等接口返回后再设置
+
 ```javascript
 ajaxcallback(function(json) {
     // 设置奖品格子
@@ -44,6 +46,7 @@ ajaxcallback(function(json) {
 
 ## 例子
 - 九宫格html
+
 ```html
 <div class="lottery-content">
     <ul class="mod-nine-reward-list">
@@ -119,6 +122,7 @@ ajaxcallback(function(json) {
 ```
 
 - 九宫格scss
+
 ```css
 // 九宫格容器
 .mod-nine-lottery-theme1 {
