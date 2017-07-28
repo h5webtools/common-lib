@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>转盘抽奖</title>
+    <link rel="stylesheet" href="https://cdnsit.jyblife.com/act/201708/platform/assets/css/index.css?v=20170728114305">
+    <script type="text/javascript">
+        (function(doc, win) {
+            var basicWidth = window.basicWidth || 750;
+            var minWidth = 320;
+            var htmlElement = doc.documentElement;
+            var recalc = function() {
+                var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+                clientWidth = clientWidth < minWidth ? minWidth : clientWidth;
+                htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+            };
+            recalc();
+            if (!win.addEventListener) return;
+            win.addEventListener('resize', recalc, false);
+        })(document, window);
+    </script>
+</head>
+
+<body>
+    <div class="comm-padding ui-mt-40">
+        <div class="mod-nine-lottery-theme1">
+            <div class="lottery-title">
+                8月份90天、180天理财单笔每满一万元<br>赢取一次抽奖机会
+            </div>
+            <div class="lottery-content">
+                <ul class="mod-nine-reward-list">
+                    <li class="reward-item" index="1" rewardname="200元理财红包">
+                        <div class="reward-inner">
+                            <div class="coupon-icon">
+                                <span class="f-34">200</span><span class="f-24">元</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">理财红包</p>
+                        </div>
+                    </li>
+                    <li class="reward-item" index="2" rewardname="2.5%加息券">
+                        <div class="reward-inner">
+                            <div class="jxq-icon">
+                                <span class="f-24">2.5%</span><span class="f-18">券</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">2.5%加息券</p>
+                        </div>
+                    </li>
+                    <li class="reward-item" index="3" rewardname="30元理财红包">
+                        <div class="reward-inner">
+                            <div class="coupon-icon">
+                                <span class="f-34">30</span><span class="f-24">元</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">理财红包</p>
+                        </div>
+                    </li>
+                    <li class="reward-item" index="8" rewardname="1.5%加息券">
+                        <div class="reward-inner">
+                            <div class="jxq-icon">
+                                <span class="f-24">1.5%</span><span class="f-18">券</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">1.5%加息券</p>
+                        </div>
+                    </li>
+                    <li class="reward-item reward-item--touch" et="click:startLottery">
+                        <div class="reward-inner">抽奖</div>
+                    </li>
+                    <li class="reward-item" index="4" rewardname="1%加息券">
+                        <div class="reward-inner">
+                            <div class="jxq-icon">
+                                <span class="f-34">1%</span><span class="f-24">券</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">1%加息券</p>
+                        </div>
+                    </li>
+                    <li class="reward-item" index="7" rewardname="50元理财红包">
+                        <div class="reward-inner">
+                            <div class="coupon-icon">
+                                <span class="f-34">50</span><span class="f-24">元</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">理财红包</p>
+                        </div>
+                    </li>
+                    <li class="reward-item" index="6" rewardname="100元理财红包">
+                        <div class="reward-inner">
+                            <div class="coupon-icon">
+                                <span class="f-34">100</span><span class="f-24">元</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">理财红包</p>
+                        </div>
+                    </li>
+                    <li class="reward-item" index="5" rewardname="2%加息券">
+                        <div class="reward-inner">
+                            <div class="jxq-icon">
+                                <span class="f-34">2%</span><span class="f-24">券</span>
+                            </div>
+                            <p class="f-24 ui-mt-5">2%加息券</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <p class="f-26 ui-mt-10 color-fff">我的剩余抽奖次数：<span id="leftTimes">0</span>次<a href="jtjr://coupon" class="coupon-color ui-fl-r">我的红包&gt;</a></p>
+    </div>
+    <script src="../dist/lottery.dev.js"></script>
+    <script>
+        var lotteryObj
+            // 方法一，直接设置奖品格子数
+            // document.querySelector(".reward-item--touch").addEventListener("click", function() {
+            //     lotteryObj = new Lottery({
+            //         times: 50,
+            //         prizeIndex: 1,
+            //         speed: 80,
+            //         gridClass: "reward-item",
+            //         activeClass: "reward-item__active",
+            //         callback: function(node) {
+            //             console.log(node.getAttribute("rewardName"))
+            //         }
+            //     })
+            // }, false);
+            // 方法二，延迟设置奖品格子数
+        document.querySelector(".reward-item--touch").addEventListener("click", function() {
+            lotteryObj = new Lottery({
+                    times: 50,
+                    speed: 100,
+                    gridClass: "reward-item",
+                    activeClass: "reward-item__active",
+                    advanceTimes: 15,
+                    reduce: 20,
+                    callback: function(node) {
+                        console.log(node.getAttribute("rewardName"))
+                    }
+                })
+                // 2秒后设置奖项
+            setTimeout(function() {
+                lotteryObj.setPrizeIndex(10);
+            }, 5000);
+        }, false);
+    </script>
+</body>
+
+</html>
