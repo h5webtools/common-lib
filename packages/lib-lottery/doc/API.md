@@ -33,7 +33,7 @@ let config = {
 };
 ```
 
-## 方法
+## 可调用方法
 - `setPrizeIndex()`
 - 设置奖品格子，最大值小于等于maxGrid
 - 如果不在 `1 ~ maxGrid` 范围内会抛出异常
@@ -41,6 +41,7 @@ let config = {
 ```javascript
 lotteryObj.setPrizeIndex(number);
 ```
+---------------
 - `setTimes()`
 - 设置最大旋转次数
 - 不能小于等于0，否则会抛出异常
@@ -48,6 +49,7 @@ lotteryObj.setPrizeIndex(number);
 ```javascript
 lotteryObj.setTimes(number);
 ```
+--------------
 - `stop()`
 - 停止旋转，并清空当前格子的状态
 
