@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-lottery",
+  "version": "0.0.2",
+  "description": "九宫格转盘抽奖",
+  "main": "dist/lottery.js",
+  "scripts": {
+    "dev": "NODE_ENV=dev node ../../scripts/build.js",
+    "build": "NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://git.jtjr.com/h5_web_grp/common-lib.git"
+  },
+  "keywords": [
+    "九宫格",
+    "抽奖"
+  ],
+  "libDefine": {
+    "moduleName": "Lottery",
+    "devDest": "dist/lottery.dev.js",
+    "prodDest": "dist/lottery.js"
+  },
+  "author": "kardel.chen@jyblife.com",
+  "license": "MIT"
+}
