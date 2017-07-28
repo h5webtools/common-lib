@@ -1,5 +1,5 @@
 # 九宫格抽奖
-- 详细使用方法见doc目录下的`QuickStart.md`
+- [详细使用方法见doc目录下的`QuickStart.md`](http://git.jtjr.com/h5_web_grp/common-lib/blob/master/packages/lib-lottery/doc/QuickStart.md)
 
 ## 安装
 
@@ -26,3 +26,5 @@ npm run build
     - 修改readme.md，修改模块说明文字
 - v0.0.3 
     - 修改readme.md文档，修复链接问题
+- v0.0.4
+    - 增加quickstart.md文档链接地址

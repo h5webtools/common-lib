@@ -19,18 +19,18 @@ import Lottery from '@jyb/lib-lottery'
 
 ```javascript
 var lottery = new Lottery({
-    maxGrid: 8,            // 最大格子数量
-    times: 50,             // 格子高亮次数
-    prizeIndex: 0,         // 奖品所在格子顺序1-8
-    speed: 80,            // 转速
-    gridClass: 'reward-item',         // 格子类名，用于查找格子数量
+    maxGrid: 8,                             // 最大格子数量
+    times: 50,                              // 格子高亮次数
+    prizeIndex: 0,                          // 奖品所在格子顺序1-8
+    speed: 80,                              // 转速
+    gridClass: 'reward-item',               // 格子类名，用于查找格子数量
     callback: function(node) {              // 停止时的回调函数
         // your code here 
     },       
-    activeClass: 'reward-item__active', // 格子高亮的样式
-    reduce: 10,            // 转速递减值
-    advanceTimes: 10,      // 提前多少步开始减速
-    continueTimes: 50
+    activeClass: 'reward-item__active',     // 格子高亮的样式
+    reduce: 10,                             // 转速递减值
+    advanceTimes: 10,                       // 提前多少步开始减速
+    continueTimes: 20                       // 转圈数每次递增的数量
 })
 ```
 - 通常情况下点击抽奖按钮后需要从后端请求奖品，所以奖品需要等接口返回后再设置
