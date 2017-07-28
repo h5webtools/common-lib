@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-lottery",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "九宫格转盘抽奖",
   "main": "dist/lottery.js",
   "scripts": {
