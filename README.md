@@ -1,13 +1,23 @@
-# common-lib
-
-## 公共库
-
-- lib-bimta 业务数据上报
+# common-lib 公共库
 
 ## 安装
 
 ```shell
 npm i
+```
+
+## 发布
+
+发布前，需要先切换npm registry为`http://npm.jtjr.com/`
+
+```shell
+npm run publish
+```
+
+## 文档
+
+```shell
+npm run docs:watch
 ```
 
 ## 开发
@@ -24,9 +34,10 @@ npm i
 |- lib-bimta
   |- demo # 放置例子
   |- doc # 放置文档
-  |- |- API.md # api文档
-  |- |- CHANGELOG.md # 更新日志
-  |- |- QuickStart.md # 快速开始
+  |  |- API.md # api文档
+  |  |- CHANGELOG.md # 更新日志
+  |  |- QuickStart.md # 快速开始
+  |  |- Example.md # 例子
   |- src # 源代码目录
   |- test # 测试目录
   |- package.json
