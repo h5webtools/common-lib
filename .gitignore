@@ -3,3 +3,4 @@ node_modules
 coverage
 packages/**/dist/*.map
 *.log
+_book
