@@ -1,0 +1,32 @@
+{
+  "name": "@jyb/lib-tips",
+  "version": "",
+  "description": "公共toast",
+  "main": "dist/demo.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Tips",
+    "devDest": "dist/tips.dev.js",
+    "prodDest": "dist/tips.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
