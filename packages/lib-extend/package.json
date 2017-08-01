@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-extend",
+  "version": "1.0.0",
+  "description": "extend method from jQuery",
+  "main": "dist/extend.js",
+  "scripts": {
+    "dev": "NODE_ENV=dev node ../../scripts/build.js",
+    "build": "NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Extend",
+    "devDest": "dist/extend.dev.js",
+    "prodDest": "dist/extend.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT"
+}
