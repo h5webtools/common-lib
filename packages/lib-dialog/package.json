@@ -1,0 +1,34 @@
+{
+  "name": "@jyb/lib-dialog",
+  "version": "0.1.0",
+  "description": "dialog ui component",
+  "main": "dist/dialog.js",
+  "scripts": {
+    "dev": "NODE_ENV=dev node ../../scripts/build.js",
+    "build": "NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Dialog",
+    "devDest": "dist/dialog.dev.js",
+    "prodDest": "dist/dialog.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@jyb/lib-extend": "^1.0.0"
+  }
+}

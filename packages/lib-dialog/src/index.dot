@@ -1,0 +1,25 @@
+<div class="{{=it.elementCls.el}}">
+  {{? it.mask}}
+  <div class="{{=it.elementCls.mask}}"></div>
+  {{?}}
+  <div class="{{=it.elementCls.wrap}}" style="position:absolute;top:{{=it.top}}px;">
+    {{? it.title}}
+    <div class="{{=it.elementCls.head}}">
+      {{=it.title}}
+      {{? it.showClose}}
+      <span class="{{=it.elementCls.close}}" et="click:closeDialog">&#10005;</span>
+      {{?}}
+    </div>
+    {{?}}
+    {{? it.content}}
+    <div class="{{=it.elementCls.body}}">{{=it.content}}</div>
+    {{?}}
+    {{? it.btns.length > 0}}
+    <div class="{{=it.elementCls.foot}}">
+      {{~it.btns :value:index}}
+      <span class="{{=it.elementCls.btn}} {{=value.css ? value.css : ''}}" et="click:btnCallback{{=index}}">{{=value.text}}</span>
+      {{~}}
+    </div>
+    {{?}}
+  </div>
+</div>
