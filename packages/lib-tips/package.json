@@ -1,8 +1,8 @@
 {
   "name": "@jyb/lib-tips",
-  "version": "",
+  "version": "0.0.1",
   "description": "公共toast",
-  "main": "dist/demo.js",
+  "main": "dist/tips.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",

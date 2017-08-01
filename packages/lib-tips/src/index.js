@@ -1,7 +1,9 @@
+import { createElement } from './util';
+
 class Tips {
   constructor() {
     this.tipsHtml = null;
-    this.ptr      = null;
+    this.ptr = null;
     this.config = {
       msg: '',
       isLoading: false,
@@ -16,23 +18,21 @@ class Tips {
 
     this.tipTemplate = '<div id="bubble"><div class="mod-spinner">' +
       '<div class="spinner-wrap">{{icon}}' +
-      '<p class="text" id="bubble-text">{{text}}</p>' + 
+      '<p class="text" id="bubble-text">{{text}}</p>' +
       '</div></div></div>';
   }
 
   showTips(option) {
     if (this.tipsHtml) {
-      return 
+      return;
     }
 
     const conf = Object.assign({}, this.config, option);
     const html = this.tipTemplate
-      .replace(/{{icon}}/, conf.isLoading ? this.iconConf.loading: '')
+      .replace(/{{icon}}/, conf.isLoading ? this.iconConf.loading : '')
       .replace(/{{text}}/, conf.msg);
 
-    const container = document.createElement('div');
-    container.innerHTML = '' + html;
-    this.tipsHtml = container.children[0];
+    this.tipsHtml = createElement(html);
     document.body.insertBefore(this.tipsHtml, null);
 
     if (conf.autoHide) {
@@ -46,7 +46,7 @@ class Tips {
 
   showLoading(message) {
     this.showTips({
-      msg: message || "努力加载中...",
+      msg: message || '努力加载中...',
       isLoading: true,
       autoHide: false
     });
@@ -55,9 +55,9 @@ class Tips {
   showError(message) {
     clearInterval(this.ptr);
     this.ptr = setInterval(() => {
-      if(!this.tipsHtml) {
+      if (!this.tipsHtml) {
         this.showTips({
-            msg: message
+          msg: message
         });
 
         clearInterval(this.ptr);
@@ -67,8 +67,8 @@ class Tips {
   }
 
   closeTips() {
-    if(!this.tipsHtml) {
-        return this;
+    if (!this.tipsHtml) {
+      return this;
     }
 
     this.tipsHtml.parentNode.removeChild(this.tipsHtml);
@@ -78,4 +78,4 @@ class Tips {
   }
 }
 
-export default new Tips
+export default new Tips();
