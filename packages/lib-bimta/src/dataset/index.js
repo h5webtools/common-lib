@@ -2,9 +2,11 @@
  * 自定义数据属性处理
  */
 
+/* eslint-disable class-methods-use-this */
 import * as _ from '../util/index';
 import * as log from '../util/log';
 
+/* eslint-disable no-useless-escape */
 const DATA_REGEX = /data\-(\w*)\-(\w*)/;
 
 // 定义自定义属性
@@ -42,13 +44,11 @@ class DataAttribute {
     const { debug } = this.options;
 
     // 生成alias
-    for (let k in customAttr) {
+    for (const k in customAttr) {
       const curr = customAttr[k];
 
       if (DATA_REGEX.test(curr)) {
-        this.alias[k] = customAttr[k].replace(DATA_REGEX, function(m, $1, $2) {
-          return $1 + $2.charAt(0).toUpperCase() + $2.slice(1);
-        });
+        this.alias[k] = customAttr[k].replace(DATA_REGEX, (m, $1, $2) => $1 + $2.charAt(0).toUpperCase() + $2.slice(1));
       } else if (debug) {
         log.warn(`${k}, ${curr} 格式有误`);
       }
@@ -64,7 +64,7 @@ class DataAttribute {
    */
   getDataSetObj(obj = {}, attrs = [], dataset = {}) {
     attrs.forEach((attr) => {
-      if (dataset[attr] !== void 0) {
+      if (typeof dataset[attr] !== 'undefined') {
         obj[attr] = dataset[attr];
       }
     });
@@ -79,9 +79,7 @@ class DataAttribute {
    * @return {Array}
    */
   getDataSetArr(obj = {}, attrs = []) {
-    return attrs.map((attr) => {
-      return obj[attr];
-    });
+    return attrs.map(attr => obj[attr]);
   }
 
   /**
@@ -94,7 +92,7 @@ class DataAttribute {
     let isOk = true;
 
     for (let i = 0, l = attrs.length; i < l; i++) {
-      if (obj[attrs[i]] === void 0) {
+      if (typeof obj[attrs[i]] === 'undefined') {
         isOk = false;
         break;
       }

@@ -2,6 +2,7 @@
  * left pad
  */
 
+/* eslint-disable */
 const cache = [
   '',
   ' ',
@@ -32,7 +33,7 @@ function leftPad(str, len, ch) {
   }
 
   let pad = '';
-  let isTrue = true;
+  const isTrue = true;
 
   while (isTrue) {
     if (len & 1) {

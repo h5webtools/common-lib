@@ -4,13 +4,14 @@
 
 const ua = window.navigator.userAgent;
 
+/* eslint-disable no-useless-escape */
 const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
 const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
 const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
 const iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 const inApp = /jiayoubao/.test(ua.toLowerCase());
 
-let os = {};
+const os = {};
 
 // jyb app
 os.jyb = inApp;

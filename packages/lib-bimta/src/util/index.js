@@ -2,6 +2,7 @@
  * util
  */
 
+/* eslint-disable */
 import leftPad from './left_pad';
 
 const rhashcode = /\d\.\d{4}/;
@@ -26,8 +27,8 @@ export function getQuery(name) {
 
 export function getCookie(name) {
   // 读取COOKIE
-  let reg = new RegExp('(^| )' + name + '(?:=([^;]*))?(;|$)'),
-    val = document.cookie.match(reg);
+  const reg = new RegExp('(^| )' + name + '(?:=([^;]*))?(;|$)');
+  const val = document.cookie.match(reg);
 
   return val ? (val[2] ? unescape(val[2]) : '') : null;
 }
@@ -64,15 +65,15 @@ export function makeHashCode(prefix) {
 }
 
 export function assign(from, to, ignore = []) {
-  let obj = {};
+  const obj = {};
 
-  for (let m in to) {
+  for (const m in to) {
     if (hasOwn.call(to, m) && !~ignore.indexOf(m)) {
       obj[m] = to[m];
     }
   }
 
-  for (let n in from) {
+  for (const n in from) {
     if (hasOwn.call(from, n) && obj[n] === void 0) {
       obj[n] = from[n];
     }
@@ -87,7 +88,7 @@ export function each(obj, cb) {
       cb && cb(o, i);
     });
   } else if (isObject(obj)) {
-    for (let k in obj) {
+    for (const k in obj) {
       if (hasOwn.call(obj, k)) {
         cb && cb(obj[k], k);
       }
