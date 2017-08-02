@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-dialog",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "dialog ui component",
   "main": "dist/dialog.js",
   "scripts": {
@@ -27,8 +27,5 @@
     "prodDest": "dist/dialog.js"
   },
   "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@jyb/lib-extend": "^1.0.0"
-  }
+  "license": "MIT"
 }
