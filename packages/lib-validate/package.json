@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-validate",
+  "version": "0.1.0",
+  "description": "表单校验",
+  "main": "dist/validate.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Validate",
+    "devDest": "dist/validate.dev.js",
+    "prodDest": "dist/validate.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT"
+}

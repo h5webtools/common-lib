@@ -3,6 +3,7 @@
 ## 安装
 
 ```shell
+npm i cross-env -g
 npm i
 ```
 

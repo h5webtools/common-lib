@@ -1,0 +1,32 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.input-box {
+  margin-bottom: 10px;
+}
+
+.input-box label {
+  display: inline-block;
+  width: 100px;
+}
+
+.input-box input {
+  width: 200px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.input-box .msg {
+  font-size: 13px;
+  color: #ff0000;
+}
+
+.error-panel {
+  display: block;
+  font-size: 13px;
+  color: #ff0000;
+}

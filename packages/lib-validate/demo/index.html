@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>validate demo</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <fieldset>
+    <legend>表单校验测试1</legend>
+    <div class="input-box">
+      <label for="username">用户名：</label>
+      <input id="username" name="username" type="text">
+      <span class="msg"></span>
+    </div>
+    <div class="input-box">
+      <label for="age">年龄：</label>
+      <input id="age" name="age" type="text">
+      <span class="msg"></span>
+    </div>
+    <div class="input-box">
+      <label for="phone">联系手机：</label>
+      <input id="phone" name="phone" type="text">
+      <span class="msg"></span>
+    </div>
+    <div class="input-box">
+      <label for="pwd">密码：</label>
+      <input id="pwd" name="pwd" type="password">
+      <span class="msg"></span>
+    </div>
+    <div class="input-box">
+      <label for="cpwd">确认密码：</label>
+      <input id="cpwd" name="cpwd" type="password">
+      <span class="msg"></span>
+    </div>
+    <button id="submit">提交</button>
+  </fieldset>
+  <fieldset>
+    <legend>表单校验测试2</legend>
+    <div class="input-box">
+      <label for="username2">用户名：</label>
+      <input id="username2" name="username2" type="text">
+    </div>
+    <div class="input-box">
+      <label for="age2">年龄：</label>
+      <input id="age2" name="age2" type="text">
+    </div>
+    <div class="input-box">
+      <label for="phone2">联系手机：</label>
+      <input id="phone2" name="phone2" type="text">
+    </div>
+    <div class="input-box">
+      <label for="pwd2">密码：</label>
+      <input id="pwd2" name="pwd2" type="password">
+    </div>
+    <div class="input-box">
+      <label for="cpwd2">确认密码：</label>
+      <input id="cpwd2" name="cpwd2" type="password">
+    </div>
+    <button id="submit2">提交</button>
+    <span class="error-panel"></span>
+  </fieldset>
+  <script src="../dist/validate.dev.js"></script>
+  <script src="rule1.js"></script>
+  <script src="rule2.js"></script>
+  <script>
+    (function() {
+      const oSubmit = document.getElementById('submit');
+      const oSubmit2 = document.getElementById('submit2');
+      const errorPanel = document.querySelector('.error-panel');
+      const v1 = new Validate(rule1);
+      const v2 = new Validate(rule2);
+
+      oSubmit.addEventListener('click', () => {
+        const result1 = v1.validate();
+        console.log(result1);
+      });
+
+      oSubmit2.addEventListener('click', () => {
+        const result2 = v2.validate();
+        errorPanel.innerHTML = result2.join('<br>');
+      });
+    })();
+  </script>
+</body>
+
+</html>
