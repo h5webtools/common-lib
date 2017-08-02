@@ -1,0 +1,6 @@
+<div id="bubble">
+  <div class="mod-spinner">
+      <div class="spinner-wrap"><span class="{{=it.icon}}"></span><p class="text" id="bubble-text">{{=it.text}}</p>
+      </div>
+  </div>
+</div>

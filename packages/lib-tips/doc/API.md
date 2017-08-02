@@ -1,31 +1,71 @@
 # API
 
 ```javascript
-import Demo from '@jyb/lib-demo'
-```
-
-## 初始化
-
-### new Demo(options);
-
-```jsdoc
-@param {Object} options
+import tips from '@jyb/lib-tips'
 ```
 
 ## 选项
 
-### debug
+### msg
+- Type: `String`
+- Default: ''
+
+显示消息内容
+
+### isLoading
 - Type: `Boolean`
 - Default: false
 
-是否为调试模式，为`true`时，会有日志输出
+是否显示加载icon
 
-## 实例方法
+### autoHide
+- Type: `Boolean`
+- Default: true
 
-### start()
+是否自动隐藏
 
-启动上报
+### hideTime
+- Type: Number
+- Default: 1200
+
+自动隐藏时间
+
+## 方法
+
+### showTips(options)
+
+显示tips
 
 ```javascript
-instance.start();
+showTips({ 
+  msg: '',
+  isLoading: false,
+  autoHide: true,
+  hideTime: 1200
+})
+``` 
+
+### showLoading(msg)
+
+ 显示加载状态
+
+```javascript
+showLoading(msg)
 ```
+
+### closeTips()
+
+隐藏tips
+
+```javascript
+closeTips()
+```
+
+### showError(msg)
+
+显示错误，1.2s后自动关闭
+
+```javascript
+showError(msg)
+```
+

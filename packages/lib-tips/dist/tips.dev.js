@@ -12,6 +12,11 @@ var createElement = function () {
   };
 }();
 
+function anonymous(it
+/**/) {
+  var out = '<div id="bubble"> <div class="mod-spinner"> <div class="spinner-wrap"><span class="' + it.icon + '"></span><p class="text" id="bubble-text">' + it.text + '</p> </div> </div></div>';return out;
+}
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -50,12 +55,15 @@ var Tips = function () {
     };
 
     this.iconConf = {
-      loading: '<span class="rotate-icon"></span>',
+      loading: 'rotate-icon',
       none: ''
     };
-
-    this.tipTemplate = '<div id="bubble"><div class="mod-spinner">' + '<div class="spinner-wrap">{{icon}}' + '<p class="text" id="bubble-text">{{text}}</p>' + '</div></div></div>';
   }
+
+  /**
+   * @param {object} option 
+   */
+
 
   createClass(Tips, [{
     key: 'showTips',
@@ -67,8 +75,7 @@ var Tips = function () {
       }
 
       var conf = Object.assign({}, this.config, option);
-      var html = this.tipTemplate.replace(/{{icon}}/, conf.isLoading ? this.iconConf.loading : '').replace(/{{text}}/, conf.msg);
-
+      var html = anonymous({ text: conf.msg, icon: conf.isLoading ? this.iconConf.loading : '' });
       this.tipsHtml = createElement(html);
       document.body.insertBefore(this.tipsHtml, null);
 
@@ -80,6 +87,11 @@ var Tips = function () {
 
       this.lock = true;
     }
+
+    /**
+     * @param {string} message 
+     */
+
   }, {
     key: 'showLoading',
     value: function showLoading(message) {
@@ -89,6 +101,11 @@ var Tips = function () {
         autoHide: false
       });
     }
+
+    /**
+     * @param {string} message 
+     */
+
   }, {
     key: 'showError',
     value: function showError(message) {

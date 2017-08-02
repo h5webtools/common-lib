@@ -1,4 +1,5 @@
 import { createElement } from './util';
+import tipTemplate from '../dot/tip.dot';
 
 class Tips {
   constructor() {
@@ -12,26 +13,21 @@ class Tips {
     };
 
     this.iconConf = {
-      loading: '<span class="rotate-icon"></span>',
+      loading: 'rotate-icon',
       none: ''
     };
-
-    this.tipTemplate = '<div id="bubble"><div class="mod-spinner">' +
-      '<div class="spinner-wrap">{{icon}}' +
-      '<p class="text" id="bubble-text">{{text}}</p>' +
-      '</div></div></div>';
   }
 
+  /**
+   * @param {object} option 
+   */
   showTips(option) {
     if (this.tipsHtml) {
       return;
     }
 
     const conf = Object.assign({}, this.config, option);
-    const html = this.tipTemplate
-      .replace(/{{icon}}/, conf.isLoading ? this.iconConf.loading : '')
-      .replace(/{{text}}/, conf.msg);
-
+    const html = tipTemplate({ text: conf.msg, icon: conf.isLoading ? this.iconConf.loading : '' });
     this.tipsHtml = createElement(html);
     document.body.insertBefore(this.tipsHtml, null);
 
@@ -44,6 +40,9 @@ class Tips {
     this.lock = true;
   }
 
+  /**
+   * @param {string} message 
+   */
   showLoading(message) {
     this.showTips({
       msg: message || '努力加载中...',
@@ -52,6 +51,9 @@ class Tips {
     });
   }
 
+  /**
+   * @param {string} message 
+   */
   showError(message) {
     clearInterval(this.ptr);
     this.ptr = setInterval(() => {
