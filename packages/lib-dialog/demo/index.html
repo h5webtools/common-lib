@@ -5,16 +5,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>dialog demo</title>
+  <script type="text/javascript">
+    (function(doc, win) {
+      var basicWidth = window.basicWidth || 750;
+      var minWidth = 320;
+      var htmlElement = doc.documentElement;
+      var recalc = function() {
+        var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+        clientWidth = clientWidth < minWidth ? minWidth : clientWidth;
+        htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+      };
+      recalc();
+      if (!win.addEventListener) return;
+      win.addEventListener('resize', recalc, false);
+    })(document, window);
+  </script>
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-  <script src="../dist/demo.dev.js"></script>
+  <div class="box">
+    <a id="default-dialog" class="btn-primary" href="javascript:;">dialog</a>
+    <a id="default-dialog-dispose" class="btn-primary" href="javascript:;">dispose</a>
+  </div>
+  <script src="https://cdn.jyblife.com/static/js/lib/zepto-1.2.0-all-min.js"></script>
+  <script src="../dist/dialog.dev.js"></script>
   <script>
     (function() {
-      var demo = new Demo({});
+      var defaultDialog = null;
+      $('#default-dialog').on('click', () => {
+        if (defaultDialog) {
+          return defaultDialog.show();
+        }
 
-      demo.start();
+        defaultDialog = new Dialog({
+          title: '标题', // 标题内容
+          visible: true, // 默认显示
+          showClose: true, // 是否显示close按钮
+          content: '这是内容', // 显示的内容
+          btns: [{ // 按钮列表{text:"",callback:function(){},css:""}
+            text: '确定',
+            callback() {
+              console.log('确定');
+            }
+          }, {
+            text: '取消',
+            callback() {
+              console.log('取消');
+            }
+          }],
+          mask: true, // 是否显示mask
+          onClose() {
+            console.log('close');
+          },
+          onShow() {
+            console.log('show');
+          },
+          onDispose() {
+            console.log('dispose');
+          }
+        });
+      });
+
+      $('#default-dialog-dispose').on('click', () => {
+        if (defaultDialog) {
+          defaultDialog.dispose();
+          defaultDialog = null;
+        }
+      });
     })();
   </script>
 </body>

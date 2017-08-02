@@ -2,18 +2,17 @@
  * lib
  */
 
-import extend from '@jyb/lib-extend';
 import dialogTpl from './index.dot';
 
 function noop() {}
 
 const defaultOptions = {
   title: '标题', // 标题内容
+  visible: true, // 默认显示
   showClose: true, // 是否显示close按钮
   content: '内容', // 显示的内容
-  btns: [], // 按钮列表{text:"",callback:function(){},css:""}
+  btns: [], // 按钮列表{ text: '', callback: function(){}, css:'' }
   mask: true, // 是否显示mask
-  selfAction: '', // 自定义事件
   onClose: noop,
   onShow: noop,
   onDispose: noop,
@@ -32,15 +31,22 @@ const defaultOptions = {
 class Dialog {
   constructor(options = {}) {
     this.evtHandler = {};
-    this.options = extend(true, {}, defaultOptions, options);
+    this.options = $.extend(true, {}, defaultOptions, options);
 
     this.dialogNode = null;
     this._init();
-    this._registerHandler();
+    this._bindEvent();
+
+    if (this.options.visible) {
+      this.show();
+    }
   }
 
+  /**
+   * 初始化
+   */
   _init() {
-    const options = this.config;
+    const options = this.options;
     const wh = window.innerHeight;
 
     // 判断按钮是否需要
@@ -50,6 +56,10 @@ class Dialog {
     });
 
     this.dialogNode = $(dialogTpl(options));
+    this.dialogNode.css({
+      display: 'none',
+      visibility: 'hidden'
+    });
     $('body').append(this.dialogNode);
 
     // 判断dialog高度
@@ -66,29 +76,38 @@ class Dialog {
         '-webkit-transform': 'translateX(-50%) translateY(-50%)'
       });
     }
-    // dialogNode.removeClass("ui-vh");
 
-    this.show();
-    this.bindEvent();
+    this.dialogNode.css({
+      visibility: 'visible'
+    });
+
+    // 注册关闭事件处理函数
+    this.registerHandler('closeDialog', this.close.bind(this));
   }
 
-  _registerHandler() {
-    this.evtHandler = {
-      closeDialog: this.close.bind(this),
-      selfDefineAction: this.selfDefineAction.bind(this)
-    };
-  }
-
+  /**
+   * 显示
+   */
   show() {
     this.options.onShow(this.dialogNode);
-    this.dialogNode.show();
+    this.dialogNode.css({
+      display: 'block'
+    });
   }
 
+  /**
+   * 关闭
+   */
   close() {
     this.options.onClose();
-    this.dialogNode.hide();
+    this.dialogNode.css({
+      display: 'none'
+    });
   }
 
+  /**
+   * 销毁
+   */
   dispose() {
     if (!this.dialogNode) {
       return;
@@ -96,28 +115,39 @@ class Dialog {
 
     const options = this.options;
 
-    // 关闭浮层
+    this.dialogNode.off('click');
     this.dialogNode.remove();
     this.dialogNode = null;
     options.onDispose();
-    // 清理回调函数
-    options.btns.forEach((btn, i) => {
-      delete this.evtHandler[`btnCallback${i}`];
-    });
+    this.evtHandler = {};
   }
 
-  selfDefineAction(node, e) {
-    const options = this.options;
-
-    options.selfAction && options.selfAction(node, e);
-  }
-
+  /**
+   * 更新内容
+   * @param {String} content 内容
+   */
   updateContent(content) {
     const options = this.options;
     this.dialogNode.find(`.${options.elementCls.body}`).html(content);
   }
 
-  bindEvent() {
+  /**
+   * 注册事件处理函数
+   * @param {String} name 名称
+   * @param {Function} handler 函数
+   */
+  registerHandler(name, handler) {
+    if (this.evtHandler[name]) {
+      throw new Error('事件处理函数已经存在');
+    }
+
+    this.evtHandler[name] = handler;
+  }
+
+  /**
+   * 事件处理
+   */
+  _bindEvent() {
     this.dialogNode.on('click', (e) => {
       e = e || window.event;
       const tag = e.target.tagName;
@@ -126,7 +156,7 @@ class Dialog {
 
       if (!et) {
         // 向上找
-        while (node[0] != this && !et) {
+        while (node[0] && node[0] !== this.dialogNode && !et) {
           node = node.parent();
           et = node.attr('et');
         }
@@ -134,6 +164,7 @@ class Dialog {
           return;
         }
       }
+
       // 超链接不阻值冒泡
       tag !== 'A' && e.stopPropagation();
       // 是对应的事件
