@@ -15,3 +15,8 @@
   * [API](/packages/lib-lottery/doc/API.md)
   * [更新日志](/packages/lib-lottery/doc/CHANGELOG.md)
   * [例子](/packages/lib-lottery/doc/Example.md)
+* [lib-tips](/packages/lib-tips/README.md)
+  * [快速开始](/packages/lib-tips/doc/QuickStart.md)
+  * [API](/packages/lib-tips/doc/API.md)
+  * [更新日志](/packages/lib-tips/doc/CHANGELOG.md)
+  * [例子](/packages/lib-tips/doc/Example.md)
