@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-img-preview",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "description": "图片上传预览",
   "main": "dist/img_preview.js",
   "scripts": {
