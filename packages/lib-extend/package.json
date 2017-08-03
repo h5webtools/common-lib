@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-extend",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "extend method from jQuery",
   "main": "dist/extend.js",
   "scripts": {
