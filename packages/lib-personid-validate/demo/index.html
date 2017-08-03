@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input id="personid" type="text" placeholder="请输入身份证号码">
+  <button id="validate">校验</button>
+  <p id="msg"></p>
+  <script src="../dist/personid_validate.dev.js"></script>
+  <script>
+    (function() {
+      var personid = document.getElementById('personid');
+      var validate = document.getElementById('validate');
+      var msg = document.getElementById('msg');
+
+      validate.addEventListener('click', function() {
+        var val = personid.value.trim();
+
+        if (val) {
+          msg.innerHTML = personidValidate({ personId: val });
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
