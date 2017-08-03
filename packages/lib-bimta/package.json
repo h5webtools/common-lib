@@ -4,10 +4,10 @@
   "description": "BI and MTA data statistic.",
   "main": "dist/bimta.js",
   "scripts": {
-    "dev": "NODE_ENV=dev node ../../scripts/build.js",
-    "build": "NODE_ENV=production node ../../scripts/build.js",
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
     "test": "node ../../scripts/test.js",
-    "test:cover": "NODE_ENV=cover node ../../scripts/test.js"
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
   },
   "files": [
     "src",
