@@ -28,6 +28,27 @@ var createClass = function () {
   };
 }();
 
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+/* eslint-disable */
 var empty = function empty() {};
 var config = {
   maxGrid: 8, // 最大格子数量
@@ -46,7 +67,7 @@ var Lottery = function () {
   function Lottery(option) {
     classCallCheck(this, Lottery);
 
-    this.config = Object.assign(config, option);
+    this.config = _extends(config, option);
     this.gridList = []; // 奖品格子列表
     this.index = 0; // 当前所在的格子序号
     this.isStop = false; // 是否停止转动

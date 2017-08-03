@@ -1,3 +1,5 @@
+
+/* eslint-disable */
 const empty = function() {};
 let config = {
   maxGrid: 8, // 最大格子数量
