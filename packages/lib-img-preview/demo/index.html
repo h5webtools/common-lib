@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div class="img-upload-wrap">
+    <a href="javascript:;" class="upload">
+      <input type="file" id="input" accept="image/*" multiple>点击上传文件
+    </a>
+  </div>
+  <div class="preview"></div>
+  <script src="../dist/img_preview.dev.js"></script>
+  <script>
+    (function() {
+      var input = document.getElementById('input');
+      var preview = document.querySelector('.preview');
+
+      input.addEventListener('change', function() {
+        preview.innerHTML = '';
+        new ImgPreview(input.files, {
+          callback(url, time, fileType) {
+            var img = document.createElement('img');
+            img.src = url;
+            preview.appendChild(img);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>

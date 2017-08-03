@@ -1,0 +1,31 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.upload {
+  position: relative;
+  display: inline-block;
+  padding: 4px 10px;
+  color: #888;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.upload input {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.preview img {
+  width: 160px;
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-img-preview",
+  "version": "0.1.0",
+  "description": "图片上传预览",
+  "main": "dist/img_preview.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "ImgPreview",
+    "devDest": "dist/img_preview.dev.js",
+    "prodDest": "dist/img_preview.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
