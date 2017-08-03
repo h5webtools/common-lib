@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-img-lazyload",
-  "version": "0.1.0",
+  "version": "0.1.12",
   "description": "图片延时加载",
   "main": "dist/img_lazyload.js",
   "scripts": {
