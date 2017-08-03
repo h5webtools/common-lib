@@ -2,6 +2,7 @@
  * BI/MTA 业务数据上报
  */
 
+/* eslint-disable class-methods-use-this */
 import * as _ from './util/index';
 import * as log from './util/log';
 import platform from './platform/index';
@@ -9,7 +10,7 @@ import DataAttribute from './dataset/index';
 import { createCommonParams } from './param';
 
 const CHECK_REGEX = /^\s*\{(.*)\}\s*$/;
-const PARSE_REGEX = /[\s"']*([^:,"'\{\}]+)[\s"']*:[\s"']*([^:,"'\{\}]+)[\s"']*,?/g;
+const PARSE_REGEX = /[\s"']*([^:,"'{}]+)[\s"']*:[\s"']*([^:,"'{}]+)[\s"']*,?/g;
 
 // 默认配置
 const defaultOptions = {
@@ -26,6 +27,7 @@ class Bimta {
    * @param {Object} options
    */
   constructor(options) {
+    this.platform = {};
     this.options = _.assign(defaultOptions, options || {});
     this.dataAttribute = new DataAttribute({
       debug: this.options.debug
@@ -100,20 +102,25 @@ class Bimta {
    * 初始化
    */
   _init() {
-    const env = this.options.env;
+    const { env, debug } = this.options;
 
+    this._log(`当前埋点环境为：${env}`);
     _.each(this.options.platform, (p, i) => {
-      let curr = null;
+      let Platform = null;
       let options = {};
+      let platformName = '';
 
       if (_.isString(p)) {
-        curr = platform[p];
+        platformName = p;
+        Platform = platform[p];
       } else {
-        curr = platform[i];
+        platformName = i;
         options = p;
+        Platform = platform[i];
       }
 
-      curr.init(env, options);
+      this.platform[platformName] = new Platform(debug, env, options);
+      this.platform[platformName].init();
     });
   }
 
@@ -178,7 +185,7 @@ class Bimta {
     if (isOk) {
       dataSetArr = dataAttribute.getDataSetArr(dataSetObj, attrs);
       parseOpts = this.parseOption(dataSetArr.pop());
-      ids = this._getIdsStr.apply(this, dataSetArr);
+      ids = this._getIdsStr(...dataSetArr);
       this._call(method, ids, parseOpts);
     }
   }
@@ -187,15 +194,15 @@ class Bimta {
    * 获取事件ID数组
    * @return {Array}
    */
-  _getIds() {
+  _getIds(...args) {
     const configMap = this.options.configMap;
     let current = configMap;
     const cid = [];
 
-    for (let i = 0, l = arguments.length; i < l; i++) {
-      current = current[arguments[i]];
+    for (let i = 0, l = args.length; i < l; i++) {
+      current = current[args[i]];
 
-      if (current !== void 0) {
+      if (typeof current !== 'undefined') {
         current.id && cid.push(current.id);
       }
     }
@@ -207,8 +214,8 @@ class Bimta {
    * 获取事件ID字符串
    * @return {String}
    */
-  _getIdsStr() {
-    return this._getIds.apply(this, arguments).join('.');
+  _getIdsStr(...args) {
+    return this._getIds(...args).join('.');
   }
 
   /**
@@ -276,19 +283,10 @@ class Bimta {
     }
 
     mergeParams = _.assign(commonParams, params);
-    _.each(this.options.platform, (p, i) => {
-      let curr = null;
-
-      if (_.isString(p)) {
-        curr = platform[p];
-      } else {
-        curr = platform[i];
-      }
-
-      curr[method](ids, mergeParams);
+    _.each(this.platform, (p) => {
+      p[method](ids, mergeParams);
     });
 
-    this._log(`[${method}] ids: ${ids}, params: ${JSON.stringify(mergeParams)}`);
     return true;
   }
 }

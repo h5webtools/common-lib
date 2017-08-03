@@ -41,6 +41,26 @@ var createClass = function () {
   };
 }();
 
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 var Tips = function () {
   function Tips() {
     classCallCheck(this, Tips);
@@ -61,7 +81,7 @@ var Tips = function () {
   }
 
   /**
-   * @param {object} option 
+   * @param {object} option
    */
 
 
@@ -74,7 +94,7 @@ var Tips = function () {
         return;
       }
 
-      var conf = Object.assign({}, this.config, option);
+      var conf = _extends({}, this.config, option);
       var html = anonymous({ text: conf.msg, icon: conf.isLoading ? this.iconConf.loading : '' });
       this.tipsHtml = createElement(html);
       document.body.insertBefore(this.tipsHtml, null);
@@ -89,7 +109,7 @@ var Tips = function () {
     }
 
     /**
-     * @param {string} message 
+     * @param {string} message
      */
 
   }, {
@@ -103,7 +123,7 @@ var Tips = function () {
     }
 
     /**
-     * @param {string} message 
+     * @param {string} message
      */
 
   }, {

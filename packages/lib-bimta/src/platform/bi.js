@@ -2,6 +2,7 @@
  * BI统计
  */
 
+import * as log from '../util/log';
 import * as _ from '../util/index';
 import os from '../util/env';
 
@@ -29,20 +30,27 @@ if (os.android) {
   platformStr = 'ios';
 }
 
-const bi = {
-  env: 'test',
-  options: {},
-  init: function(env, options) {
+class BI {
+  constructor(debug, env = 'test', options = {}) {
+    this.platform = 'bi';
+    this.debug = debug;
     this.env = env;
-    this.options = _.assign(defaultOptions, options || {});
-  },
-  pageview: function(ids, params) {
-    this._track(ids, params);
-  },
-  event: function(ids, params) {
-    this._track(ids, params);
-  },
-  _track: function(ids, params) {
+    this.options = _.assign(defaultOptions, options);
+  }
+
+  init() {
+    return this;
+  }
+
+  pageview(ids, params) {
+    this._track('pageview', ids, params);
+  }
+
+  event(ids, params) {
+    this._track('event', ids, params);
+  }
+
+  _track(method, ids, params) {
     if (!ids) {
       return;
     }
@@ -52,7 +60,7 @@ const bi = {
 
     /* eslint-disable camelcase */
     const oImg = new Image();
-    const url = reportURL[this.env];
+    const url = reportURL[this.env] || '';
     const oParam = {
       ak: this.options.ak,
       body: JSON.stringify({
@@ -76,14 +84,18 @@ const bi = {
         }]
       })
     };
-    let aParam = [];
+    const aParam = [];
 
-    for (let k in oParam) {
+    for (const k in oParam) {
       aParam.push(`${encodeURIComponent(k)}=${encodeURIComponent(oParam[k])}`);
     }
 
     oImg.src = `${url}?${aParam.join('&')}`;
-  }
-};
 
-export default bi;
+    if (this.debug) {
+      log.info(`[${method}] platform: ${this.platform}, ids: ${ids}, query: ${JSON.stringify(oParam)}`);
+    }
+  }
+}
+
+export default BI;

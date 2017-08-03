@@ -2,10 +2,10 @@
  * platform
  */
 
-import bi from './bi';
-import mta from './mta';
+import BI from './bi';
+import MTA from './mta';
 
 export default {
-  bi,
-  mta
+  bi: BI,
+  mta: MTA
 };

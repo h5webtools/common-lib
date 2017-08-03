@@ -1,13 +1,13 @@
 {
   "name": "@jyb/lib-extend",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "description": "extend method from jQuery",
   "main": "dist/extend.js",
   "scripts": {
-    "dev": "NODE_ENV=dev node ../../scripts/build.js",
-    "build": "NODE_ENV=production node ../../scripts/build.js",
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
     "test": "node ../../scripts/test.js",
-    "test:cover": "NODE_ENV=cover node ../../scripts/test.js"
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
   },
   "files": [
     "src",

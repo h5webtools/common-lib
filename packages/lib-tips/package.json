@@ -1,13 +1,13 @@
 {
   "name": "@jyb/lib-tips",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "description": "公共toast",
   "main": "dist/tips.js",
   "scripts": {
-    "dev": "..\\..\\node_modules\\.bin\\cross-env NODE_ENV=dev ../../scripts/build.js",
-    "build": "..\\..\\node_modules\\.bin\\cross-env NODE_ENV=production ../../scripts/build.js",
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
     "test": "node ../../scripts/test.js",
-    "test:cover": "..\\..\\node_modules\\.bin\\cross-env NODE_ENV=cover node ../../scripts/test.js"
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
   },
   "files": [
     "src",

@@ -8,6 +8,7 @@ const rollupWatch = require('rollup-watch');
 const resolve = require('rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
 const uglify = require('rollup-plugin-uglify');
+const commonjs = require('rollup-plugin-commonjs');
 const eslint = require('rollup-plugin-eslint');
 const getLibDefine = require('./get_define');
 const dot = require('./plugin/dot');
@@ -25,6 +26,7 @@ if (libDefine) {
     entry: path.join(cwd, 'src/index.js'),
     plugins: [
       resolve(),
+      commonjs(),
       eslint({
         include: path.join(cwd, 'src/**/**.js'),
         exclude: []

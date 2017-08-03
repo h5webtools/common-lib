@@ -3,6 +3,7 @@
 ## 安装
 
 ```shell
+npm i cross-env -g
 npm i
 ```
 
@@ -21,6 +22,8 @@ npm run docs:watch
 ```
 
 ## 开发
+
+支持的es2015语法有：[文档](https://babeljs.io/docs/plugins/preset-es2015/)
 
 ### 初始化
 
