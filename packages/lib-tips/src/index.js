@@ -19,7 +19,7 @@ class Tips {
   }
 
   /**
-   * @param {object} option 
+   * @param {object} option
    */
   showTips(option) {
     if (this.tipsHtml) {
@@ -41,7 +41,7 @@ class Tips {
   }
 
   /**
-   * @param {string} message 
+   * @param {string} message
    */
   showLoading(message) {
     this.showTips({
@@ -52,7 +52,7 @@ class Tips {
   }
 
   /**
-   * @param {string} message 
+   * @param {string} message
    */
   showError(message) {
     clearInterval(this.ptr);
