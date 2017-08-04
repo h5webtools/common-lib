@@ -14,7 +14,22 @@ npm install @jyb/lib-elastic --save
 import Elastic from '@jyb/lib-elastic'
 ```
 
-## 例子
+### 调用
+
+```html
+<div class="page"></div>
+```
+
+```javascript
+new Elastic(document.querySelector('.page'), {
+  onRelease: function() {
+    console.log('Release');
+  },
+  onRecovery: function() {
+    console.log('Recovery');
+  }
+});
+```
 
 
 
