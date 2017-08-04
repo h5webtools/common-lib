@@ -17,6 +17,7 @@ const cwd = process.cwd();
 
 // env
 const isProd = process.env.NODE_ENV === 'production';
+const isMin = process.env.NODE_ENV === 'min';
 
 // 获取package libDefine字段
 const libDefine = getLibDefine();
@@ -39,7 +40,7 @@ if (libDefine) {
       babel({
         exclude: path.join(cwd, 'node_modules/**')
       }),
-      (isProd && uglify())
+      (isMin && uglify())
     ]
   };
 
