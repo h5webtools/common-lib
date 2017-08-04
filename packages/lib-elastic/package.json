@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-elastic",
-  "version": "0.1.0",
+  "version": "0.1.13",
   "description": "在元素上应用橡皮筋效果",
   "main": "dist/elastic.js",
   "scripts": {
