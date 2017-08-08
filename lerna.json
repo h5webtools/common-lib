@@ -2,10 +2,6 @@
   "lerna": "2.0.0-rc.5",
   "packages": [
     "packages/*"
-<<<<<<< 5c12e6becdc38a600d5fef4faf8e27f1cc627af1
   ],
   "version": "0.1.15"
-=======
-  ]
->>>>>>> vundefined
 }
