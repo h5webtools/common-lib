@@ -17,7 +17,7 @@ class CouponList {
       notUseDes: '不使用，就是任性', // 不使用红包时的文案
       // selfAction: NOOP, // 自定义
       onChangeCoupon: NOOP, // 选择红包时的回调
-      onClose: NOOP // 关闭列表时的回调
+      onClose: NOOP // 关闭列表时的回调啊
     });
 
     this.node = null;
