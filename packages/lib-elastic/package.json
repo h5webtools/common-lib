@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-elastic",
+  "version": "0.1.13",
+  "description": "在元素上应用橡皮筋效果",
+  "main": "dist/elastic.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Elastic",
+    "devDest": "dist/elastic.dev.js",
+    "prodDest": "dist/elastic.js"
+  },
+  "author": "",
+  "license": "MIT"
+}

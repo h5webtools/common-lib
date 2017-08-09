@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .page {
+      width: 100vw;
+      height: 100vh;
+      line-height: 100vh;
+      background-color: green;
+      font-size: 50px;
+      color: #fff;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">1</div>
+  <script src="../dist/elastic.dev.js"></script>
+  <script>
+    (function() {
+      new Elastic(document.querySelector('.page'), {
+        onRelease: function() {
+          console.log('Release');
+        },
+        onRecovery: function() {
+          console.log('Recovery');
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

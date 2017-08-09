@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-slider",
+  "version": "0.1.10",
+  "description": "图片轮播组件，根据设定的参数实现自动轮播，自动加载图片，状态点跟随",
+  "main": "dist/slider.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Slider",
+    "devDest": "dist/slider.dev.js",
+    "prodDest": "dist/slider.js"
+  },
+  "author": "",
+  "license": "MIT"
+}

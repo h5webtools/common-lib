@@ -18,7 +18,7 @@ npm run publish
 ## 文档
 
 ```shell
-npm run docs:watch
+npm run docs
 ```
 
 ## 开发

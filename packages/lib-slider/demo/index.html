@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript">
+    (function(doc, win) {
+      var basicWidth = window.basicWidth || 750;
+      var minWidth = 320;
+      var htmlElement = doc.documentElement;
+      var recalc = function() {
+        var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+        clientWidth = clientWidth < minWidth ? minWidth : clientWidth;
+        htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+      };
+      recalc();
+      if (!win.addEventListener) return;
+      win.addEventListener('resize', recalc, false);
+    })(document, window);
+  </script>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div class="mod-banner-scroll detail-scroll needsclick">
+    <ul class="scroll-list">
+      <li class="needsclick"><img data-lazy="./img/01.png"></li>
+      <li class="needsclick"><img data-lazy="./img/02.png"></li>
+      <li class="needsclick"><img data-lazy="./img/03.png"></li>
+      <li class="needsclick"><img data-lazy="./img/04.png"></li>
+      <li class="needsclick"><img data-lazy="./img/05.png"></li>
+      <li class="needsclick"><img data-lazy="./img/06.png"></li>
+    </ul>
+    <div class="status-bar">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </div>
+  </div>
+  <script src="../dist/slider.dev.js"></script>
+  <script>
+    (function() {
+      var slider = new Slider({
+        domWrap: document.querySelector('.detail-scroll'),
+        loop: false,
+        lazyLoad: true,
+        topDocMove: false,
+        animateTime: 200,
+        onComplete: function(dom, index, length) {
+          const bar = dom.querySelectorAll('.status-bar i');
+
+          [].forEach.call(bar, function(item) {
+            item.classList.remove('cur');
+          });
+          bar[index].classList.add('cur');
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
