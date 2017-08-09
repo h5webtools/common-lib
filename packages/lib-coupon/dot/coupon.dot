@@ -1,0 +1,59 @@
+{{?it.cid===it.curCid}}
+    <div class="coupons-list active"  cid="{{=it.cid}}" et="click:changecoupon" >
+{{??}}
+    {{?it.type_id==5}}
+        {{?(it.detail.period==1 && it.is_period_use ==0)}}
+            <div class="coupons-list week_disabled_used disabled" cidtest="{{=it.cid}}" cid="{{=it.cid}}" >
+        {{??(it.detail.period==2 && it.is_period_use == 0)}}
+            <div class="coupons-list month_disabled_used disabled" cidtest="{{=it.cid}}" cid="{{=it.cid}}" >
+        {{??}}
+            <div class="coupons-list " cidtest="{{=it.cid}}" cid="{{=it.cid}}" et="click:changecoupon" >
+        {{?}}
+    {{??}}
+        <div class="coupons-list " cidtest="{{=it.cid}}" cid="{{=it.cid}}" et="click:changecoupon" >
+    {{?}}
+{{?}}
+
+  <div class="coupons-up"  cidtest="{{=it.cid}}">
+    {{?it.type_id==5}}
+    <div class="up-left ">
+    <p class="coupons-value">{{=it.detail.value/10}}</p> <p class="coupons-unit">折</p>
+    </div>
+    {{??it.type_id==4}}
+    <div class="up-left ratioCoupons_up_left">
+    <p class="coupons-value ratioCoupon-value">{{=(it.detail.remain_amt/100).toFixed(2)}}</p> <p class="coupons-unit ratioCoupon-unit">元</p>
+    </div>
+    {{??}}
+    <div class="up-left">
+    <p class="coupons-value">{{=it.amount/100}}</p> <p class="coupons-unit">元</p>
+    </div>
+    {{?}}
+      
+    <div class="up-right">
+        {{?it.type_id==5}}
+            <p class="coupons-title">{{=it.name}}</p> 
+            <p class="coupons-useinfo">已抵扣{{=(it.detail.total_max_cnt-it.detail.total_remain_cnt)}}次,剩余{{=it.detail.total_remain_cnt}}次</p>
+            <p class="coupons-valid">有效期至{{=it.expired_time}}</p>
+        {{??it.type_id==4}}
+            <p class="coupons-title">{{=it.name}}</p>
+            <p class="coupons-useinfo ">已使用{{=((it.detail.total_amt - it.detail.remain_amt)/100).toFixed(2)}}元,剩余{{=(it.detail.remain_amt/100).toFixed(2)}}元</p>
+            <p class="coupons-valid">有效期至{{=it.expired_time}}</p>
+        {{??}}
+            <p class="coupons-title">{{=it.name}}</p>
+            {{?it.amountVal}}
+                <p class="coupons-useinfo">满{{=it.amountVal/100}}元可用</p>
+            {{??}}
+                <p class="coupons-useinfo">满0元可用</p>
+            {{?}}
+            <p class="coupons-valid">有效期至{{=it.expired_time}}</p>
+        {{?}}
+    </div>
+  </div>
+
+  <div class="coupons-down">
+      {{=it.usage}}
+  </div>
+
+</div>
+
+

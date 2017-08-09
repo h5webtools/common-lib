@@ -1,0 +1,10 @@
+<div id="mod-coupons-wrap">
+    <div class="coupons-overlay"></div>
+    <div  class="mod-coupons-list">
+        <div class="coupons-head" et="click:closecoupon">{{=it.title}}</div>
+        <div class="coupons-content">
+            {{=it.content}}
+            <div class="coupons-nottouse" cid="0" et="click:changecoupon">{{=it.notUseDes}}</div>
+        </div>
+    </div>
+</div>
