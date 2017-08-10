@@ -1,0 +1,27 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  border: 1px solid #ccc;
+  height: 300px;
+  overflow: scroll;
+  width: 300px;
+}
+
+#content {
+  background-color: #ccc;
+  width: 800px;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.placeholder {
+  height: 200px;
+  background-color: #008000;
+}

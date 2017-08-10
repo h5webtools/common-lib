@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="content">1</div>
+    <div class="placeholder"></div>
+    <div id="content">2</div>
+    <div class="placeholder"></div>
+    <div id="content">3</div>
+    <div class="placeholder"></div>
+    <div id="content">4</div>
+    <div class="placeholder"></div>
+    <div id="content">5</div>
+  </div>
+  <button id="scroll-left" type="button">scrollLeft</button>
+  <button id="scroll-top" type="button">scrollTop</button>
+  <script src="../dist/scroll_to.dev.js"></script>
+  <script>
+    (function() {
+      var sl = document.getElementById('scroll-left');
+      var st = document.getElementById('scroll-top');
+      var ct = document.getElementById('container');
+
+      sl.addEventListener('click', function() {
+        scrollTo.left(ct, 100);
+      });
+
+      st.addEventListener('click', function() {
+        scrollTo.top(ct, 100);
+      });
+    })();
+  </script>
+</body>
+
+</html>
