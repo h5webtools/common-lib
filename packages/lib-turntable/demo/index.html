@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>转盘抽奖</title>
+  <script type="text/javascript">
+    (function(doc, win) {
+      var basicWidth = window.basicWidth || 750;
+      var minWidth = 320;
+      var htmlElement = doc.documentElement;
+      var recalc = function() {
+        var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+        clientWidth = clientWidth < minWidth ? minWidth : clientWidth;
+        htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+      };
+      recalc();
+      if (!win.addEventListener) return;
+      win.addEventListener('resize', recalc, false);
+    })(document, window);
+  </script>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="mod-roll-bg">
+      <div class="compass"></div>
+      <a class="start-btn" href="javascript:;"></a>
+    </div>
+  </div>
+  <script src="../dist/turntable.dev.js"></script>
+  <script>
+    (function() {
+      var priceMap = {
+        '1': '2%加息券',
+        '2': '1%加息券',
+        '3': '200元抵扣券',
+        '4': '50元抵扣券',
+        '5': '100元现金红包',
+        '6': '30元现金红包',
+        '7': '双十一专场门票',
+        '8': 'iPhone7',
+        '9': 'ipad'
+      };
+      var turnTable = new Turntable({
+        startBtn: document.querySelector('.start-btn'),
+        rollElement: document.querySelector('.compass'),
+        rewardData: {
+          '1': '136',
+          '2': '262',
+          '3': '95',
+          '4': '180',
+          '5': '302',
+          '6': '19',
+          '7': '341',
+          '8': '222',
+          '9': '56'
+        },
+        resultCreator: function(roll) {
+          roll(Math.floor(Math.random() * 10));
+        },
+        end: function(result) {
+          console.log(priceMap[result]);
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

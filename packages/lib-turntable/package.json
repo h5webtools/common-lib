@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-turntable",
+  "version": "0.1.0",
+  "description": "转盘抽奖",
+  "main": "dist/turntable.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Turntable",
+    "devDest": "dist/turntable.dev.js",
+    "prodDest": "dist/turntable.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
