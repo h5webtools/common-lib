@@ -6,7 +6,7 @@ import Elastic from '@jyb/lib-elastic'
 
 ## 初始化
 
-### new Elastic(options);
+### new Elastic(element, options);
 
 ## 选项
 
