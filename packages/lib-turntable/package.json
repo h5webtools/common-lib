@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-turntable",
-  "version": "0.1.0",
+  "version": "0.1.17",
   "description": "转盘抽奖",
   "main": "dist/turntable.js",
   "scripts": {

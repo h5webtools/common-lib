@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-countdown",
-  "version": "0.1.0",
+  "version": "0.1.17",
   "description": "倒计时",
   "main": "dist/countdown.js",
   "scripts": {

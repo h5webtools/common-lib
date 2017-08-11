@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-verify-code",
-  "version": "0.1.0",
+  "version": "0.1.17",
   "description": "基础数据接口",
   "main": "dist/verify_code.js",
   "scripts": {

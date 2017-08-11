@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-util",
-  "version": "0.1.0",
+  "version": "0.1.17",
   "description": "工具库",
   "main": "dist/util.js",
   "scripts": {

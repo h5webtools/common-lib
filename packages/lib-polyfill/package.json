@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-polyfill",
-  "version": "0.1.0",
+  "version": "0.1.17",
   "description": "提供一个垫片",
   "main": "dist/polyfill.js",
   "scripts": {
