@@ -48,13 +48,16 @@ class Turntable {
   }
 
   roll(result) {
-    this.result = result;
-    this.status = true;
+    if (typeof result === 'undefined') {
+      throw new Error('请传入奖品key');
+    }
 
     const { rewardData, duration, rollElement } = this.options;
-    const priceDeg = this.priceDeg = Number(rewardData[result]);
+    const priceDeg = this.priceDeg = Number(rewardData[result].deg);
     const targetDeg = (this._randCircles() * 360) + priceDeg;
 
+    this.result = rewardData[result];
+    this.status = true;
     rollElement.style.cssText = `
       transition: all ${duration}s ease;
       -webkit-transition: all ${duration}s ease;

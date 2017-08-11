@@ -114,17 +114,20 @@ var Turntable = function () {
   }, {
     key: 'roll',
     value: function roll(result) {
-      this.result = result;
-      this.status = true;
+      if (typeof result === 'undefined') {
+        throw new Error('请传入奖品key');
+      }
 
       var _options3 = this.options,
           rewardData = _options3.rewardData,
           duration = _options3.duration,
           rollElement = _options3.rollElement;
 
-      var priceDeg = this.priceDeg = Number(rewardData[result]);
+      var priceDeg = this.priceDeg = Number(rewardData[result].deg);
       var targetDeg = this._randCircles() * 360 + priceDeg;
 
+      this.result = rewardData[result];
+      this.status = true;
       rollElement.style.cssText = '\n      transition: all ' + duration + 's ease;\n      -webkit-transition: all ' + duration + 's ease;\n      transform: rotateZ(' + targetDeg + 'deg);\n      -webkit-transform: rotateZ(' + targetDeg + 'deg)\n    ';
     }
   }]);
