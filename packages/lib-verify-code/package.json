@@ -1,0 +1,34 @@
+{
+  "name": "@jyb/lib-verify-code",
+  "version": "0.1.0",
+  "description": "基础数据接口",
+  "main": "dist/verify_code.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "VerifyCode",
+    "devDest": "dist/verify_code.dev.js",
+    "prodDest": "dist/verify_code.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    "@jyb/lib-extend": "^0.1.9"
+  }
+}

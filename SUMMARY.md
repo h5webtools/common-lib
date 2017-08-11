@@ -95,3 +95,8 @@
   * [API](/packages/lib-validate/doc/API.md)
   * [更新日志](/packages/lib-validate/doc/CHANGELOG.md)
   * [例子](/packages/lib-validate/doc/Example.md)
+* [lib-verify-code](/packages/lib-verify-code/README.md)
+  * [快速开始](/packages/lib-verify-code/doc/QuickStart.md)
+  * [API](/packages/lib-verify-code/doc/API.md)
+  * [更新日志](/packages/lib-verify-code/doc/CHANGELOG.md)
+  * [例子](/packages/lib-verify-code/doc/Example.md)
