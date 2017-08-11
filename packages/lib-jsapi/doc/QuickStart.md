@@ -14,5 +14,9 @@ npm install @jyb/lib-jsapi --save
 import jybwv from '@jyb/lib-jsapi'
 ```
 
+### 调试
+
+在引入库文件之前，添加`window._jybwv = { debug: true }`
+
 
 
