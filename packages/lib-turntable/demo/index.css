@@ -1,0 +1,38 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: lightblue;
+}
+
+.container {
+  padding-top: 2rem;
+}
+
+.mod-roll-bg {
+  position: relative;
+  height: 7.16rem;
+  background: url(./img/roll_bg.png) center center no-repeat;
+  background-size: 6.71rem 7.15rem;
+  overflow: hidden;
+}
+
+.mod-roll-bg .compass {
+  margin: 0.3rem auto 0 0.565rem;
+  width: 6.34rem;
+  height: 6.36rem;
+  background: url(./img/compass.png) 0 0 no-repeat;
+  background-size: 100% auto;
+}
+
+.mod-roll-bg .start-btn {
+  position: absolute;
+  left: 2.78rem;
+  top: 2.52rem;
+  width: 1.92rem;
+  height: 1.92rem;
+  opacity: 0;
+}

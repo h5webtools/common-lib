@@ -9,7 +9,7 @@ npm i
 
 ## 发布
 
-发布前，需要先切换npm registry为`http://npm.jtjr.com/`
+发布前，需要先`把本地的修改都提交`，并且需要先切换npm registry为`http://npm.jtjr.com/`
 
 ```shell
 npm run publish
@@ -27,7 +27,7 @@ npm run docs
 
 ### 初始化
 
-执行`jfet init --ls`，选择`template-common-lib`
+执行`jfet init`，选择`template-common-lib`
 
 ### 库规范
 

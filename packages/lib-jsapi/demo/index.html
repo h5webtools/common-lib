@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jsapi</title>
+</head>
+
+<body>
+  <a id="share" href="javascript:;">分享</a>
+  <script src="../dist/jsapi.dev.js"></script>
+  <script type="text/javascript">
+    (function() {
+      var oShare = document.getElementById('share');
+
+      oShare.addEventListener('click', function() {
+        // 5.7 显示分享菜单
+        jybwv.showShareMenu({
+          title: "title", // 分享标题
+          content: "content", // 分享内容
+          image: "http://172.16.1.16:8082/active/publish/img/share.png", // 分享图标
+          url: "http://172.16.1.16:8082/active/publish/img/share.png", // 分享链接
+          sina: "aaaaaaaaaaaaaaaaa", // 新浪分享内容
+          cp: "bbbbbbbbbbbbbbb", // 拷贝内容
+          sms: "cccccccccccccc", // 短信分享内容
+          menuItems: [
+            "wxmsg", // 微信消息
+            "wxtml", // 微信朋友圈
+            "qq", // QQ
+            "qzone", // QQ空间
+            "sina", // 新浪
+            "copy", // 拷贝
+            "mail", // 邮件
+            "sms" // 短信
+          ]
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>

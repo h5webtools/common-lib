@@ -1,93 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global.Share = factory());
+	(global.share = factory());
 }(this, (function () { 'use strict';
-
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-
-
-
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
-var extend = createCommonjsModule(function (module, exports) {
-  !function (o, t) {
-    module.exports = t();
-  }(commonjsGlobal, function () {
-    "use strict";
-    function o(o) {
-      return Array.isArray(o);
-    }function t(o) {
-      if (!o || "[object Object]" !== e.call(o)) return !1;var t = n.call(o, "constructor"),
-          r = o.constructor && o.constructor.prototype && n.call(o.constructor.prototype, "isPrototypeOf");if (o.constructor && !t && !r) return !1;var i = void 0;for (i in o) {}return void 0 === i || n.call(o, i);
-    }function r() {
-      var n = void 0,
-          e = void 0,
-          c = void 0,
-          f = void 0,
-          u = void 0,
-          y = void 0,
-          p = arguments[0],
-          l = 1,
-          d = !1,
-          s = arguments.length;for ("boolean" == typeof p && (d = p, p = arguments[1] || {}, l = 2), (null == p || "object" !== (void 0 === p ? "undefined" : i(p)) && "function" != typeof p) && (p = {}); l < s; ++l) {
-        if (null != (n = arguments[l])) for (e in n) {
-          c = p[e], p !== (f = n[e]) && (d && f && (t(f) || (u = o(f))) ? (u ? (u = !1, y = c && o(c) ? c : []) : y = c && t(c) ? c : {}, p[e] = r(d, y, f)) : void 0 !== f && (p[e] = f));
-        }
-      }return p;
-    }var n = Object.prototype.hasOwnProperty,
-        e = Object.prototype.toString,
-        i = "function" == typeof Symbol && "symbol" == _typeof(Symbol.iterator) ? function (o) {
-      return typeof o === 'undefined' ? 'undefined' : _typeof(o);
-    } : function (o) {
-      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o === 'undefined' ? 'undefined' : _typeof(o);
-    };return r;
-  });
-});
 
 /**
  * 工具函数
@@ -100,11 +15,7 @@ var hasOwn = Object.prototype.hasOwnProperty;
  * @param {Function[]} fns
  * @return {Boolean}
  */
-function checkFunctionArray(fns) {
-  return fns.every(function (fn) {
-    return isFunction(fn);
-  });
-}
+
 
 /**
  * 是否是函数
@@ -181,86 +92,278 @@ function ajaxGet(options, fnSuccess, fnError) {
   }
 }
 
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 /**
- * 微信授权分享
+ * 队列
  */
 
-var defaultOptions$1 = {
+var Queue = function () {
+  function Queue() {
+    classCallCheck(this, Queue);
+
+    this._queue = [];
+  }
+
+  /**
+   * 入列
+   */
+
+
+  createClass(Queue, [{
+    key: "enqueue",
+    value: function enqueue(data) {
+      this._queue.push(data);
+    }
+
+    /**
+     * 出列
+     */
+
+  }, {
+    key: "dequeue",
+    value: function dequeue() {
+      return this._queue.shift();
+    }
+
+    /**
+     * 长度
+     */
+
+  }, {
+    key: "size",
+    value: function size() {
+      return this._queue.length;
+    }
+
+    /**
+     * 清空
+     */
+
+  }, {
+    key: "clear",
+    value: function clear() {
+      this._queue.length = 0;
+    }
+  }]);
+  return Queue;
+}();
+
+/**
+ * 状态
+ */
+
+var STATUS = {
+  NORMAL: 0, // 默认
+  INIT: 1 // 初始化
+};
+
+/**
+ * 微信授权分享
+ * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+ */
+
+var defaultInitOptions = {
+  debug: false, // 开启debug模式，页面会alert出错误信息
   reqUrl: '//jyb.jyblife.com/activejyb/wxShareSign',
   scriptUrl: '//res.wx.qq.com/open/js/jweixin-1.0.0.js'
 };
 
-/* global wx */
-var weixinHelper = {
-  name: 'weixin',
-  /**
-   * 测试是否执行init
-   * @param {String} ua
-   * @return {Boolean}
-   */
-  test: function test(ua) {
-    return (/micromessenger/.test(ua)
-    );
-  },
+var defaultShareOptions = {
+  title: '', // 分享标题
+  desc: '', // 分享描述
+  link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+  imgUrl: '', // 分享图标
+  success: function success() {},
+  // 用户确认分享后执行的回调函数
+  cancel: function cancel() {} // 用户取消分享后执行的回调函数
 
-  /**
-   * 初始化
-   * @param {Object} options
-   * @param {String} options.title 标题
-   * @param {String} options.desc 描述
-   * @param {String} options.link 链接
-   * @param {String} options.imgUrl 图片地址
-   * @param {String} options.reqUrl 请求地址
-   * @param {String} options.scriptUrl 微信jssdk地址
-   */
-  init: function init(options) {
-    var opts = _extends({}, defaultOptions$1, options);
-    var scriptUrl = opts.scriptUrl;
-
-    loadWeixinScript(scriptUrl);
-    ajaxGet({
-      url: opts.reqUrl,
-      data: {
-        url: location.href,
-        t: +new Date()
-      }
-    }, function (json) {
-      var isLoaded = loadWeixinScript(scriptUrl, function () {
-        weixinAuth(json, opts);
-      });
-
-      if (isLoaded) {
-        weixinAuth(json, opts);
-      }
-    });
-  }
 };
 
-/**
- * 微信验证
- * @param {Object} authData
- * @param {Object} shareData
- */
-function weixinAuth(authData, shareData) {
+/* global wx */
+
+var WXShare = function () {
+  function WXShare(ua) {
+    classCallCheck(this, WXShare);
+
+    this.ua = ua;
+    this.status = STATUS.NORMAL;
+    this.name = 'weixin';
+    this.queue = new Queue();
+  }
+
+  /**
+   * 测试是否微信客户端
+   * @return {Boolean}
+   */
+
+
+  createClass(WXShare, [{
+    key: 'test',
+    value: function test() {
+      return (/micromessenger/.test(this.ua)
+      );
+    }
+
+    /**
+     * 初始化
+     * @param {Object} options
+     * @param {Boolean} options.debug 开启debug模式，页面会alert出错误信息
+     * @param {String} options.reqUrl 请求地址
+     * @param {String} options.scriptUrl 微信jssdk地址
+     */
+
+  }, {
+    key: 'init',
+    value: function init() {
+      var _this = this;
+
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (this.status === STATUS.INIT) return;
+      var opts = _extends({}, defaultInitOptions, options);
+      var scriptUrl = opts.scriptUrl;
+
+      loadWeixinScript(scriptUrl);
+      ajaxGet({
+        url: opts.reqUrl,
+        data: {
+          url: location.href,
+          t: +new Date()
+        }
+      }, function (json) {
+        var isLoaded = loadWeixinScript(scriptUrl, function () {
+          _this._auth(json, opts);
+        });
+
+        if (isLoaded) {
+          _this._auth(json, opts);
+        }
+      });
+    }
+
+    /**
+     * 分享
+     * @param {Object} options
+     */
+
+  }, {
+    key: 'share',
+    value: function share() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var opts = _extends({}, defaultShareOptions, options);
+
+      // 没有初始化，入列
+      if (this.status === STATUS.NORMAL) {
+        this.queue.enqueue(function () {
+          weixinShare(opts);
+        });
+        return;
+      }
+
+      weixinShare(opts);
+    }
+
+    /**
+     * 验证
+     * @param {Object} json
+     * @param {Object} opts
+     */
+
+  }, {
+    key: '_auth',
+    value: function _auth(json, opts) {
+      var _this2 = this;
+
+      weixinAuth(json, opts, function () {
+        var curr = null;
+
+        /* eslint-disable no-cond-assign */
+        while (curr = _this2.queue.dequeue()) {
+          isFunction(curr) && curr();
+        }
+        _this2.status = STATUS.INIT;
+      });
+    }
+  }]);
+  return WXShare;
+}();
+
+function weixinAuth(authData, options, cb) {
   wx.config({
-    debug: false,
+    debug: options.debug,
     appId: authData.appId,
     timestamp: authData.timestamp,
     nonceStr: authData.nonceStr,
     signature: authData.signature,
     jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'hideAllNonBaseMenuItem']
   });
+  cb && cb();
+}
+
+/**
+ * 微信分享
+ * @param {Object} shareData
+ */
+function weixinShare(shareData) {
   wx.ready(function () {
     wx.onMenuShareTimeline({
       title: shareData.title,
       link: shareData.link,
-      imgUrl: shareData.imgUrl
+      imgUrl: shareData.imgUrl,
+      success: shareData.success,
+      cancel: shareData.cancel
     });
     wx.onMenuShareAppMessage({
       title: shareData.title,
       desc: shareData.desc,
       link: shareData.link,
-      imgUrl: shareData.imgUrl
+      imgUrl: shareData.imgUrl,
+      success: shareData.success,
+      cancel: shareData.cancel
     });
   });
 }
@@ -282,58 +385,113 @@ function loadWeixinScript(url, fnSuccess, fnFailed) {
 
 /**
  * qq分享
+ * @see https://open.mobile.qq.com/api/mqq/index#api:setShareInfo
+ * @see https://open.mobile.qq.com/api/common/index#api:setOnShareHandler
  */
 
-var defaultOptions$2 = {
+var defaultInitOptions$1 = {
   scriptUrl: '//pub.idqqimg.com/qqmobile/qqapi.js?_bid=152'
 };
 
-/* global mqq */
-var qqHelper = {
-  name: 'qq',
-  /**
-   * 测试是否执行init
-   * @param {String} ua
-   * @return {Boolean}
-   */
-  test: function test(ua) {
-    return (/qq\//.test(ua)
-    );
-  },
+var defaultShareOptions$1 = {
+  title: '', // 分享标题
+  desc: '', // 分享描述
+  link: '', // 分享链接
+  imgUrl: '', // 分享图标
+  callback: function callback() {} // 回调
 
-  /**
-   * 初始化
-   * @param {Object} options
-   * @param {String} options.title 标题
-   * @param {String} options.desc 描述
-   * @param {String} options.link 链接
-   * @param {String} options.imgUrl 图片地址
-   * @param {String} options.scriptUrl QQ jssdk地址
-   */
-  init: function init(options, ua) {
-    var opts = _extends({}, defaultOptions$2, options);
-    var isLoaded = loadQQScript(opts.scriptUrl, function () {
-      qqShare(opts, ua);
-    });
-
-    if (isLoaded) {
-      qqShare(opts, ua);
-    }
-  }
 };
 
-/**
- * QQ分享
- * @param {Object} options
- * @param {String} ua
- */
+/* global mqq */
+
+var QQShare = function () {
+  function QQShare(ua) {
+    classCallCheck(this, QQShare);
+
+    this.ua = ua;
+    this.status = STATUS.NORMAL;
+    this.name = 'qq';
+    this.queue = new Queue();
+  }
+
+  /**
+   * 测试是否QQ客户端
+   * @return {Boolean}
+   */
+
+
+  createClass(QQShare, [{
+    key: 'test',
+    value: function test() {
+      return (/qq\//.test(this.ua)
+      );
+    }
+
+    /**
+     * 初始化
+     * @param {Object} options
+     * @param {String} options.scriptUrl QQ jssdk地址
+     */
+
+  }, {
+    key: 'init',
+    value: function init() {
+      var _this = this;
+
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (this.status === STATUS.INIT) return;
+      var opts = _extends({}, defaultInitOptions$1, options);
+      var isLoaded = loadQQScript(opts.scriptUrl, function () {
+        var curr = null;
+
+        /* eslint-disable no-cond-assign */
+        while (curr = _this.queue.dequeue()) {
+          isFunction(curr) && curr();
+        }
+        _this.status = STATUS.INIT;
+      });
+
+      if (isLoaded) {
+        this.status = STATUS.INIT;
+      }
+    }
+
+    /**
+     * 分享
+     * @param {Object} options
+     */
+
+  }, {
+    key: 'share',
+    value: function share() {
+      var _this2 = this;
+
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var opts = _extends({}, defaultShareOptions$1, options);
+
+      if (this.status === STATUS.NORMAL) {
+        this.queue.enqueue(function () {
+          qqShare(opts, _this2.ua);
+        });
+        return;
+      }
+
+      qqShare(opts, this.ua);
+    }
+  }]);
+  return QQShare;
+}();
+
 function qqShare(options, ua) {
   if (/android/.test(ua)) {
     mqq.data.setShareInfo({
       title: options.title,
       desc: options.desc,
       share_url: options.link,
-      image_url: options.imgUrl
+      image_url: options.imgUrl,
+      callback: options.callback
     });
   } else {
     mqq.ui.setOnShareHandler(function (type) {
@@ -344,7 +502,7 @@ function qqShare(options, ua) {
         share_url: options.link,
         image_url: options.imgUrl,
         back: true
-      });
+      }, options.callback);
     });
   }
 }
@@ -369,8 +527,8 @@ function loadQQScript(url, fnSuccess, fnFailed) {
  */
 
 var helper = {
-  weixin: weixinHelper,
-  qq: qqHelper
+  weixin: WXShare,
+  qq: QQShare
 };
 
 /**
@@ -378,35 +536,35 @@ var helper = {
  */
 
 var ua = window.navigator.userAgent.toLowerCase();
-var defaultOptions = {
-  common: {
-    title: '',
-    desc: '',
-    link: '',
-    imgUrl: ''
-  }
-};
 
-/**
- * 分享
- * @param {Object} options
- */
-function share() {
-  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+var share = {
+  _helper: {},
+  init: function init() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var opts = extend(true, {}, defaultOptions, options);
+    for (var k in helper) {
+      if (hasOwn.call(helper, k)) {
+        var curr = new helper[k](ua);
+        var name = curr.name;
 
-  for (var k in helper) {
-    if (hasOwn.call(helper, k)) {
-      var curr = helper[k];
-      var name = curr.name;
-
-      if (checkFunctionArray([curr.test, curr.init]) && name && curr.test(ua)) {
-        curr.init(extend({}, opts.common, opts[name] || {}), ua);
+        if (name && curr.test(ua) && !this._helper[name]) {
+          this._helper[name] = curr;
+          curr.init(options[name]);
+        }
       }
     }
+  },
+  config: function config() {
+    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    var curr = this._helper[name];
+
+    if (curr) {
+      curr.share(options);
+    }
   }
-}
+};
 
 return share;
 

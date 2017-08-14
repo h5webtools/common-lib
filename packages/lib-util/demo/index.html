@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="../dist/util.dev.js"></script>
+  <script>
+    (function() {
+      console.log(Util.getFormatPrice('123456'));
+      console.log(Util.formatDate('20170809'));
+      console.log(Util.formatDate('201708'));
+      console.log(Util.getYuan('1000'));
+      console.log(Util.getYuan('1000', true));
+    })();
+  </script>
+</body>
+
+</html>

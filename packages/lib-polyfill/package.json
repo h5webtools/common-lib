@@ -1,0 +1,31 @@
+{
+  "name": "@jyb/lib-polyfill",
+  "version": "0.1.17",
+  "description": "提供一个垫片",
+  "main": "dist/polyfill.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "polyfill",
+    "devDest": "dist/polyfill.dev.js",
+    "prodDest": "dist/polyfill.js"
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,102 @@
+# 例子
+
+## html
+
+```html
+<div class="box">
+  <h6>获取短信验证码：</h6>
+  <input id="sms" type="text">
+  <button id="get-sms">获取短信验证码</button>
+  <span class="code"></span>
+</div>
+<div class="box">
+  <h6>获取图形验证码：</h6>
+  <button id="get-img">获取图形验证码</button>
+  <span class="code"></span>
+</div>
+<div class="box">
+  <h6>获取语音验证码：</h6>
+  <input id="voice" type="text">
+  <button id="get-voice">获取语音验证码</button>
+  <span class="code"></span>
+</div>
+```
+
+## css
+
+```css
+html,
+body,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 20px;
+}
+
+.box {
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+```
+
+## js
+
+```javascript
+var sms = document.getElementById('sms');
+var voice = document.getElementById('voice');
+var getSms = document.getElementById('get-sms');
+var getImg = document.getElementById('get-img');
+var getVoice = document.getElementById('get-voice');
+
+getSms.addEventListener('click', function() {
+  var verifyCode = new VerifyCode('sms', {
+    ajax: {
+      data: {
+        tel: sms.value.trim()
+      }
+    },
+    onSuccess: function(json) {
+      console.log(json);
+      getSms.parentNode.querySelector('.code').innerText = json.data.smscode;
+    },
+    onError: function(e) {
+      console.log(e);
+    }
+  }, 'proxy');
+});
+
+getImg.addEventListener('click', function() {
+  var verifyCode = new VerifyCode('img', {
+    onSuccess: function(json) {
+      console.log(json);
+      var oImg = document.createElement('img');
+
+      oImg.src = json.data.img_code;
+      getImg.parentNode.querySelector('.code').appendChild(oImg);
+    },
+    onError: function(e) {
+      console.log(e);
+    }
+  }, 'proxy');
+});
+
+getVoice.addEventListener('click', function() {
+  var verifyCode = new VerifyCode('voice', {
+    ajax: {
+      data: {
+        tel: sms.value.trim()
+      }
+    },
+    onSuccess: function(json) {
+      console.log(json);
+      getVoice.parentNode.querySelector('.code').innerText = json.data.smscode;
+    },
+    onError: function(e) {
+      console.log(e);
+    }
+  }, 'proxy');
+});
+```

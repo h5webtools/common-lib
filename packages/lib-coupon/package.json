@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-coupon-list",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "红包通用弹层",
   "main": "dist/demo.js",
   "scripts": {

@@ -3,9 +3,5 @@
   "packages": [
     "packages/*"
   ],
-<<<<<<< 22a20bc6f7ae37024b9f32de10c08d20d7a40a0b
-  "version": "0.1.15"
-=======
-  "version": "0.1.16"
->>>>>>> v0.1.16
+  "version": "0.1.18"
 }

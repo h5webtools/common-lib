@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>倒计时</title>
+</head>
+
+<body>
+  <span class="count-down-3"></span>
+  <span class="count-down-60"></span>
+  <script src="../dist/countdown.dev.js"></script>
+  <script>
+    (function() {
+      var countDown3 = document.querySelector('.count-down-3');
+      var countDown60 = document.querySelector('.count-down-60');
+      var cd3 = new CountDown({
+        time: 3,
+        processCallback: function(time) {
+          countDown3.innerHTML = time + 's';
+        },
+        endCallback: function() {
+          console.log('count-down-3 end');
+        }
+      });
+
+      var cd60 = new CountDown({
+        time: 60,
+        processCallback: function(time) {
+          countDown60.innerHTML = time + 's';
+        },
+        endCallback: function() {
+          console.log('count-down-60 end');
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
