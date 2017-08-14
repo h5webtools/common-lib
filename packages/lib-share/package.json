@@ -22,13 +22,10 @@
     "lib"
   ],
   "libDefine": {
-    "moduleName": "Share",
+    "moduleName": "share",
     "devDest": "dist/share.dev.js",
     "prodDest": "dist/share.js"
   },
   "author": "canye.wu@jyblife.com",
-  "license": "MIT",
-  "dependencies": {
-    "@jyb/lib-extend": "^0.1.9"
-  }
+  "license": "MIT"
 }

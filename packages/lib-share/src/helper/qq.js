@@ -1,44 +1,82 @@
 /**
  * qq分享
+ * @see https://open.mobile.qq.com/api/mqq/index#api:setShareInfo
+ * @see https://open.mobile.qq.com/api/common/index#api:setOnShareHandler
  */
 
 import * as util from '../util';
+import Queue from '../queue';
+import STATUS from '../status';
 
-const defaultOptions = {
+const defaultInitOptions = {
   scriptUrl: '//pub.idqqimg.com/qqmobile/qqapi.js?_bid=152'
 };
 
+const defaultShareOptions = {
+  title: '', // 分享标题
+  desc: '', // 分享描述
+  link: '', // 分享链接
+  imgUrl: '', // 分享图标
+  callback() {} // 回调
+};
+
 /* global mqq */
-export default {
-  name: 'qq',
+export default class QQShare {
+  constructor(ua) {
+    this.ua = ua;
+    this.status = STATUS.NORMAL;
+    this.name = 'qq';
+    this.queue = new Queue();
+  }
+
   /**
-   * 测试是否执行init
-   * @param {String} ua
+   * 测试是否QQ客户端
    * @return {Boolean}
    */
-  test(ua) {
-    return /qq\//.test(ua);
-  },
+  test() {
+    return /qq\//.test(this.ua);
+  }
+
   /**
    * 初始化
    * @param {Object} options
-   * @param {String} options.title 标题
-   * @param {String} options.desc 描述
-   * @param {String} options.link 链接
-   * @param {String} options.imgUrl 图片地址
    * @param {String} options.scriptUrl QQ jssdk地址
    */
-  init(options, ua) {
-    const opts = Object.assign({}, defaultOptions, options);
+  init(options = {}) {
+    if (this.status === STATUS.INIT) return;
+    const opts = Object.assign({}, defaultInitOptions, options);
     const isLoaded = loadQQScript(opts.scriptUrl, () => {
-      qqShare(opts, ua);
+      let curr = null;
+
+      /* eslint-disable no-cond-assign */
+      while (curr = this.queue.dequeue()) {
+        util.isFunction(curr) && curr();
+      }
+      this.status = STATUS.INIT;
     });
 
     if (isLoaded) {
-      qqShare(opts, ua);
+      this.status = STATUS.INIT;
     }
   }
-};
+
+  /**
+   * 分享
+   * @param {Object} options
+   */
+  share(options = {}) {
+    const opts = Object.assign({}, defaultShareOptions, options);
+
+    if (this.status === STATUS.NORMAL) {
+      this.queue.enqueue(() => {
+        qqShare(opts, this.ua);
+      });
+      return;
+    }
+
+    qqShare(opts, this.ua);
+  }
+}
 
 /**
  * QQ分享
@@ -51,7 +89,8 @@ function qqShare(options, ua) {
       title: options.title,
       desc: options.desc,
       share_url: options.link,
-      image_url: options.imgUrl
+      image_url: options.imgUrl,
+      callback: options.callback
     });
   } else {
     mqq.ui.setOnShareHandler((type) => {
@@ -62,7 +101,7 @@ function qqShare(options, ua) {
         share_url: options.link,
         image_url: options.imgUrl,
         back: true
-      });
+      }, options.callback);
     });
   }
 }

@@ -5,14 +5,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>分享</title>
 </head>
 
 <body>
   <script src="../dist/share.dev.js"></script>
   <script>
     (function() {
-      
+      try {
+        share.init({
+          weixin: {
+            debug: true
+          }
+        });
+        share.config('qq', {
+          title: '分享标题',
+          desc: '分享描述',
+          link: 'https://baidu.com',
+          imgUrl: 'https://cdn.jyblife.com/static/style/app/publish/img/nocard/logo.png'
+        });
+
+        share.config('weixin', {
+          title: '分享标题',
+          desc: '分享描述',
+          link: 'https://baidu.com',
+          imgUrl: 'https://cdn.jyblife.com/static/style/app/publish/img/nocard/logo.png'
+        });
+      } catch (e) {
+        alert(e);
+      }
     })();
   </script>
 </body>
