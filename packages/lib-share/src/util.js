@@ -3,6 +3,7 @@
  */
 
 export const hasOwn = Object.prototype.hasOwnProperty;
+export const toStr = Object.prototype.toString;
 
 /**
  * 检查是否函数数组
@@ -28,7 +29,7 @@ export function isFunction(fn) {
  * @return {Boolean}
  */
 export function isObject(obj) {
-  return hasOwn.call(obj) === '[object Object]';
+  return toStr.call(obj) === '[object Object]';
 }
 
 /**
