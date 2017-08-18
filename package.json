@@ -7,8 +7,8 @@
     "publish": "lerna publish",
     "postinstall": "lerna bootstrap",
     "doc:pre": "jfet doc --install",
-    "doc": "node ./scripts/doc.js && jfet doc --serve",
-    "doc:build": "node ./scripts/doc.js && jfet doc --build",
+    "doc:serve": "node ./scripts/doc.js && jfet doc --serve",
+    "doc": "node ./scripts/doc.js && jfet doc --build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
