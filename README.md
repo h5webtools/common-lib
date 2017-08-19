@@ -18,7 +18,7 @@ npm run publish
 ## 文档
 
 ```shell
-npm run docs
+npm run doc
 ```
 
 ## 开发
