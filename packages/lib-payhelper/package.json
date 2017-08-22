@@ -2,7 +2,7 @@
   "name": "@jyb/lib-payhelper",
   "version": "0.1.17",
   "description": "统一支付模块",
-  "main": "dist/demo.js",
+  "main": "dist/payhelper.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
