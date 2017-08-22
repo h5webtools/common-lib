@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-share",
-  "version": "0.1.19",
+  "version": "0.2.0",
   "description": "分享模块，目前支持微信授权分享，QQ分享",
   "main": "dist/share.js",
   "scripts": {

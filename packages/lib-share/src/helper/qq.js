@@ -69,41 +69,27 @@ export default class QQShare {
 
     if (this.status === STATUS.NORMAL) {
       this.queue.enqueue(() => {
-        qqShare(opts, this.ua);
+        qqShare(opts);
       });
       return;
     }
 
-    qqShare(opts, this.ua);
+    qqShare(opts);
   }
 }
 
 /**
  * QQ分享
  * @param {Object} options
- * @param {String} ua
  */
-function qqShare(options, ua) {
-  if (/android/.test(ua)) {
-    mqq.data.setShareInfo({
-      title: options.title,
-      desc: options.desc,
-      share_url: options.link,
-      image_url: options.imgUrl,
-      callback: options.callback
-    });
-  } else {
-    mqq.ui.setOnShareHandler((type) => {
-      mqq.ui.shareMessage({
-        title: options.title,
-        desc: options.desc,
-        share_type: type,
-        share_url: options.link,
-        image_url: options.imgUrl,
-        back: true
-      }, options.callback);
-    });
-  }
+function qqShare(options) {
+  mqq.data.setShareInfo({
+    title: options.title,
+    desc: options.desc,
+    share_url: options.link,
+    image_url: options.imgUrl,
+    callback: options.callback
+  });
 }
 
 /**

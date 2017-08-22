@@ -466,46 +466,31 @@ var QQShare = function () {
   }, {
     key: 'share',
     value: function share() {
-      var _this2 = this;
-
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var opts = _extends({}, defaultShareOptions$1, options);
 
       if (this.status === STATUS.NORMAL) {
         this.queue.enqueue(function () {
-          qqShare(opts, _this2.ua);
+          qqShare(opts);
         });
         return;
       }
 
-      qqShare(opts, this.ua);
+      qqShare(opts);
     }
   }]);
   return QQShare;
 }();
 
-function qqShare(options, ua) {
-  if (/android/.test(ua)) {
-    mqq.data.setShareInfo({
-      title: options.title,
-      desc: options.desc,
-      share_url: options.link,
-      image_url: options.imgUrl,
-      callback: options.callback
-    });
-  } else {
-    mqq.ui.setOnShareHandler(function (type) {
-      mqq.ui.shareMessage({
-        title: options.title,
-        desc: options.desc,
-        share_type: type,
-        share_url: options.link,
-        image_url: options.imgUrl,
-        back: true
-      }, options.callback);
-    });
-  }
+function qqShare(options) {
+  mqq.data.setShareInfo({
+    title: options.title,
+    desc: options.desc,
+    share_url: options.link,
+    image_url: options.imgUrl,
+    callback: options.callback
+  });
 }
 
 /**
