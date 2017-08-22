@@ -31,279 +31,292 @@ var _extends = Object.assign || function (target) {
 // 2017年05月18日JavaScript APIv1.3.1: 分享菜单支持自定义图标和标题
 // 2017年05月23日JavaScript APIv1.4.0: iOS版本提供webview配置和title设置；银行卡列表添加存管支持
 // 2017年06月09日JavaScript APIv1.4.0: 事件上报添加页面参数
+// 2017年07月18日JavaScript APIv1.5.0: 新增获取App信息；
+// 2017年08月16日JavaScript APIv1.5.1：实名认证增加存管channel参数；选择银行卡增加cardType参数；
 function jybWebview(context, b) {
-  function invoke(name, params, obj) {
-    if (context.NativeBridge) {
-      log(name, params);
-      NativeBridge.invoke(name, params, function (a) {
-        response(name, a, obj);
-      });
-    } else {
-      log(name, obj);
-    }
-  }
+	function invoke(name, params, obj) {
+		if (context.NativeBridge) {
+			log(name, params);
+			NativeBridge.invoke(name, params, function (a) {
+				response(name, a, obj);
+			});
+		} else {
+			log(name, obj);
+		}
+	}
+	function on(name, obj) {
+		if (context.NativeBridge) {
+			NativeBridge.on(name, function (a) {
+				response(name, a, obj);
+			});
+		} else {
+			log(name, obj);
+		}
+	}
 
-  function on(name, obj) {
-    if (context.NativeBridge) {
-      NativeBridge.on(name, function (a) {
-        response(name, a, obj);
-      });
-    } else {
-      log(name, obj);
-    }
-  }
+	function log(name, obj) {
+		if (configuration.debug) {
+			var apiName = name;
+			var supportApi = supportApiList[apiName];
+			if (supportApi) {
+				apiName = supportApi;
+			}
+			if (obj && obj._complete) {
+				delete obj._complete;
+			}
 
-  function log(name, obj) {
-    if (configuration.debug) {
-      var apiName = name;
-      var supportApi = supportApiList[apiName];
-      if (supportApi) {
-        apiName = supportApi;
-      }
-      if (obj && obj._complete) {
-        delete obj._complete;
-      }
+			console.log('"' + apiName + '",', obj || "");
+		}
+	}
 
-      console.log('"' + apiName + '",', obj || "");
-    }
-  }
+	function callAfterBridgeReady(func) {
+		if (jiayoubao) {
+			context.NativeBridge ? func() : doc.addEventListener && doc.addEventListener("NativeBridgeReady", func, false);
+		} else {
+			console.log("App not jiayoubao");
+		}
+	}
 
-  function callAfterBridgeReady(func) {
-    if (jiayoubao) {
-      context.NativeBridge ? func() : doc.addEventListener && doc.addEventListener("NativeBridgeReady", func, false);
-    } else {
-      console.log("App not jiayoubao");
-    }
-  }
+	function response(name, result, obj) {
+		var resp = obj ? obj : {};
+		if (resp._complete) {
+			resp._complete(result);
+		}
 
-  function response(name, result, obj) {
-    var resp = obj ? obj : {};
-    if (resp._complete) {
-      resp._complete(result);
-    }
+		if (configuration.debug) {
+			alert(JSON.stringify(result));
+		}
 
-    if (configuration.debug) {
-      alert(JSON.stringify(result));
-    }
+		var code = result.code ? result.code : "2";
 
-    var code = result.code ? result.code : "2";
+		switch (code) {
+			case "0":
+				{
+					if (resp.success) {
+						resp.success(result.data);
+					}
+					break;
+				}
+			case "-1":
+				{
+					if (resp.cancel) {
+						resp.cancel(result.data);
+					}
+					break;
+				}
+			case "1":
+				{
+					if (resp.trigger) {
+						resp.trigger(result.data);
+					} else if (resp.complete) {
+						resp.complete(result.data);
+					}
+					break;
+				}
+			default:
+				{
+					if (resp.failure) {
+						resp.failure(result.data);
+					}
+				}
+		}
+	}
 
-    switch (code) {
-      case "0":
-        {
-          if (resp.success) {
-            resp.success(result.data);
-          }
-          break;
-        }
-      case "-1":
-        {
-          if (resp.cancel) {
-            resp.cancel(result.data);
-          }
-          break;
-        }
-      case "1":
-        {
-          if (resp.trigger) {
-            resp.trigger(result.data);
-          } else if (resp.complete) {
-            resp.complete(result.data);
-          }
-          break;
-        }
-      default:
-        {
-          if (resp.failure) {
-            resp.failure(result.data);
-          }
-        }
-    }
-  }
-
-  function bind() {
-    if (!WebViewBridge.invoke) {
-      WebViewBridge.invoke = invoke;
-      WebViewBridge.on = on;
-    }
-    /*
+	function bind() {
+		if (!WebViewBridge.invoke) {
+			WebViewBridge.invoke = invoke;
+			WebViewBridge.on = on;
+		}
+		/*
         WebViewBridge.invoke || (WebViewBridge.invoke = function(name, params, func) {
             context.NativeBridge && NativeBridge.invoke(name, params, func)
         },
         WebViewBridge.on = function(name, func) {
             context.NativeBridge && NativeBridge.on(name, func)
         })*/
-  }
+	}
 
-  if (!context.jWebView) {
-    var supprotApis = {
-      // 接口配置
-      config: "config",
-      goBack: "goBack",
-      backExec: "backExec",
-      open: "open",
-      close: "close",
-      copy: "copy",
-      update: "update",
-      showShareMenu: "showShareMenu",
-      register: "register",
-      login: "login",
-      identityAuth: "identityAuth",
-      passwordAuth: "passwordAuth",
-      pay: "pay",
-      showOptionMenu: "showOptionMenu",
-      hideOptionMenu: "hideOptionMenu",
-      getNetworkType: "getNetworkType",
-      openLocation: "openLocation",
-      chat: "chat"
-    };
+	if (!context.jWebView) {
+		var supprotApis = {
+			// 接口配置
+			config: "config",
+			configWebView: "configWebView",
+			setWebViewTitle: "setWebViewTitle",
+			goBack: "goBack",
+			backExec: "backExec",
+			open: "open",
+			close: "close",
+			copy: "copy",
+			update: "update",
+			showShareMenu: "showShareMenu",
+			register: "register",
+			login: "login",
+			identityAuth: "identityAuth",
+			passwordAuth: "passwordAuth",
+			pay: "pay",
+			showOptionMenu: "showOptionMenu",
+			hideOptionMenu: "hideOptionMenu",
+			getNetworkType: "getNetworkType",
+			openLocation: "openLocation",
+			chat: "chat",
+			selectBankCard: "selectBankCard",
+			setupPassword: "setupPassword",
+			reportEvent: "reportEvent",
+			selectGasCard: "selectGasCard",
+			change: "change",
+			freeMall: "freeMall",
+			getAppInfo: "getAppInfo"
+		};
 
-    var supportApiList = function () {
-      var api,
-          apis = {};
-      for (api in supprotApis) {
-        apis[supprotApis[api]] = api;
-      }return apis;
-    }();
+		var supportApiList = function () {
+			var api,
+			    apis = {};
+			for (api in supprotApis) {
+				apis[supprotApis[api]] = api;
+			}return apis;
+		}();
 
-    var doc = context.document;
-    var title = doc.title;
-    var userAgent = navigator.userAgent.toLowerCase();
-    var jiayoubao = -1 != userAgent.indexOf("jiayoubao");
-    var android = -1 != userAgent.indexOf("android");
-    var iOS = -1 != userAgent.indexOf("iphone") || -1 != userAgent.indexOf("ipad") || -1 != userAgent.indexOf("ipod");
-    var version = function () {
-      var a = userAgent.match(/jiayoubao\/(\d+\.\d+\.\d+)/) || userAgent.match(/jiayoubao\/(\d+\.\d+)/);
-      return a ? a[1] : "";
-    }();
+		var doc = context.document;
+		var title = doc.title;
+		var userAgent = navigator.userAgent.toLowerCase();
+		var jiayoubao = -1 != userAgent.indexOf("jiayoubao");
+		var android = -1 != userAgent.indexOf("android");
+		var iOS = -1 != userAgent.indexOf("iphone") || -1 != userAgent.indexOf("ipad") || -1 != userAgent.indexOf("ipod");
+		var version = function () {
+			var a = userAgent.match(/jiayoubao\/(\d+\.\d+\.\d+)/) || userAgent.match(/jiayoubao\/(\d+\.\d+)/);
+			return a ? a[1] : "";
+		}();
 
-    var configuration = {};
-    var bridgeReadyHandlers = {
-      _completes: []
-    };
-    var bridgeState = { state: 0 };
+		var configuration = {};
+		var bridgeReadyHandlers = {
+			_completes: []
+		};
+		var bridgeState = { state: 0 };
 
-    var WebViewBridge = {
-      config: function config(cfg) {
-        configuration = cfg;
-        log("config", cfg);
-        callAfterBridgeReady(function () {
-          bridgeState.state = 1;
-          var a = bridgeReadyHandlers._completes;
-          for (var i = 0; i < a.length; i++) {
-            a[i]();
-          }
-          bridgeReadyHandlers._completes = [];
-        });
-      },
-      ready: function ready(a) {
-        if (configuration.debug || bridgeState.state == 1) {
-          a();
-        } else {
-          bridgeReadyHandlers._completes.push(a);
-        }
-      },
-      error: function error(a) {
-        -1 == bridgeState.state ? a() : bridgeReadyHandlers._fail = a;
-      },
+		var WebViewBridge = {
+			config: function config(cfg) {
+				configuration = cfg;
+				log("config", cfg);
+				callAfterBridgeReady(function () {
+					bridgeState.state = 1;
+					var a = bridgeReadyHandlers._completes;
+					for (var i = 0; i < a.length; i++) {
+						a[i]();
+					}
+					bridgeReadyHandlers._completes = [];
+				});
+			},
+			ready: function ready(a) {
+				if (configuration.debug || bridgeState.state == 1) {
+					a();
+				} else {
+					bridgeReadyHandlers._completes.push(a);
+				}
+			},
+			error: function error(a) {
+				-1 == bridgeState.state ? a() : bridgeReadyHandlers._fail = a;
+			},
 
-      // 接口调用实现
-      configWebView: function configWebView(a) {
-        invoke("configWebView", { bounces: a.bounces == undefined ? true : a.bounces, title: a.title }, a);
-      },
-      setWebViewTitle: function setWebViewTitle(a) {
-        invoke("configWebView", { title: a.title }, a);
-      },
-      goBack: function goBack(a) {
-        invoke("goBack", { update: a.update }, a);
-      },
-      backExec: function backExec(a) {
-        on("backExec", a);
-      },
-      open: function open(a) {
-        invoke("open", { modal: a.modal, login: a.login, url: a.url }, a);
-      },
-      close: function close(a) {
-        invoke("close", {}, a);
-      },
-      copy: function copy(a) {
-        invoke("copy", { content: a.content }, a);
-      },
-      update: function update(a) {
-        invoke("update", { refresh: a.refresh }, a);
-      },
-      showShareMenu: function showShareMenu(a) {
-        invoke("showShareMenu", {
-          title: a.title,
-          content: a.content,
-          image: a.image,
-          url: a.url,
-          sina: a.sina,
-          cp: a.cp,
-          sms: a.sms,
-          menuItems: a.menuItems
-        }, a);
-      },
-      register: function register(a) {
-        invoke("register", { phoneNo: a.phoneNo }, a);
-      },
-      login: function login(a) {
-        invoke("login", { phoneNo: a.phoneNo }, a);
-      },
-      identityAuth: function identityAuth(a) {
-        invoke("identityAuth", {}, a);
-      },
+			// 接口调用实现
+			configWebView: function configWebView(a) {
+				invoke("configWebView", { bounces: a.bounces == undefined ? true : a.bounces, title: a.title }, a);
+			},
+			setWebViewTitle: function setWebViewTitle(a) {
+				invoke("configWebView", { title: a.title }, a);
+			},
+			goBack: function goBack(a) {
+				invoke("goBack", { update: a.update }, a);
+			},
+			backExec: function backExec(a) {
+				on("backExec", a);
+			},
+			open: function open(a) {
+				invoke("open", { modal: a.modal, login: a.login, url: a.url }, a);
+			},
+			close: function close(a) {
+				invoke("close", {}, a);
+			},
+			copy: function copy(a) {
+				invoke("copy", { content: a.content }, a);
+			},
+			update: function update(a) {
+				invoke("update", { refresh: a.refresh }, a);
+			},
+			showShareMenu: function showShareMenu(a) {
+				invoke("showShareMenu", {
+					title: a.title,
+					content: a.content,
+					image: a.image,
+					url: a.url,
+					sina: a.sina,
+					cp: a.cp,
+					sms: a.sms,
+					menuItems: a.menuItems
+				}, a);
+			},
+			register: function register(a) {
+				invoke("register", { phoneNo: a.phoneNo }, a);
+			},
+			login: function login(a) {
+				invoke("login", { phoneNo: a.phoneNo }, a);
+			},
+			identityAuth: function identityAuth(a) {
+				invoke("identityAuth", { channel: a.channel }, a);
+			},
 
-      passwordAuth: function passwordAuth(a) {
-        invoke("passwordAuth", { scene: a.scene, title: a.title, desp: a.desp }, a);
-      },
-      pay: function pay(a) {
-        invoke("pay", { orderId: a.orderId, buttons: a.buttons, extra: a.extra }, a);
-      },
-      showOptionMenu: function showOptionMenu(a) {
-        invoke("showOptionMenu", {
-          icon: a.icon,
-          title: a.title,
-          menuItems: a.menuItems
-        }, a);
-      },
-      hideOptionMenu: function hideOptionMenu(a) {
-        invoke("hideOptionMenu", {}, a);
-      },
-      getNetworkType: function getNetworkType(a) {
-        invoke("getNetworkType", {}, a);
-      },
-      openLocation: function openLocation(a) {
-        invoke("openLocation", {}, a);
-      },
-      chat: function chat(a) {
-        invoke("chat", {}, a);
-      },
-      selectBankCard: function selectBankCard(a) {
-        invoke("selectBankCard", { title: a.title, type: a.type, channel: a.channel, cardId: a.cardId, prdId: a.prdId }, a);
-      },
-      setupPassword: function setupPassword(a) {
-        invoke("setupPassword", {}, a);
-      },
-      reportEvent: function reportEvent(a) {
-        invoke("reportEvent", { page: a.page, name: a.name, param: a.param }, a);
-      },
-      selectGasCard: function selectGasCard(a) {
-        invoke("selectGasCard", { title: a.title, cardNo: a.cardNo }, a);
-      },
-      change: function change(a) {
-        invoke("change", {}, a);
-      },
-      freeMall: function freeMall(a) {
-        invoke("freeMall", {}, a);
-      }
-    };
-    if (b) {
-      // context.wv = context.jWebView = WebViewBridge;
-      bind();
-    }
-    return WebViewBridge;
-  }
+			passwordAuth: function passwordAuth(a) {
+				invoke("passwordAuth", { scene: a.scene, title: a.title, desp: a.desp }, a);
+			},
+			pay: function pay(a) {
+				invoke("pay", { orderId: a.orderId, buttons: a.buttons, extra: a.extra }, a);
+			},
+			showOptionMenu: function showOptionMenu(a) {
+				invoke("showOptionMenu", {
+					icon: a.icon,
+					title: a.title,
+					menuItems: a.menuItems
+				}, a);
+			},
+			hideOptionMenu: function hideOptionMenu(a) {
+				invoke("hideOptionMenu", {}, a);
+			},
+			getNetworkType: function getNetworkType(a) {
+				invoke("getNetworkType", {}, a);
+			},
+			openLocation: function openLocation(a) {
+				invoke("openLocation", {}, a);
+			},
+			chat: function chat(a) {
+				invoke("chat", {}, a);
+			},
+			selectBankCard: function selectBankCard(a) {
+				invoke("selectBankCard", { title: a.title, type: a.type, prdId: a.prdId, channel: a.channel, cardId: a.cardId, cardType: a.cardType }, a);
+			},
+			setupPassword: function setupPassword(a) {
+				invoke("setupPassword", {}, a);
+			},
+			reportEvent: function reportEvent(a) {
+				invoke("reportEvent", { page: a.page, name: a.name, param: a.param }, a);
+			},
+			selectGasCard: function selectGasCard(a) {
+				invoke("selectGasCard", { title: a.title, cardNo: a.cardNo }, a);
+			},
+			change: function change(a) {
+				invoke("change", {}, a);
+			},
+			freeMall: function freeMall(a) {
+				invoke("freeMall", {}, a);
+			},
+			getAppInfo: function getAppInfo(a) {
+				invoke("getAppInfo", {}, a);
+			}
+		};
+		if (b) {
+			context.wv = context.jWebView = WebViewBridge;
+			bind();
+		}
+		return WebViewBridge;
+	}
 }
 
 var wv = jybWebview(window, true);
