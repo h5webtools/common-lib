@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-payhelper",
-  "version": "0.1.17",
+  "version": "0.2.5",
   "description": "统一支付模块",
   "main": "dist/payhelper.js",
   "scripts": {
