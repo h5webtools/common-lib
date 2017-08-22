@@ -1,22 +1,22 @@
 /* eslint-disable */
 
 import Zepto from './zepto';
-require('event');
-require('ajax');
-require('form');
-require('ie');
-require('detect');
-require('fx');
-require('fx_methods');
-require('assets');
-require('data');
-require('deferred');
-require('callbacks');
-require('selector');
-require('touch');
-require('gesture');
-require('stack');
-require('ios3');
+import './event';
+import './ajax';
+import './form';
+import './ie';
+import './detect';
+import './fx';
+import './fx_methods';
+import './assets';
+import './data';
+import './deferred';
+import './callbacks';
+import './selector';
+import './touch';
+import './gesture';
+import './stack';
+import './ios3';
 
 export default Zepto;
 
