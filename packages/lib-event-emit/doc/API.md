@@ -1,7 +1,15 @@
 # API
 
 ```javascript
+import { instanceEvent } from '@jyb/lib-event-emit'
 import EventEmit from '@jyb/lib-event-emit'
+```
+
+## 直接使用
+
+```javascript
+instanceEvent.on(name);
+instanceEvent.emit(name);
 ```
 
 ## 初始化
