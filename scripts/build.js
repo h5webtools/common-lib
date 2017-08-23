@@ -11,8 +11,10 @@ const uglify = require('rollup-plugin-uglify');
 const commonjs = require('rollup-plugin-commonjs');
 const eslint = require('rollup-plugin-eslint');
 const vue = require('rollup-plugin-vue');
+const img = require('rollup-plugin-img');
 const getLibDefine = require('./get_define');
 const dot = require('./plugin/dot');
+
 
 const cwd = process.cwd();
 
@@ -37,6 +39,10 @@ if (libDefine) {
         include: ['**/*.dot', '**/*.tpl'],
         exclude: ['**/index.html'],
         templateSettings: { selfcontained: true }
+      }),
+      img({
+        limit: 0,
+        output: path.join(cwd, 'dist/images'),
       }),
       vue({ css: path.join(cwd, 'dist/bundle.css') }),
       babel({
