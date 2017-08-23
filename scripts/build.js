@@ -10,6 +10,7 @@ const babel = require('rollup-plugin-babel');
 const uglify = require('rollup-plugin-uglify');
 const commonjs = require('rollup-plugin-commonjs');
 const eslint = require('rollup-plugin-eslint');
+const vue = require('rollup-plugin-vue');
 const getLibDefine = require('./get_define');
 const dot = require('./plugin/dot');
 
@@ -37,6 +38,7 @@ if (libDefine) {
         exclude: ['**/index.html'],
         templateSettings: { selfcontained: true }
       }),
+      vue({ css: path.join(cwd, 'dist/bundle.css') }),
       babel({
         exclude: path.join(cwd, 'node_modules/**')
       }),
