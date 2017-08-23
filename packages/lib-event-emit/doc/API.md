@@ -4,6 +4,18 @@
 import EventEmit from '@jyb/lib-event-emit'
 ```
 
+## 属性
+
+### instance
+
+事件对象
+
+```javascript
+const ins = EventEmit.instance;
+ins.on(name);
+ins.emit(name);
+```
+
 ## 初始化
 
 ### new EventEmit();

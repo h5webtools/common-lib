@@ -1,8 +1,8 @@
 {
   "name": "@jyb/lib-coupon-list",
-  "version": "0.1.17",
+  "version": "0.2.5",
   "description": "红包通用弹层",
-  "main": "dist/demo.js",
+  "main": "dist/couponlist.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
