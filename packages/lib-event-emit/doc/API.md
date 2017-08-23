@@ -1,15 +1,19 @@
 # API
 
 ```javascript
-import { instanceEvent } from '@jyb/lib-event-emit'
 import EventEmit from '@jyb/lib-event-emit'
 ```
 
-## 直接使用
+## 属性
+
+### instance
+
+事件对象
 
 ```javascript
-instanceEvent.on(name);
-instanceEvent.emit(name);
+const ins = EventEmit.instance;
+ins.on(name);
+ins.emit(name);
 ```
 
 ## 初始化

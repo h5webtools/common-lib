@@ -78,5 +78,6 @@ class EventEmit {
   }
 }
 
-export const instanceEvent = new EventEmit();
+EventEmit.instance = new EventEmit();
+
 export default EventEmit;
