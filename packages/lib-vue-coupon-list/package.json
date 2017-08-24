@@ -1,0 +1,34 @@
+{
+  "name": "@jyb/lib-vue-coupon-list",
+  "version": "0.0.1",
+  "description": "vue红包列表",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "couponList.vue",
+    "devDest": "dist/index.dev.js",
+    "prodDest": "dist/index.js"
+  },
+  "dependencies": {
+    "@jyb/lib-vue-popup": "^0.0.1"
+  },
+  "author": "xiaohai.xi@jyblife.com",
+  "license": "MIT"
+}
