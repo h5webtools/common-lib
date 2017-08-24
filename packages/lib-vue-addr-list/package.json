@@ -11,7 +11,7 @@
   },
   "files": [
     "src",
-    "dist/*.js"
+    "dist"
   ],
   "repository": {
     "type": "git",
