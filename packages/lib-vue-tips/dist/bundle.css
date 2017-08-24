@@ -1,3 +1,4 @@
+@import url(~@jyb/lib-vue-overlay/dist/bundle.css);
 .bn-tips[data-v-528b0884] {
   position: fixed;
   top: 50%;

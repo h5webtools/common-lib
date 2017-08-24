@@ -1,5 +1,5 @@
 <style lang="scss"scoped>
-    // @import '~@jyb/common-sass/import-lib-reset';
+    @import '~@jyb/lib-vue-overlay/dist/bundle.css';
     
     .bn-tips {
         position: fixed;
