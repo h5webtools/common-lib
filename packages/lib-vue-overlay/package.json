@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-vue-overlay",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "description": "vue遮罩层",
   "main": "dist/index.js",
   "scripts": {

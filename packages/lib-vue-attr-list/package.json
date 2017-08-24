@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-vue-attr-list",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "description": "vue属性列表",
   "main": "dist/index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-vue-popup",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "description": "vue浮层",
   "main": "dist/index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "prodDest": "dist/index.js"
   },
   "dependencies": {
-    "@jyb/lib-vue-overlay": "^0.2.6"
+    "@jyb/lib-vue-overlay": "^0.2.8"
   },
   "author": "xiaohai.xi@jyblife.com",
   "license": "MIT"

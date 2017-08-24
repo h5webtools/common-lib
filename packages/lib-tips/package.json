@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-tips",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "description": "公共toast",
   "main": "dist/tips.js",
   "scripts": {
