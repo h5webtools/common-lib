@@ -1,0 +1,86 @@
+.normal-title {
+  padding: 15px 0;
+  text-align: center;
+  color: #999; }
+
+@charset "UTF-8";
+/**
+ 设置1px上下边框
+ @include elementBorder(#e6e6e6, after, top)
+ @include elementBorder(#e6e6e6, before, bottom)
+*/
+.pcr-wrap[data-v-27e9215c]:after {
+  content: "";
+  height: 0;
+  display: block;
+  border-bottom: 1px solid #e6e6e6;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+[data-dpi="2"] .pcr-wrap[data-v-27e9215c]:after {
+  transform: scaleY(0.5);
+  transform-origin: 50% 0; }
+
+[data-dpi="3"] .pcr-wrap[data-v-27e9215c]:after {
+  transform: scaleY(0.333);
+  transform-origin: 50% 0; }
+
+.pcr-wrap[data-v-27e9215c] {
+  position: relative;
+  padding: 0 .3rem;
+  display: flex;
+  font-size: .3rem; }
+  .pcr-wrap .chosen[data-v-27e9215c] {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 .15rem; }
+    .pcr-wrap .chosen .text[data-v-27e9215c] {
+      position: relative;
+      top: -1px;
+      display: inline-block;
+      border-bottom: 2px solid transparent;
+      padding: 10px 0; }
+    .pcr-wrap .chosen.cur .text[data-v-27e9215c] {
+      color: #f60;
+      border-bottom-color: #f60; }
+
+.region-wrap[data-v-27e9215c] {
+  max-height: 6.5rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  display: flex;
+  height: 100%;
+  transition: transform .3s ease;
+  transform: translate3d(0px, 0px, 0px);
+  font-size: .3rem; }
+  .region-wrap .pcr-list[data-v-27e9215c] {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; }
+    .region-wrap .pcr-list li[data-v-27e9215c] {
+      position: relative;
+      padding: 15px .3rem; }
+      .region-wrap .pcr-list li.chosen[data-v-27e9215c] {
+        color: #f60; }
+        .region-wrap .pcr-list li.chosen .checked-icon[data-v-27e9215c] {
+          content: "";
+          margin-left: .3rem;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: .44rem;
+          height: .32rem;
+          background: url("./images/_checked.png") no-repeat 0 0;
+          background-size: 100% auto; }
+
+.icon[data-v-27e9215c] {
+  display: inline-block;
+  background-repeat: no-repeat;
+  vertical-align: middle; }
+

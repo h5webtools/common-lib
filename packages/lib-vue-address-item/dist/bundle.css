@@ -1,0 +1,103 @@
+@charset "UTF-8";
+/**
+ 设置1px上下边框
+ @include elementBorder(#e6e6e6, after, top)
+ @include elementBorder(#e6e6e6, before, bottom)
+*/
+.mod-addresslist-item .address-detail[data-v-4c2805bf]:after {
+  content: "";
+  height: 0;
+  display: block;
+  border-bottom: 1px solid #e6e6e6;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+[data-dpi="2"] .mod-addresslist-item .address-detail[data-v-4c2805bf]:after, .mod-addresslist-item [data-dpi="2"] .address-detail[data-v-4c2805bf]:after {
+  transform: scaleY(0.5);
+  transform-origin: 50% 0; }
+
+[data-dpi="3"] .mod-addresslist-item .address-detail[data-v-4c2805bf]:after, .mod-addresslist-item [data-dpi="3"] .address-detail[data-v-4c2805bf]:after {
+  transform: scaleY(0.333);
+  transform-origin: 50% 0; }
+
+.mod-addresslist-item[data-v-4c2805bf] {
+  background-color: #fff;
+  margin-top: .2rem;
+  font-size: .3rem; }
+  .mod-addresslist-item .address-detail[data-v-4c2805bf] {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    margin-left: .3rem; }
+  .mod-addresslist-item[data-v-4c2805bf]:first-child {
+    margin-top: 0; }
+  .mod-addresslist-item .mod-addresslist-item .address-detail[data-v-4c2805bf] {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    margin-left: .3rem; }
+  .mod-addresslist-item .fulladdress[data-v-4c2805bf] {
+    font-size: .26rem; }
+  .mod-addresslist-item .mod-info-line[data-v-4c2805bf] {
+    line-height: 1;
+    padding-left: 0;
+    background-color: #fff;
+    position: relative; }
+    .mod-addresslist-item .mod-info-line .info-item[data-v-4c2805bf] {
+      position: relative;
+      width: 100%;
+      display: -webkit-box;
+      -webkit-box-pack: justify;
+      -webkit-box-align: center;
+      padding: 18px 0;
+      padding-left: .3rem; }
+  .mod-addresslist-item .icon-wrap[data-v-4c2805bf] {
+    min-width: 1.5rem;
+    display: inline-block;
+    vertical-align: middle;
+    display: inline-block;
+    background-repeat: no-repeat;
+    vertical-align: middle; }
+  .mod-addresslist-item .icon[data-v-4c2805bf] {
+    width: .4rem;
+    height: .4rem;
+    top: -2px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle; }
+  .mod-addresslist-item .edit-icon[data-v-4c2805bf] {
+    background: url("./images/_edit_address.png") no-repeat;
+    background-size: 100% auto; }
+  .mod-addresslist-item .default-icon[data-v-4c2805bf] {
+    background: url("./images/_address_unchecked.png") no-repeat;
+    background-size: 100% auto; }
+  .mod-addresslist-item .checked .default-icon[data-v-4c2805bf] {
+    background: url("./images/_address_checked.png") no-repeat;
+    background-size: 100% auto; }
+  .mod-addresslist-item .delete-icon[data-v-4c2805bf] {
+    background: url("./images/_del_address.png") no-repeat;
+    background-size: 100% auto; }
+
+.mod-info-line .info-item .desc-left[data-v-4c2805bf], .mod-info-line .info-item label[data-v-4c2805bf] {
+  display: block;
+  width: 25%;
+  position: relative; }
+
+.mod-info-line .info-item .desc-right[data-v-4c2805bf] {
+  text-align: right;
+  -webkit-box-flex: 1;
+  padding-right: .3rem; }
+
+.mod-addresslist-item .icon-wrap[data-v-4c2805bf] {
+  min-width: 1.5rem;
+  display: inline-block;
+  vertical-align: middle; }
+
+.color-333[data-v-4c2805bf] {
+  color: #333; }
+
+.color-888[data-v-4c2805bf] {
+  color: #888; }
+

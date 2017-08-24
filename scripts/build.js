@@ -40,10 +40,6 @@ if (libDefine) {
         exclude: ['**/index.html'],
         templateSettings: { selfcontained: true }
       }),
-      img({
-        limit: 1,
-        output: path.join(cwd, 'dist/images'),
-      }),
       vue({
         scss: {
           importer(url) {
@@ -54,6 +50,10 @@ if (libDefine) {
           }
         },
         css: path.join(cwd, 'dist/bundle.css'),
+      }),
+      img({
+        limit: 1,
+        output: path.join(cwd, 'dist/images'),
       }),
       babel({
         exclude: path.join(cwd, 'node_modules/**')
