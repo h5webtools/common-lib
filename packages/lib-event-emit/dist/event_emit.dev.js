@@ -135,6 +135,8 @@ var EventEmit = function () {
   return EventEmit;
 }();
 
+EventEmit.instance = new EventEmit();
+
 return EventEmit;
 
 })));

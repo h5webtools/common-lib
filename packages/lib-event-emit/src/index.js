@@ -78,4 +78,6 @@ class EventEmit {
   }
 }
 
+EventEmit.instance = new EventEmit();
+
 export default EventEmit;
