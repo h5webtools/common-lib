@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Popup from '@jyb/vue-common-popup'
+import Popup from '@jyb/lib-vue-popup'
 // import Popup from '../../popup'
 import CascadeList from './cascadeList.vue'
 import Vue from 'vue'

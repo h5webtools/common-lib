@@ -1,0 +1,249 @@
+<style lang="scss" scoped>
+    .coupons-list {
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: .03rem;
+        width: 6.9rem;
+        margin: .3rem auto;
+        position: relative;
+    }
+
+    .coupons-up {
+        background: #fff;
+        width: 6.5rem;
+        height: 1.4rem;
+        margin: 0 auto;
+        padding-top: .18rem;
+        border-bottom: .01rem dashed #999;        
+    }
+
+    .up-left {
+        min-width: 2.2rem;
+        float: left;
+        margin-top: .1rem;
+    } 
+
+    .coupons-value {
+        font-size: .7rem;
+        color: #ff6e34;
+        float: left;
+    }
+
+    .coupons-unit {
+        font-size: .3rem;
+        color: #ff6e34;
+        letter-spacing: 0;
+        text-align: center;
+        float: left;
+        margin-top: .4rem;
+        margin-left: .1rem;        
+    } 
+
+    .up-right {
+        float: left;
+        font-size: .2rem;
+    }
+
+    .coupons-title {
+        font-size: .3rem;
+        color: #333;
+        height: .4rem;
+        line-height: .4rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 4.1rem;        
+    }
+
+    .coupons-useinfo {
+        font-size: .2rem;
+        color: #ff6e34;
+        height: .28rem;
+        line-height: .4rem;        
+    }
+
+    .coupons-valid {
+        margin-top: .12rem;
+        font-size: .2rem;
+        height: .22rem;
+        line-height: .3rem;
+        color: #999;        
+    }
+
+    .coupons-down {
+        background: #fff;
+        font-size: .2rem;
+        color: #999;
+        margin: .2rem;        
+    }
+
+    .week_disabled_used::after {
+        background: url(data:image/png;base64,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) no-repeat;        
+    }
+
+    .month_disabled_used::after {
+        background: url(data:image/png;base64,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) no-repeat;
+    }
+
+    .disabled::after {
+        content: "";
+        background-size: .94rem .94rem;
+        position: absolute;
+        left: 5.96rem;
+        top: 0;
+        display: inline-block;
+        margin: 0 .08rem 0 0;
+        width: .94rem;
+        height: .94rem;        
+    }
+
+    .disabled * {
+        color: #ccc;
+    }    
+
+</style>
+
+<template>
+    <div :class="classObj"
+         @click="onClick(cid)">
+        <div class="coupons-up">
+            <div :class="currentValue.classes">
+                <p class="coupons-value">{{ value }}</p>
+                <p class="coupons-unit">{{ unit }}</p>
+            </div>
+            <div class="up-right">
+                <p class="coupons-title">{{ name }}</p>
+                <p class="coupons-useinfo">{{ useInfo }}</p>
+                <p class="coupons-valid">有效期至{{ expired_time }}</p>
+            </div>
+        </div>
+        <div class="coupons-down">{{ usage }}</div>
+    </div>
+</template>
+
+<script>
+const valueMap = {
+    4: {
+        value: function() {
+            return this.detail.value / 10
+        },
+        unit: '折',
+        classes: {
+            'up-left': true,
+            'ratioCoupons_up_left': true 
+        },
+        useInfo: function() {
+            return `已使用${((this.detail.total_amt - this.detail.remain_amt)/100).toFixed(2)}元,剩余${(this.detail.remain_amt/100).toFixed(2)}元`
+        }
+    },
+    5: {
+        value: function() {
+            return (this.detail.remain_amt/100).toFixed(2)
+        },
+        unit: '元',
+        useInfo: function() {
+            return `${this.detai.total_max - this.detail.total_remain_cnt}次,剩余${this.detail.total_remain_cnt}次`
+        },
+        classes: {
+            'up-left': true,
+        }
+    },
+    default: {
+        value: function() {
+            return this.amount / 100
+        },
+        unit: '元',
+        useInfo: function() {
+            return `满${this.amountVal ? parseInt(this.amountVal / 100, 10) : 0}元可用`
+        },
+        classes: {
+            'up-left': true,
+        }
+    }
+}
+
+export default {
+    name: 'coupon-item',
+    props: {
+        active: {
+            type: Boolean,
+            default: false,
+        },
+        cid: {
+            type: String,
+            required: true,
+            default: '0'
+        },
+        detail: {
+            type: Object,
+        },
+        is_period_use: {
+            type: Number,
+        },
+        type_id: {
+            type: String,
+        },
+        amount: {
+            type: String,
+        },
+        name: {
+            type: String,
+        },
+        expired_time: {
+            type: String,
+        },
+        amountVal: {
+            type: Number,
+        },
+        usage: {
+            type: String,
+        }
+    },
+    data() {
+        return {
+            valueMap
+        }
+    },
+    computed: {
+        classObj() {
+            const classes = {
+                'coupons-list': true,
+                'active': this.active,
+                'week_disabled_used': this.detail.period == 1 && is_period_use == 0,
+                'month_disabled_used': this.detail.period == 2 && is_period_use == 0,
+            }
+
+            classes.disabled = classes.week_disabled_used || classes.month_disabled_used
+            return classes
+        },
+        displayValue() {
+            const item = displayValues[this.type_id] || displayValues.default
+            return item
+        },
+        currentValue() {
+            return this.valueMap[this.type_id] || this.valueMap.default
+        },
+        unit() {
+            return this.currentValue.unit
+        },
+        value() {
+            return this.currentValue.value.call(this)
+        },
+        useInfo() {
+            return this.currentValue.useInfo.call(this)
+        },  
+        disabled() {
+            return (this.detail.period == 1 || this.detail.period == 2) && is_period_use == 0
+        }      
+    },
+    methods: {
+        onClick(cid) {
+            if (this.disabled) {
+                return 
+            }
+
+            this.$emit('click-coupon', cid)
+        }
+    }
+}
+</script>

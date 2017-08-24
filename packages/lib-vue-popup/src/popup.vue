@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-@import '~@jyb/lib-vue-overlay/dist/bundle.css';
+@import '~@jyb/lib-vue-overlay/dist/bundle.scss';
 .popup-wrap {
     position: fixed;
     bottom: 0;

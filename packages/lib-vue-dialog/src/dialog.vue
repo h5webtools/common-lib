@@ -15,7 +15,7 @@
  <!-- </transition> -->
 </template>
 <style lang="scss">
-    @import '~@jyb/lib-vue-overlay/dist/bundle.css';
+    @import '~@jyb/lib-vue-overlay/dist/bundle.scss';
     .dialog-wrap {
         position: absolute;
         top: 50%;

@@ -1,4 +1,19 @@
-@import url(~@jyb/lib-vue-overlay/dist/bundle.css);
+.bn-overlay[data-v-d875e38c][data-v-528b0884] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: .4;
+  z-index: 1000; }
+
+.overlay-fade-enter-active[data-v-d875e38c][data-v-528b0884], .overlay-fade-leave-active[data-v-d875e38c][data-v-528b0884] {
+  transition: opacity .4s; }
+
+.overlay-fade-enter[data-v-d875e38c][data-v-528b0884], .overlay-fade-leave-active[data-v-d875e38c][data-v-528b0884] {
+  opacity: 0 !important; }
+
 .bn-tips[data-v-528b0884] {
   position: fixed;
   top: 50%;

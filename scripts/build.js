@@ -43,13 +43,13 @@ if (libDefine) {
       vue({
         scss: {
           importer(url) {
-            if (url.startsWith('~') && !url.endsWith('css')) {
+            if (url.startsWith('~')) {
               const file = path.join(process.cwd(), 'node_modules', url.slice(1));
               return { file };
             }
           }
         },
-        css: path.join(cwd, 'dist/bundle.css'),
+        css: path.join(cwd, 'dist/bundle.scss'),
       }),
       img({
         limit: 1,

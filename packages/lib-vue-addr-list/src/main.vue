@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
     @import "~@jyb/common-sass/import-lib-mixins-rem";
-    @import "~@jyb/lib-vue-popup/dist/bundle.css";
+    @import "~@jyb/lib-vue-popup/dist/bundle.scss";
     // 设置1px边框
     $border-color: #e6e6e6;
     %border-top {
