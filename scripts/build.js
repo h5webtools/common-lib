@@ -41,7 +41,7 @@ if (libDefine) {
         templateSettings: { selfcontained: true }
       }),
       img({
-        limit: 0,
+        limit: 1,
         output: path.join(cwd, 'dist/images'),
       }),
       vue({ css: path.join(cwd, 'dist/bundle.css') }),

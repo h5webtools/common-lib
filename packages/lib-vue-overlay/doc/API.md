@@ -1,7 +1,8 @@
 # API
 
 ```javascript
-import PopMixin from 'lib-vue-overlay'
+import PopMixin from '@jyb/lib-vue-overlay'
+import '@jyb/lib-vue-overlay/dist/bundle.css'
 
 new Vue({
     mixins: [ PopMixin ]
