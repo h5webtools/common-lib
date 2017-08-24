@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-vue-switch",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "vue switch",
   "main": "dist/index.js",
   "scripts": {

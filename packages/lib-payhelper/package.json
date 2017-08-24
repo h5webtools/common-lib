@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-payhelper",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "统一支付模块",
   "main": "dist/demo.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "prodDest": "dist/payhelper.js"
   },
   "dependencies": {
-    "@jyb/lib-tips": "^0.2.5"
+    "@jyb/lib-tips": "^0.2.6"
   },
   "author": "",
   "license": "MIT"

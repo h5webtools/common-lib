@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-vue-dialog",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "对话框",
   "main": "dist/index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "prodDest": "dist/index.js"
   },
   "dependencies": {
-    "@jyb/lib-vue-overlay": "^0.2.5"
+    "@jyb/lib-vue-overlay": "^0.2.6"
   },
   "author": "xiaohai.xi@jyblife.com",
   "license": "MIT"
