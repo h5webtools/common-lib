@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-vue-city-list",
-  "version": "0.0.1",
+  "version": "0.2.5",
   "description": "vue地区列表",
   "main": "dist/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@jyb/common-sass": "^1.0.0",
-    "@jyb/lib-vue-popup": "^0.0.1"
+    "@jyb/lib-vue-popup": "^0.2.5"
   },
   "author": "xiaohai.xi@jyblife.com",
   "license": "MIT"

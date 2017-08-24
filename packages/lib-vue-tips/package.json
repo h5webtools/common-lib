@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-vue-tips",
-  "version": "0.0.1",
+  "version": "0.2.5",
   "description": "vue tips",
   "main": "dist/index.js.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "prodDest": "dist/index.js"
   },
   "dependencies": {
-    "@jyb/lib-vue-overlay": "^0.0.1"
+    "@jyb/lib-vue-overlay": "^0.2.5"
   },
   "author": "xiaohai.xi@jyblife.com",
   "license": "MIT"
