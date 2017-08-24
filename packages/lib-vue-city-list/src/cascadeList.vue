@@ -116,7 +116,6 @@
 </template>
 
 <script>
-import './images/_checked.png'
 export default {
     name: 'cascade-list',
     props: {

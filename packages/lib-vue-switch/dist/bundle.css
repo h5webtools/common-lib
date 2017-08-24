@@ -1,0 +1,39 @@
+.switch[data-v-4c2805bf] {
+  -webkit-appearance: none;
+  background-color: transparent;
+  border-color: transparent;
+  box-sizing: border-box;
+  position: relative;
+  width: .8rem;
+  height: .46rem;
+  border-radius: .46rem;
+  outline: none; }
+  .switch[data-v-4c2805bf]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: .8rem;
+    height: .46rem;
+    border-radius: .46rem;
+    background-color: #ccc;
+    transition: background-color .3s ease;
+    padding: 0.04rem; }
+  .switch[data-v-4c2805bf]::after {
+    content: '';
+    position: absolute;
+    top: .02rem;
+    left: 0;
+    width: .46rem;
+    height: .45rem;
+    border: 1px solid #ccc;
+    border-radius: .45rem;
+    background-color: #fff;
+    transform: translateX(0.03rem);
+    transition: transform .3s ease; }
+  .switch[data-v-4c2805bf]:checked::after {
+    border-color: #ff6e34;
+    transform: translateX(0.36rem); }
+  .switch[data-v-4c2805bf]:checked::before {
+    background-color: #ff6e34; }
+

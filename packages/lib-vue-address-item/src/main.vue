@@ -141,11 +141,6 @@
 </template>
 
 <script>
-import './images/_edit_address.png'
-import './images/_address_unchecked.png'
-import './images/_address_checked.png'
-import './images/_del_address.png'
-
 export default {
     name: 'baina-address-item',
     props: {

@@ -21,15 +21,15 @@
 </template>
 
 <script>
-import Popup from '@jyb/lib-vue-popup'
+import Popup from '@jyb/vue-common-popup'
+// import Popup from '../../popup'
 import CascadeList from './cascadeList.vue'
+import Vue from 'vue'
 
+Vue.component(Popup.name, Popup)
+Vue.component(CascadeList.name, CascadeList)
 export default {
     name: 'city-list',
-    components: {
-        Popup,
-        CascadeList
-    },
     props: {
         show: {
             type: Boolean,
