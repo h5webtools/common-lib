@@ -1,0 +1,97 @@
+@charset "UTF-8";
+/**
+ 设置1px上下边框
+ @include elementBorder(#e6e6e6, after, top)
+ @include elementBorder(#e6e6e6, before, bottom)
+*/
+@import url(~@jyb/lib-vue-popup/dist/bundle.css);
+.normal-title[data-v-4c2805bf]:after, .address-item[data-v-4c2805bf]:after {
+  content: "";
+  height: 0;
+  display: block;
+  border-bottom: 1px solid #e6e6e6;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+[data-dpi="2"] .normal-title[data-v-4c2805bf]:after, [data-dpi="2"] .address-item[data-v-4c2805bf]:after {
+  transform: scaleY(0.5);
+  transform-origin: 50% 0; }
+
+[data-dpi="3"] .normal-title[data-v-4c2805bf]:after, [data-dpi="3"] .address-item[data-v-4c2805bf]:after {
+  transform: scaleY(0.333);
+  transform-origin: 50% 0; }
+
+.title[data-v-4c2805bf] {
+  font-size: 15px;
+  text-align: center; }
+
+.normal-title[data-v-4c2805bf] {
+  padding: 15px 0;
+  text-align: center; }
+
+.content[data-v-4c2805bf] {
+  height: 6.5rem;
+  overflow-y: scroll;
+  overflow-x: hidden; }
+
+.icon[data-v-4c2805bf] {
+  display: inline-block;
+  background-repeat: no-repeat;
+  vertical-align: middle; }
+
+.address-item[data-v-4c2805bf] {
+  position: relative;
+  padding: 15px .8rem 15px .3rem; }
+  .address-item .checked-icon[data-v-4c2805bf] {
+    position: absolute; }
+  .address-item.chosen[data-v-4c2805bf] {
+    color: #f60; }
+    .address-item.chosen .checked-icon[data-v-4c2805bf] {
+      content: "";
+      width: .44rem;
+      height: .32rem;
+      margin-left: .3rem;
+      position: absolute;
+      top: 50%;
+      right: .3rem;
+      transform: translateY(-50%);
+      background: url("./images/_checked.png") 0 0 no-repeat;
+      background-size: 100% auto; }
+
+.add-more-addr[data-v-4c2805bf] {
+  text-align: center;
+  color: #ccc; }
+
+.mod-address-plus[data-v-4c2805bf] {
+  width: .4rem;
+  height: .4rem;
+  position: relative;
+  top: -2px;
+  margin-right: .1rem; }
+  .mod-address-plus.gray[data-v-4c2805bf] {
+    background: url("./images/_address_add_gray.png") no-repeat 0 0;
+    background-size: 100% auto; }
+
+.fn-button[data-v-4c2805bf] {
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+  position: absolute;
+  top: 0;
+  color: #999;
+  font-size: 0;
+  text-align: center; }
+  .fn-button.back[data-v-4c2805bf] {
+    left: 0; }
+  .fn-button span[data-v-4c2805bf] {
+    font-size: 15px;
+    color: #999; }
+
+.address-content[data-v-4c2805bf] {
+  height: 6.5rem;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden; }
+
