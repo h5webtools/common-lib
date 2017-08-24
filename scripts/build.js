@@ -44,7 +44,17 @@ if (libDefine) {
         limit: 1,
         output: path.join(cwd, 'dist/images'),
       }),
-      vue({ css: path.join(cwd, 'dist/bundle.css') }),
+      vue({
+        scss: {
+          importer(url) {
+            if (url.startsWith('~') && !url.endsWith('css')) {
+              const file = path.join(process.cwd(), 'node_modules', url.slice(1));
+              return { file };
+            }
+          }
+        },
+        css: path.join(cwd, 'dist/bundle.css'),
+      }),
       babel({
         exclude: path.join(cwd, 'node_modules/**')
       }),
