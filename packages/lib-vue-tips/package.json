@@ -2,7 +2,7 @@
   "name": "@jyb/lib-vue-tips",
   "version": "0.2.9",
   "description": "vue tips",
-  "main": "dist/index.js.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
