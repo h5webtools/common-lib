@@ -642,9 +642,11 @@ wv.invoke("selectBankCard", { title:"xxx", type:"xxx" cardId:"xxx", prdId:"xxxx"
 功能描述：添加银行卡 
 参数：title-标题
 type-页面类型，0为全部列表，1为还贷列表，默认0
-channel-添加类型，0为加油宝添加，1为存管添加
+channel-添加类型，0为加油宝添加，1为存管添加(>=4.7.0)
+cardType-列表拉取的银行卡类型，0为全部卡，1为提现卡(>=4.7.0)
 cardId-当前已选定银行卡id（可选）
 prdId-当前绑定套餐 id（可选）
+
 
 返回值：cardId –卡id
 cardNo –卡号

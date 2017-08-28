@@ -1,4 +1,4 @@
-import { createElement } from './util';
+import { createElement, isAndroid } from './util';
 import tipTemplate from '../dot/tip.dot';
 
 class Tips {
@@ -13,7 +13,7 @@ class Tips {
     };
 
     this.iconConf = {
-      loading: 'rotate-icon',
+      loading: isAndroid() ? 'rotate-svg' : 'rotate-icon',
       none: ''
     };
   }

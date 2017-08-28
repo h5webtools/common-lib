@@ -6,6 +6,11 @@ export const createElement = (function () {
   };
 }());
 
+export const isAndroid = function () {
+  return /android/i.test(window.navigator ? window.navigator.userAgent : '');
+};
+
 export default {
-  createElement
+  createElement,
+  isAndroid,
 };

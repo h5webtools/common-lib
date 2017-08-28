@@ -1,8 +1,8 @@
 {
-  "name": "@jyb/lib-tips",
-  "version": "0.2.12",
-  "description": "公共toast",
-  "main": "dist/tips.js",
+  "name": "@jyb/lib-zepto",
+  "version": "0.2.4",
+  "description": "zepto",
+  "main": "dist/zepto.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
@@ -18,14 +18,14 @@
     "url": ""
   },
   "keywords": [
-    "tips",
-    "ui"
+    "common",
+    "lib"
   ],
   "libDefine": {
-    "moduleName": "Tips",
-    "devDest": "dist/tips.dev.js",
-    "prodDest": "dist/tips.js"
+    "moduleName": "Zepto",
+    "devDest": "dist/zepto.dev.js",
+    "prodDest": "dist/zepto.js"
   },
-  "author": "",
+  "author": "xiaohai.xi@jyblife.com",
   "license": "MIT"
 }
