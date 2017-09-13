@@ -68,6 +68,8 @@ ErrorTracker构造函数
 
 ### 公共参数
 
+一般不需要修改，由库内部自动生成即可
+
 ```javascript
 // 页面地址
 link: location.href,
@@ -87,8 +89,14 @@ network: util.networkType
 
 ### 必填参数
 
+`pid`可以通过`window.g_config.tracker`修改，如果不定义，则使用默认值
+
+`t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`为`2`
+
+`badjs`用于筛选日志数据，一般不需要改动
+
 ```javascript
-// 产品ID，默认获取pathname第一个字符串
+// 产品ID，默认值为location.pathname（用/分割后）的下标为1的字符串
 pid: '',
 // 上报数据类型，会根据调用接口不同自动设置
 t_type: '', // 1: js错误，2: 接口错误上报
@@ -97,6 +105,8 @@ badjs: '1'
 ```
 
 ### 通用参数
+
+一般用户需要修改的就是通用参数
 
 当通过`window.onerror`或者使用`captureError`上报时候，`msg, line, col => c1`，`errStack => c2`，`url => c3`
 
