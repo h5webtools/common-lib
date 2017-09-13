@@ -47,11 +47,12 @@ npm run doc
   |- README.md
 ```
 
-`package.json`中需要配置`libDefine`字段，包含3个字段：
+`package.json`中需要配置`libDefine`字段，包含4个字段：
 
 - `moduleName`，模块名称，引入库文件的时候，会挂载在`window`下
 - `devDest`，开发编译输出文件
 - `prodDest`，发布编译输出文件
+- `minDest`，发布编译输出文件（压缩）
 
 ### 修改main字段
 
