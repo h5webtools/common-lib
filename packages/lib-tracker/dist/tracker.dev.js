@@ -148,12 +148,63 @@ function leftPad(str, len, ch) {
  * util
  */
 
-var hasOwn = Object.prototype.hasOwnProperty;
 var rhashcode = /\d\.\d{4}/;
+var UUID_KEY = '__TRACKER_UUID__';
 var networkType = '';
 
 // 立即获取网络类型
 getNetworkType();
+
+/**
+ * 获取用户ID
+ */
+function getCustId() {
+  return getQuery('userid') || getCookie('userid') || '';
+}
+
+/**
+ * 从querystring获取
+ * @param {String} name
+ */
+function getQuery(name) {
+  // 参数：变量名，url为空则表从当前页面的url中取
+  /* eslint-disable prefer-rest-params,prefer-template,no-useless-escape */
+  var u = arguments[1] || window.location.search.replace('&amp;', '&');
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+  var r = u.substr(u.indexOf('\?') + 1).match(reg);
+
+  return r != null ? r[2] : '';
+}
+
+/**
+ * 从cookie获取信息
+ * @param {*} name
+ */
+function getCookie(name) {
+  // 读取COOKIE
+  var reg = new RegExp('(^| )' + name + '(?:=([^;]*))?(;|$)');
+  var val = document.cookie.match(reg);
+
+  /* eslint-disable no-nested-ternary */
+  return val ? val[2] ? unescape(val[2]) : '' : null;
+}
+
+/**
+ * 生成uuid，并存储
+ */
+function getUUID() {
+  try {
+    var uuid = window.localStorage.getItem(UUID_KEY);
+
+    if (!uuid) {
+      uuid = makeHashCode();
+      window.localStorage.setItem(UUID_KEY, uuid);
+    }
+    return uuid;
+  } catch (e) {
+    return makeHashCode();
+  }
+}
 
 /**
  * location.pathname（用/分割后）的下标为1的字符串
@@ -250,29 +301,6 @@ function getTime() {
  * @param {Object} from
  * @param {String} key
  */
-function proxy(to, from, key) {
-  if (hasOwn.call(to, key)) return;
-  Object.defineProperty(to, key, {
-    enumerable: true,
-    configurable: true,
-    get: function get() {
-      return from[key];
-    },
-    set: function set(val) {
-      from[key] = val;
-    }
-  });
-}
-
-var util = {
-  getFirstPathName: getFirstPathName,
-  getPlatform: getPlatform,
-  getTime: getTime,
-  makeHashCode: makeHashCode,
-  networkType: networkType,
-  isError: isError,
-  proxy: proxy
-};
 
 /**
  * enum
@@ -346,6 +374,9 @@ var reportURL = {
 var AK = 'KVQiUTJf';
 var CMD = '65010000';
 
+var CUST_ID = getCustId();
+var UUID = getUUID();
+
 /**
  * 上报
  * @param {Object} options 用户选项
@@ -370,7 +401,7 @@ function report() {
     // 时间戳
     timestamp: new Date().getTime(),
     // 网络类型
-    network: util.networkType,
+    network: undefined,
     // badjs标识符
     badjs: IDENTIFIER.BAD_JS,
     // pid
@@ -386,17 +417,17 @@ function report() {
       cmd: CMD,
       data: [{
         sid: '', // 会话id（可选）
-        op_type: 'click', // click，touch，share
+        op_type: 'error',
         op_result: '', // （可选）
-        op_time: util.getTime(), // 事件发生的时间（时间戳）
+        op_time: getTime(), // 事件发生的时间（时间戳）
         op_object: '', // 操作对象，格式1000.1.1
         op_page: '', // h5为空（可选）
         op_params: _extends({
-          platform: util.getPlatform(), // 平台
+          platform: getPlatform(), // 平台
           in_app: os.jyb ? 1 : 0, // 1为加油宝app内，0为app外
-          cust_id: '', // 客户id
-          uniq_id: '', // 如果未登录设置此id,如果登录与custId一致
-          source: '',
+          cust_id: CUST_ID, // 客户id
+          uniq_id: CUST_ID || UUID, // 如果未登录设置此id,如果登录与custId一致
+          source: getQuery('channel') || getQuery('from') || '',
           act_id: '', // 活动ID
           group: '' // 用户群
         }, mergeParams)
@@ -421,7 +452,7 @@ function report() {
  * @param {String} url
  */
 function ping(url) {
-  var uuid = util.makeHashCode();
+  var uuid = makeHashCode();
   var img = new Image();
 
   // 防止回收内存导致数据上报丢失
@@ -491,7 +522,7 @@ var ErrorTracker = function () {
   }, {
     key: 'captureError',
     value: function captureError(ex, params) {
-      if (!util.isError(ex)) return;
+      if (!isError(ex)) return;
 
       // TODO: 如果堆栈过长是否应该先解析堆栈内容（msg, url, line, col, errStack）
       this._send(_extends({
@@ -537,7 +568,7 @@ function paramsAdaptor(params) {
  */
 
 var defaultOptions = {
-  pid: util.getFirstPathName(),
+  pid: getFirstPathName(),
   debug: false,
   collectWindowErrors: true,
   env: 'prod' // test/prod

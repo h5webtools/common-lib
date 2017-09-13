@@ -4,7 +4,7 @@
 
 import onError from './onerror';
 import report from '../report';
-import util from '../util';
+import * as util from '../util';
 import { TRACKER_TYPE } from '../enum';
 
 class ErrorTracker {

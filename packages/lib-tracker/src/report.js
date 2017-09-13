@@ -4,7 +4,7 @@
  */
 
 import env from './util/env';
-import util from './util';
+import * as util from './util';
 import { IDENTIFIER } from './enum';
 
 // 上报地址
@@ -15,6 +15,9 @@ const reportURL = {
 
 const AK = 'KVQiUTJf';
 const CMD = '65010000';
+
+const CUST_ID = util.getCustId();
+const UUID = util.getUUID();
 
 /**
  * 上报
@@ -53,7 +56,7 @@ function report(options = {}, trackParams = {}) {
       cmd: CMD,
       data: [{
         sid: '', // 会话id（可选）
-        op_type: 'click', // click，touch，share
+        op_type: 'error',
         op_result: '', // （可选）
         op_time: util.getTime(), // 事件发生的时间（时间戳）
         op_object: '', // 操作对象，格式1000.1.1
@@ -61,9 +64,9 @@ function report(options = {}, trackParams = {}) {
         op_params: Object.assign({
           platform: util.getPlatform(), // 平台
           in_app: env.jyb ? 1 : 0, // 1为加油宝app内，0为app外
-          cust_id: '', // 客户id
-          uniq_id: '', // 如果未登录设置此id,如果登录与custId一致
-          source: '',
+          cust_id: CUST_ID, // 客户id
+          uniq_id: CUST_ID || UUID, // 如果未登录设置此id,如果登录与custId一致
+          source: util.getQuery('channel') || util.getQuery('from') || '',
           act_id: '', // 活动ID
           group: '' // 用户群
         }, mergeParams)
