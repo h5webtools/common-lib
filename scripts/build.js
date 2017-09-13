@@ -44,14 +44,19 @@ if (libDefine) {
     ]
   };
 
+  const destFile = {
+    production: path.join(cwd, libDefine.prodDest || ''),
+    dev: path.join(cwd, libDefine.devDest || ''),
+    min: path.join(cwd, libDefine.minDest || '')
+  };
   const outputConfig = {
     format: 'umd',
     moduleName: libDefine.moduleName,
-    dest: isProd ? path.join(cwd, libDefine.prodDest) : path.join(cwd, libDefine.devDest),
-    sourceMap: !isProd
+    dest: destFile[process.env.NODE_ENV] || path.join(cwd, 'dist/bundle.js'),
+    sourceMap: !(isProd || isMin)
   };
 
-  if (isProd) {
+  if (isProd || isMin) {
     rollup.rollup(rollupConfig).then((bundle) => {
       bundle.write(outputConfig);
     });
