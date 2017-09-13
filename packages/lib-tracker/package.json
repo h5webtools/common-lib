@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
     "test": "node ../../scripts/test.js",
     "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
   },
@@ -24,6 +25,7 @@
   "libDefine": {
     "moduleName": "Tracker",
     "devDest": "dist/tracker.dev.js",
+    "minDest": "dist/tracker.min.js",
     "prodDest": "dist/tracker.js"
   },
   "author": "canye.wu@jyblife.com",
