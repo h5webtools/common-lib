@@ -103,6 +103,10 @@ export function makeHashCode(prefix) {
  * 获取网络类型
  */
 export function getNetworkType() {
+  if (networkType) {
+    return networkType;
+  }
+
   if (env.jyb && typeof wv !== 'undefined') {
     /* global wv */
     wv.ready(() => {

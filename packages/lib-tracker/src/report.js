@@ -40,7 +40,7 @@ function report(options = {}, trackParams = {}) {
     // 时间戳
     timestamp: new Date().getTime(),
     // 网络类型
-    network: util.networkType,
+    network: util.getNetworkType(),
     // badjs标识符
     badjs: IDENTIFIER.BAD_JS,
     // pid
