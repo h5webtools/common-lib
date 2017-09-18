@@ -2,7 +2,7 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global.Tracker = factory());
-}(this, (function () { 'use strict';
+}(this, (function () {
 
 /**
  * onerror
@@ -16,7 +16,9 @@ function onError() {
   var oldOnErrorHandler = window.onerror;
 
   /* eslint-disable space-before-function-paren */
-  window.onerror = function (msg, url, line, col, err) {
+  window.onerror = function (msg, url, line, col) {
+    var err = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+
     /* eslint-disable prefer-rest-params */
     var args = Array.prototype.slice.call(arguments);
 

@@ -7,7 +7,7 @@ function onError(options = {}, cb) {
   const oldOnErrorHandler = window.onerror;
 
   /* eslint-disable space-before-function-paren */
-  window.onerror = function(msg, url, line, col, err) {
+  window.onerror = function(msg, url, line, col, err = {}) {
     /* eslint-disable prefer-rest-params */
     const args = Array.prototype.slice.call(arguments);
 
