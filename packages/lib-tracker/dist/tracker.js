@@ -16,9 +16,7 @@ function onError() {
   var oldOnErrorHandler = window.onerror;
 
   /* eslint-disable space-before-function-paren */
-  window.onerror = function (msg, url, line, col) {
-    var err = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
-
+  window.onerror = function (msg, url, line, col, err) {
     /* eslint-disable prefer-rest-params */
     var args = Array.prototype.slice.call(arguments);
 
@@ -30,6 +28,7 @@ function onError() {
       return;
     }
 
+    err = err || {};
     // 不一定所有浏览器都支持 col 参数
     col = col || window.event && window.event.errorCharacter || 0;
     var stack = '';
