@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-tracker",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "description": "前端数据采集，目前包括错误信息",
   "main": "dist/tracker.js",
   "scripts": {
