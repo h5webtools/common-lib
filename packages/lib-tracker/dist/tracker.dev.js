@@ -370,7 +370,6 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
-// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'
@@ -576,33 +575,40 @@ var defaultOptions = {
   pid: getFirstPathName(),
   debug: false,
   collectWindowErrors: true,
-  env: 'prod' // test/prod
+  env: 'prod', // test/prod
+  commonParams: null
 };
 
 // 数据采集
 
 var Tracker = function () {
   function Tracker() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     classCallCheck(this, Tracker);
 
-    this.$options = _extends({}, defaultOptions, options);
-    this.trackParams = {};
-    this.initError();
+    this.$options = {};
+    this.commonParams = {};
+    this.inited = false;
   }
 
   /**
-   * 设置配置
-   * @param {Object} trackParams
+   * 初始化
+   * @param {Object} options
    */
 
 
   createClass(Tracker, [{
-    key: 'setParams',
-    value: function setParams() {
-      var trackParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    key: 'init',
+    value: function init() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      _extends(this.trackParams, trackParams);
+      if (this.inited) {
+        return;
+      }
+
+      this.$options = _extends({}, defaultOptions, options);
+      this.commonParams = this.$options.commonParams || {};
+      this.initError();
+      this.inited = true;
     }
 
     /**
@@ -613,7 +619,10 @@ var Tracker = function () {
   }, {
     key: 'log',
     value: function log(trackParams) {
-      report(this.$options, _extends({}, this.trackParams, trackParams));
+      if (!this.inited) {
+        throw new Error('必须先初始化');
+      }
+      report(this.$options, _extends({}, this.commonParams, trackParams));
     }
 
     /**
@@ -635,7 +644,7 @@ var Tracker = function () {
     key: 'initError',
     value: function initError() {
       // error
-      var errorTracker = new ErrorTracker(this.$options, this.trackParams);
+      var errorTracker = new ErrorTracker(this.$options, this.commonParams);
       this.error = errorTracker;
       this.Error = ErrorTracker;
       this.captureError = errorTracker.captureError.bind(errorTracker);
@@ -644,7 +653,7 @@ var Tracker = function () {
   return Tracker;
 }();
 
-var tracker = new Tracker((window.g_config || {}).tracker);
+var tracker = new Tracker();
 
 // properties
 tracker.Ctor = Tracker;

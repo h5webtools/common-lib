@@ -10,32 +10,18 @@ npm install @jyb/lib-tracker --save
 
 ### 引入
 
-引入会通过window.onerror自动捕获错误
-
 ```javascript
 import tracker from '@jyb/lib-tracker'
 ```
 
-### 修改配置
-
-如果需要修改一些配置，可以在引入`lib-tracker`之前设置`window.g_config`
+### 初始化
 
 ```javascript
-var g_config = {
-  tracker: {
-    pid: 'act',
-    debug: true,
-    env: 'test'
-  }
-};
-```
-
-### 设置公共参数
-
-设置之后，所有上报请求都会增加
-
-```javascript
-tracker.setParams({ isAndroid: true });
+tracker.init({
+  pid: 'act',
+  debug: true,
+  env: 'test'
+});
 ```
 
 ### 手动上报脚本异常

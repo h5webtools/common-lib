@@ -6,7 +6,7 @@ import tracker from '@jyb/lib-tracker'
 
 ## 用户选项
 
-会从`window.g_config.tracker`中获取，如果没有则使用默认值
+通过`tracker.init`传入，如果没有则使用默认值
 
 ### pid
 - Type: `String`
@@ -32,7 +32,17 @@ import tracker from '@jyb/lib-tracker'
 
 是否使用window.onerror捕获错误
 
+### commonParams
+- Type: `Object`
+- Default: null
+
+公共参数，如果设置，上报请求都会加上，`params`为`Object`类型，可参考下面采集数据部分内容
+
 ## 属性
+
+### tracker.init
+
+Tracker初始化
 
 ### tracker.Ctor
 
@@ -48,9 +58,9 @@ ErrorTracker构造函数
 
 ## 方法
 
-### tracker.setParams(params)
+### tracker.init(options)
 
-设置公共参数，如果设置，上报请求都会加上，`params`为`Object`类型，可参考下面采集数据部分内容
+初始化，`options`可以参考上面的`用户选项`
 
 ### tracker.log(params)
 

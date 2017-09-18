@@ -11,23 +11,31 @@ const defaultOptions = {
   pid: util.getFirstPathName(),
   debug: false,
   collectWindowErrors: true,
-  env: 'prod' // test/prod
+  env: 'prod', // test/prod
+  commonParams: null
 };
 
 // 数据采集
 class Tracker {
-  constructor(options = {}) {
-    this.$options = Object.assign({}, defaultOptions, options);
-    this.trackParams = {};
-    this.initError();
+  constructor() {
+    this.$options = {};
+    this.commonParams = {};
+    this.inited = false;
   }
 
   /**
-   * 设置配置
-   * @param {Object} trackParams
+   * 初始化
+   * @param {Object} options
    */
-  setParams(trackParams = {}) {
-    Object.assign(this.trackParams, trackParams);
+  init(options = {}) {
+    if (this.inited) {
+      return;
+    }
+
+    this.$options = Object.assign({}, defaultOptions, options);
+    this.commonParams = this.$options.commonParams || {};
+    this.initError();
+    this.inited = true;
   }
 
   /**
@@ -35,7 +43,10 @@ class Tracker {
    * @param {Object} trackParams
    */
   log(trackParams) {
-    report(this.$options, Object.assign({}, this.trackParams, trackParams));
+    if (!this.inited) {
+      throw new Error('必须先初始化');
+    }
+    report(this.$options, Object.assign({}, this.commonParams, trackParams));
   }
 
   /**
@@ -51,14 +62,14 @@ class Tracker {
    */
   initError() {
     // error
-    const errorTracker = new ErrorTracker(this.$options, this.trackParams);
+    const errorTracker = new ErrorTracker(this.$options, this.commonParams);
     this.error = errorTracker;
     this.Error = ErrorTracker;
     this.captureError = errorTracker.captureError.bind(errorTracker);
   }
 }
 
-const tracker = new Tracker((window.g_config || {}).tracker);
+const tracker = new Tracker();
 
 // properties
 tracker.Ctor = Tracker;
