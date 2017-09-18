@@ -52,7 +52,10 @@ if (ipod) {
  * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
  */
 
-function onError(options, cb) {
+function onError() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var cb = arguments[1];
+
   // 先存下旧的onerror事件处理函数
   var oldOnErrorHandler = window.onerror;
 
@@ -67,6 +70,9 @@ function onError(options, cb) {
 
     var error = processError.apply(window, args);
     if (error.msg.indexOf('Script error') > -1 && !error.url) {
+      if (options.debug) {
+        console.log(error.msg);
+      }
       return false;
     }
 
@@ -369,6 +375,7 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
+// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'

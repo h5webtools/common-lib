@@ -5,7 +5,7 @@
 
 import env from '../util/env';
 
-function onError(options, cb) {
+function onError(options = {}, cb) {
   // 先存下旧的onerror事件处理函数
   const oldOnErrorHandler = window.onerror;
 
@@ -20,6 +20,9 @@ function onError(options, cb) {
 
     const error = processError.apply(window, args);
     if (error.msg.indexOf('Script error') > -1 && !error.url) {
+      if (options.debug) {
+        console.log(error.msg);
+      }
       return false;
     }
 

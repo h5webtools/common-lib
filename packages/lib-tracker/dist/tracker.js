@@ -52,7 +52,10 @@ if (ipod) {
  * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
  */
 
-function onError(options, cb) {
+function onError() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var cb = arguments[1];
+
   // 先存下旧的onerror事件处理函数
   var oldOnErrorHandler = window.onerror;
 
@@ -67,6 +70,9 @@ function onError(options, cb) {
 
     var error = processError.apply(window, args);
     if (error.msg.indexOf('Script error') > -1 && !error.url) {
+      if (options.debug) {
+        console.log(error.msg);
+      }
       return false;
     }
 
