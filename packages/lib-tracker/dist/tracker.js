@@ -49,6 +49,7 @@ if (ipod) {
 
 /**
  * onerror
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
  */
 
 function onError(options, cb) {
@@ -70,7 +71,7 @@ function onError(options, cb) {
     }
 
     cb && cb(error);
-    return true;
+    return false;
   };
 }
 
@@ -79,11 +80,12 @@ function processError(msg, url, line, col, err) {
 
   if (os.ie) {
     var evt = window.event;
-    msg = msg || evt.errorMessage;
-    url = url || evt.errorUrl;
-    line = line || evt.errorLine;
-    col = col || evt.errorCharacter;
+    msg = msg || evt.errorMessage || '';
+    url = url || evt.errorUrl || '';
+    line = line || evt.errorLine || '';
+    col = col || evt.errorCharacter || '';
   } else {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
     url = url || err && err.fileName || '';
     line = line || err && err.lineNumber || '';
     col = col || err && err.columnNumber || '';
@@ -95,7 +97,7 @@ function processError(msg, url, line, col, err) {
     url: url,
     line: line,
     col: col,
-    stack: stack.toString()
+    errStack: stack.toString()
   };
 }
 

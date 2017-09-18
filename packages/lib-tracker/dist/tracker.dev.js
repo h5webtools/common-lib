@@ -49,6 +49,7 @@ if (ipod) {
 
 /**
  * onerror
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
  */
 
 function onError(options, cb) {
@@ -70,7 +71,7 @@ function onError(options, cb) {
     }
 
     cb && cb(error);
-    return true;
+    return false;
   };
 }
 
@@ -79,11 +80,12 @@ function processError(msg, url, line, col, err) {
 
   if (os.ie) {
     var evt = window.event;
-    msg = msg || evt.errorMessage;
-    url = url || evt.errorUrl;
-    line = line || evt.errorLine;
-    col = col || evt.errorCharacter;
+    msg = msg || evt.errorMessage || '';
+    url = url || evt.errorUrl || '';
+    line = line || evt.errorLine || '';
+    col = col || evt.errorCharacter || '';
   } else {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
     url = url || err && err.fileName || '';
     line = line || err && err.lineNumber || '';
     col = col || err && err.columnNumber || '';
@@ -95,7 +97,7 @@ function processError(msg, url, line, col, err) {
     url: url,
     line: line,
     col: col,
-    stack: stack.toString()
+    errStack: stack.toString()
   };
 }
 
@@ -367,7 +369,6 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
-// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'

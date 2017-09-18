@@ -18,7 +18,7 @@ import tracker from '@jyb/lib-tracker'
 - Type: `Boolean`
 - Default: false
 
-是否调试模式，如果设置为true，会输出日志，并且正常抛出错误，不发送上报请求
+是否调试模式，如果设置为true，会输出日志，不发送上报请求
 
 ### env
 - Type: `String`
