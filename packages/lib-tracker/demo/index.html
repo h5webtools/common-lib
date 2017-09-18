@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input class="parse" type="button" value="parse">
+  <div class="error-info"></div>
+  <script src="../dist/tracker.dev.js"></script>
+  <script>
+    (function() {
+      Tracker.init({
+        pid: 'haha',
+        debug: true,
+        env: 'test'
+      });
+    })();
+  </script>
+
+  <script src="./tips.js"></script>
+  <script src="./source_map.js"></script>
+  <script>
+    var sourceMapObj = {"version":3,"file":"tips.js","sources":["../src/util.js","../src/index.js"],"sourcesContent":["export const createElement = (function () {\n  const container = document.createElement('div');\n  return function (html) {\n    container.innerHTML = html;\n    return container.children[0];\n  };\n}());\n\nexport const isAndroid = function () {\n  return /android/i.test(window.navigator ? window.navigator.userAgent : '');\n};\n\nexport default {\n  createElement,\n  isAndroid,\n};\n","import { createElement, isAndroid } from './util';\nimport tipTemplate from '../dot/tip.dot';\n\nclass Tips {\n  constructor() {\n    this.tipsHtml = null;\n    this.ptr = null;\n    this.config = {\n      msg: '',\n      isLoading: false,\n      autoHide: true,\n      hideTime: 1200\n    };\n\n    this.iconConf = {\n      loading: isAndroid() ? 'rotate-svg' : 'rotate-icon',\n      none: ''\n    };\n  }\n\n  /**\n   * @param {object} option\n   */\n  showTips(option) {\n    console.log(option.test);\n    if (this.tipsHtml) {\n      return;\n    }\n\n    const conf = Object.assign({}, this.config, option);\n    const html = tipTemplate({ text: conf.msg, icon: conf.isLoading ? this.iconConf.loading : '' });\n    this.tipsHtml = createElement(html);\n    document.body.insertBefore(this.tipsHtml, null);\n\n    if (conf.autoHide) {\n      setTimeout(() => {\n        this.closeTips();\n      }, conf.hideTime);\n    }\n\n    this.lock = true;\n  }\n\n  /**\n   * @param {string} message\n   */\n  showLoading(message) {\n    this.showTips({\n      msg: message || '努力加载中...',\n      isLoading: true,\n      autoHide: false\n    });\n  }\n\n  /**\n   * @param {string} message\n   */\n  showError(message) {\n    clearInterval(this.ptr);\n    this.ptr = setInterval(() => {\n      if (!this.tipsHtml) {\n        this.showTips({\n          msg: message\n        });\n\n        clearInterval(this.ptr);\n        this.ptr = null;\n      }\n    }, 200);\n  }\n\n  closeTips() {\n    if (!this.tipsHtml) {\n      return this;\n    }\n\n    this.tipsHtml.parentNode.removeChild(this.tipsHtml);\n    this.tipsHtml = null;\n    this.lock = false;\n    return this;\n  }\n}\n\nexport default new Tips();\n"],"names":["createElement","container","document","html","innerHTML","children","isAndroid","test","window","navigator","userAgent","tipsHtml","ptr","config","iconConf","option","log","this","conf","babelHelpers.extends","tipTemplate","text","msg","icon","isLoading","loading","body","insertBefore","autoHide","closeTips","hideTime","lock","message","showTips","setInterval","_this2","parentNode","removeChild"],"mappings":"gXAAO,IAAMA,EAAiB,eACtBC,EAAYC,SAASF,cAAc,cAClC,SAAUG,YACLC,UAAYD,EACfF,EAAUI,SAAS,IAJA,GAQjBC,EAAY,4BACLC,KAAKC,OAAOC,UAAYD,OAAOC,UAAUC,UAAY,ogBC0E1D,2CA9ENC,SAAW,UACXC,IAAM,UACNC,YACE,cACM,YACD,WACA,WAGPC,kBACMR,IAAc,aAAe,mBAChC,+CAODS,yBACCC,IAAID,EAAOR,OACfU,KAAKN,cAIHO,EAAOC,KAAkBF,KAAKJ,OAAQE,GACtCZ,EAAOiB,GAAcC,KAAMH,EAAKI,IAAKC,KAAML,EAAKM,UAAYP,KAAKH,SAASW,QAAU,UACrFd,SAAWX,EAAcG,YACrBuB,KAAKC,aAAaV,KAAKN,SAAU,MAEtCO,EAAKU,qBACI,aACJC,aACJX,EAAKY,eAGLC,MAAO,uCAMFC,QACLC,cACED,GAAW,sBACL,YACD,sCAOJA,4BACMf,KAAKL,UACdA,IAAMsB,YAAY,WAChBC,EAAKxB,aACHsB,cACED,kBAGOG,EAAKvB,OACdA,IAAM,OAEZ,gDAIEK,KAAKN,eAILA,SAASyB,WAAWC,YAAYpB,KAAKN,eACrCA,SAAW,UACXoB,MAAO,EACLd,MANEA"};
+  </script>
+  <script>
+    (function() {
+      document.querySelector('.parse').addEventListener('click', () => {
+        const fields = {
+          line: 1,
+          col: 1342
+        };
+        const smc = new sourceMap.SourceMapConsumer(sourceMapObj);
+        const origin = smc.originalPositionFor({
+          line: parseInt(fields.line, 10),
+          column: parseInt(fields.col, 10)
+        });
+
+        document.querySelector('.error-info').innerHTML = JSON.stringify(origin, null, 2);
+      });
+
+      try {
+        console.log(obj.name);
+        console.log(obj.age);
+      } catch (e) {
+        Tracker.captureError(e);
+      }
+
+      Tips.showTips();
+    })();
+  </script>
+</body>
+
+</html>
