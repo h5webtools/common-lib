@@ -16,6 +16,9 @@ const os = {};
 // jyb app
 os.jyb = inApp;
 
+// ie
+os.ie = 'ActiveXObject' in window;
+
 // android
 if (android) {
   os.android = true;

@@ -2,66 +2,7 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global.Tracker = factory());
-}(this, (function () {
-
-/**
- * onerror
- */
-
-function onError() {
-  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var cb = arguments[1];
-
-  // 先存下旧的onerror事件处理函数
-  var oldOnErrorHandler = window.onerror;
-
-  /* eslint-disable space-before-function-paren */
-  window.onerror = function (msg, url, line, col, err) {
-    /* eslint-disable prefer-rest-params */
-    var args = Array.prototype.slice.call(arguments);
-
-    if (oldOnErrorHandler) {
-      oldOnErrorHandler.apply(window, args);
-    }
-
-    if (msg !== 'Script error.' && !url) {
-      return;
-    }
-
-    err = err || {};
-    // 不一定所有浏览器都支持 col 参数
-    col = col || window.event && window.event.errorCharacter || 0;
-    var stack = '';
-    if (!err.stack) {
-      // 通过 callee 获取堆栈信息
-      var ext = [];
-
-      /* eslint-disable no-caller,no-restricted-properties */
-      var f = arguments.callee.caller;
-      var c = 3; // 拿3层信息
-      while (f && --c > 0) {
-        ext.push(f.toString());
-        if (f === f.caller) {
-          break;
-        }
-        f = f.caller;
-      }
-      stack = ext.join('');
-    } else {
-      stack = err.stack;
-    }
-
-    cb && cb({
-      msg: msg,
-      url: url,
-      line: line,
-      col: col,
-      errStack: stack.toString()
-    });
-
-    return !options.debug;
-  };
-}
+}(this, (function () { 'use strict';
 
 /**
  * 环境
@@ -80,6 +21,9 @@ var os = {};
 
 // jyb app
 os.jyb = inApp;
+
+// ie
+os.ie = 'ActiveXObject' in window;
 
 // android
 if (android) {
@@ -101,6 +45,58 @@ if (ipad) {
 if (ipod) {
   os.ios = os.ipod = true;
   os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
+}
+
+/**
+ * onerror
+ */
+
+function onError(options, cb) {
+  // 先存下旧的onerror事件处理函数
+  var oldOnErrorHandler = window.onerror;
+
+  /* eslint-disable space-before-function-paren */
+  window.onerror = function () /* msg, url, line, col, err */{
+    /* eslint-disable prefer-rest-params */
+    var args = Array.prototype.slice.call(arguments);
+
+    if (oldOnErrorHandler) {
+      oldOnErrorHandler.apply(window, args);
+    }
+
+    var error = processError.apply(window, args);
+    if (error.msg.indexOf('Script error') > -1 && !error.url) {
+      return false;
+    }
+
+    cb && cb(error);
+    return true;
+  };
+}
+
+function processError(msg, url, line, col, err) {
+  var stack = '';
+
+  if (os.ie) {
+    var evt = window.event;
+    msg = msg || evt.errorMessage;
+    url = url || evt.errorUrl;
+    line = line || evt.errorLine;
+    col = col || evt.errorCharacter;
+  } else {
+    url = url || err && err.fileName || '';
+    line = line || err && err.lineNumber || '';
+    col = col || err && err.columnNumber || '';
+    stack = err && err.stack || '';
+  }
+
+  return {
+    msg: msg,
+    url: url,
+    line: line,
+    col: col,
+    stack: stack.toString()
+  };
 }
 
 /**
