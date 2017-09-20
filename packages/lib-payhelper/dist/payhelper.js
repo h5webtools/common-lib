@@ -15,55 +15,167 @@ function createCommonjsModule(fn, module) {
 }
 
 var tips = createCommonjsModule(function (module, exports) {
-  !function (t, i) {
-    module.exports = i();
-  }(commonjsGlobal, function () {
-    "use strict";
-    function t(t) {
-      return '<div id="bubble"> <div class="mod-spinner"> <div class="spinner-wrap"><span class="' + t.icon + '"></span><p class="text" id="bubble-text">' + t.text + "</p> </div> </div></div>";
-    }var i = function () {
-      var t = document.createElement("div");return function (i) {
-        return t.innerHTML = i, t.children[0];
+  (function (global, factory) {
+    module.exports = factory();
+  })(commonjsGlobal, function () {
+    'use strict';
+
+    var createElement = function () {
+      var container = document.createElement('div');
+      return function (html) {
+        container.innerHTML = html;
+        return container.children[0];
       };
-    }(),
-        n = function n(t, i) {
-      if (!(t instanceof i)) throw new TypeError("Cannot call a class as a function");
-    },
-        e = function () {
-      function t(t, i) {
-        for (var n = 0; n < i.length; n++) {
-          var e = i[n];e.enumerable = e.enumerable || !1, e.configurable = !0, "value" in e && (e.writable = !0), Object.defineProperty(t, e.key, e);
+    }();
+
+    var isAndroid = function isAndroid() {
+      return (/android/i.test(window.navigator ? window.navigator.userAgent : '')
+      );
+    };
+
+    function anonymous(it
+    /**/) {
+      var out = '<div id="bubble"> <div class="mod-spinner"> <div class="spinner-wrap"><span class="' + it.icon + '"></span><p class="text" id="bubble-text">' + it.text + '</p> </div> </div></div>';return out;
+    }
+
+    var classCallCheck = function classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    };
+
+    var createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
         }
-      }return function (i, n, e) {
-        return n && t(i.prototype, n), e && t(i, e), i;
+      }
+
+      return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
       };
-    }(),
-        o = Object.assign || function (t) {
+    }();
+
+    var _extends = Object.assign || function (target) {
       for (var i = 1; i < arguments.length; i++) {
-        var n = arguments[i];for (var e in n) {
-          Object.prototype.hasOwnProperty.call(n, e) && (t[e] = n[e]);
-        }
-      }return t;
-    };return new (function () {
-      function s() {
-        n(this, s), this.tipsHtml = null, this.ptr = null, this.config = { msg: "", isLoading: !1, autoHide: !0, hideTime: 1200 }, this.iconConf = { loading: "rotate-icon", none: "" };
-      }return e(s, [{ key: "showTips", value: function value(n) {
-          var e = this;if (!this.tipsHtml) {
-            var s = o({}, this.config, n),
-                r = t({ text: s.msg, icon: s.isLoading ? this.iconConf.loading : "" });this.tipsHtml = i(r), document.body.insertBefore(this.tipsHtml, null), s.autoHide && setTimeout(function () {
-              e.closeTips();
-            }, s.hideTime), this.lock = !0;
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
           }
-        } }, { key: "showLoading", value: function value(t) {
-          this.showTips({ msg: t || "努力加载中...", isLoading: !0, autoHide: !1 });
-        } }, { key: "showError", value: function value(t) {
-          var i = this;clearInterval(this.ptr), this.ptr = setInterval(function () {
-            i.tipsHtml || (i.showTips({ msg: t }), clearInterval(i.ptr), i.ptr = null);
+        }
+      }
+
+      return target;
+    };
+
+    var Tips = function () {
+      function Tips() {
+        classCallCheck(this, Tips);
+
+        this.tipsHtml = null;
+        this.ptr = null;
+        this.config = {
+          msg: '',
+          isLoading: false,
+          autoHide: true,
+          hideTime: 1200
+        };
+
+        this.iconConf = {
+          loading: isAndroid() ? 'rotate-svg' : 'rotate-icon',
+          none: ''
+        };
+      }
+
+      /**
+       * @param {object} option
+       */
+
+      createClass(Tips, [{
+        key: 'showTips',
+        value: function showTips(option) {
+          var _this = this;
+
+          if (this.tipsHtml) {
+            return;
+          }
+
+          var conf = _extends({}, this.config, option);
+          var html = anonymous({ text: conf.msg, icon: conf.isLoading ? this.iconConf.loading : '' });
+          this.tipsHtml = createElement(html);
+          document.body.insertBefore(this.tipsHtml, null);
+
+          if (conf.autoHide) {
+            setTimeout(function () {
+              _this.closeTips();
+            }, conf.hideTime);
+          }
+
+          this.lock = true;
+        }
+
+        /**
+         * @param {string} message
+         */
+
+      }, {
+        key: 'showLoading',
+        value: function showLoading(message) {
+          this.showTips({
+            msg: message || '努力加载中...',
+            isLoading: true,
+            autoHide: false
+          });
+        }
+
+        /**
+         * @param {string} message
+         */
+
+      }, {
+        key: 'showError',
+        value: function showError(message) {
+          var _this2 = this;
+
+          clearInterval(this.ptr);
+          this.ptr = setInterval(function () {
+            if (!_this2.tipsHtml) {
+              _this2.showTips({
+                msg: message
+              });
+
+              clearInterval(_this2.ptr);
+              _this2.ptr = null;
+            }
           }, 200);
-        } }, { key: "closeTips", value: function value() {
-          return this.tipsHtml ? (this.tipsHtml.parentNode.removeChild(this.tipsHtml), this.tipsHtml = null, this.lock = !1, this) : this;
-        } }]), s;
-    }())();
+        }
+      }, {
+        key: 'closeTips',
+        value: function closeTips() {
+          if (!this.tipsHtml) {
+            return this;
+          }
+
+          this.tipsHtml.parentNode.removeChild(this.tipsHtml);
+          this.tipsHtml = null;
+          this.lock = false;
+          return this;
+        }
+      }]);
+      return Tips;
+    }();
+
+    var index = new Tips();
+
+    return index;
   });
 });
 
@@ -164,15 +276,18 @@ var payHandler = (_payHandler = {}, defineProperty(_payHandler, PayTypes.baofooP
 }), defineProperty(_payHandler, PayTypes.baiduPay, function () {
   // 直接跳转支付url
   location.href = this.payData.payInfo.pay_url;
-}), defineProperty(_payHandler, PayTypes.QQpay, function () {
-  if (mqq) {
+}), defineProperty(_payHandler, PayTypes.QQpay, function (_ref3) {
+  var _ref3$returnUrl = _ref3.returnUrl,
+      returnUrl = _ref3$returnUrl === undefined ? 'https://cdn.jyblife.com/html/wxpay/payResult.html' : _ref3$returnUrl;
+
+  if (typeof mqq !== 'undefined') {
     // eslint-disable-line no-undef
     mqq.tenpay.pay({ // eslint-disable-line no-undef
       tokenId: this.payData.payInfo.prepay_id
     }, function (result, code) {
       if (code == 0 || result.resultCode == 0) {
         // eslint-disable-line eqeqeq
-        location.replace('https://cdn.jyblife.com/html/wxpay/payResult.html');
+        location.replace(returnUrl);
       } else {
         tips.showError('支付失败');
       }

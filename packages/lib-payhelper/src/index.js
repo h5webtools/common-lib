@@ -64,13 +64,13 @@ const payHandler = {
     // 直接跳转支付url
     location.href = this.payData.payInfo.pay_url;
   },
-  [PayTypes.QQpay]: function () {
-    if (mqq) { // eslint-disable-line no-undef
+  [PayTypes.QQpay]: function ({ returnUrl = 'https://cdn.jyblife.com/html/wxpay/payResult.html' }) {
+    if (typeof mqq !== 'undefined') { // eslint-disable-line no-undef
       mqq.tenpay.pay({// eslint-disable-line no-undef
         tokenId: this.payData.payInfo.prepay_id
       }, (result, code) => {
         if (code == 0 || result.resultCode == 0) { // eslint-disable-line eqeqeq
-          location.replace('https://cdn.jyblife.com/html/wxpay/payResult.html');
+          location.replace(returnUrl);
         } else {
           tips.showError('支付失败');
         }
