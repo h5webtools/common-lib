@@ -78,6 +78,14 @@ ErrorTracker对象
 
 ErrorTracker构造函数
 
+### tracker.api
+
+ApiTracker对象
+
+### tracker.Api
+
+ApiTracker构造函数
+
 ## 方法
 
 ### tracker.init(options)
@@ -121,7 +129,7 @@ network: util.networkType
 
 ### 必填参数
 
-`pid`可以通过`window.g_config.tracker`修改，如果不定义，则使用默认值
+`pid`可以在初始化的时候传入，如果不定义，则使用默认值
 
 `t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`为`2`
 
