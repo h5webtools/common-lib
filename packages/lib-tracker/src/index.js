@@ -8,11 +8,12 @@ import * as util from './util';
 import { TRACKER_TYPE } from './enum';
 
 const defaultOptions = {
-  pid: util.getFirstPathName(),
+  pid: util.getFirstPathName(), // 产品ID
   debug: false,
-  collectWindowErrors: true,
-  env: 'prod', // test/prod
-  commonParams: null
+  collectWindowErrors: true, // 是否通过window.onerror收集
+  stackDepth: 8, // 堆栈深度
+  env: 'prod', // 上报环境，test/prod
+  commonParams: null // 公共参数
 };
 
 // 数据采集
