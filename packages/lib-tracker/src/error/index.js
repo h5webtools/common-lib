@@ -37,8 +37,8 @@ class ErrorTracker {
    */
   _paramsAdaptor(params) {
     // msg, line, col => c1
-    // stack.toString() => c2
-    // url => c3
+    // url => c2
+    // stack.toString() => c3
     const ps = ['msg', 'line', 'col', 'url', 'stack'];
     const options = this.$options;
 
