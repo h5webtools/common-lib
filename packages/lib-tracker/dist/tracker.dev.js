@@ -384,7 +384,6 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
-// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'
@@ -683,7 +682,7 @@ var ApiTracker = function () {
 
       Ctor.prototype.send = function (data) {
         this._apiTrackData.start = Date.now();
-        this._apiTrackData.body = JSON.stringify(data) || '';
+        this._apiTrackData.body = data ? JSON.stringify(data) : '';
         that._addEvent(this);
         return originSend.apply(this, arguments);
       };

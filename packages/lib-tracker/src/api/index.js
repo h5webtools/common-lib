@@ -61,7 +61,7 @@ class ApiTracker {
 
     Ctor.prototype.send = function (data) {
       this._apiTrackData.start = Date.now();
-      this._apiTrackData.body = JSON.stringify(data) || '';
+      this._apiTrackData.body = data ? JSON.stringify(data) : '';
       that._addEvent(this);
       return originSend.apply(this, arguments);
     };
