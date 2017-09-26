@@ -138,7 +138,7 @@ network: util.networkType
 
 `pid`可以在初始化的时候传入，如果不定义，则使用默认值
 
-`t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`为`2`
+`t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`自动设置为`2`
 
 `badjs`用于筛选日志数据，一般不需要改动
 

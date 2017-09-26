@@ -5,6 +5,71 @@
 }(this, (function () { 'use strict';
 
 /**
+ * onerror
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
+ */
+
+/**
+ * window.onerror
+ * @param {Object} options 选项
+ * @param {Function} cb 回调
+ */
+function onError() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var cb = arguments[1];
+
+  // 先存下旧的onerror事件处理函数
+  var oldOnErrorHandler = window.onerror;
+
+  /* eslint-disable space-before-function-paren */
+  window.onerror = function () /* msg, url, line, col, err */{
+    /* eslint-disable prefer-rest-params */
+    var args = Array.prototype.slice.call(arguments);
+
+    if (oldOnErrorHandler) {
+      oldOnErrorHandler.apply(window, args);
+    }
+
+    var error = processError.apply(window, args);
+    if (error.msg.indexOf('Script error') > -1 && !error.url) {
+      if (options.debug) {
+        console.log(error.msg);
+      }
+      return false;
+    }
+
+    cb && cb(error);
+    return false;
+  };
+}
+
+/**
+ * 处理错误信息
+ * @param {String} msg
+ * @param {String} url
+ * @param {String} line
+ * @param {String} col
+ * @param {Object} err
+ */
+function processError(msg, url, line, col, err) {
+  var stack = '';
+
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+  url = url || err && err.fileName || '';
+  line = line || err && err.lineNumber || '';
+  col = col || err && err.columnNumber || '';
+  stack = err && err.stack || '';
+
+  return {
+    msg: msg,
+    url: url,
+    line: line,
+    col: col,
+    stack: stack
+  };
+}
+
+/**
  * 环境
  */
 
@@ -55,66 +120,6 @@ function getEnv(ua) {
 }
 
 var env = getEnv(window.navigator.userAgent);
-
-/**
- * onerror
- * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
- */
-
-function onError() {
-  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var cb = arguments[1];
-
-  // 先存下旧的onerror事件处理函数
-  var oldOnErrorHandler = window.onerror;
-
-  /* eslint-disable space-before-function-paren */
-  window.onerror = function () /* msg, url, line, col, err */{
-    /* eslint-disable prefer-rest-params */
-    var args = Array.prototype.slice.call(arguments);
-
-    if (oldOnErrorHandler) {
-      oldOnErrorHandler.apply(window, args);
-    }
-
-    var error = processError.apply(window, args);
-    if (error.msg.indexOf('Script error') > -1 && !error.url) {
-      if (options.debug) {
-        console.log(error.msg);
-      }
-      return false;
-    }
-
-    cb && cb(error);
-    return false;
-  };
-}
-
-function processError(msg, url, line, col, err) {
-  var stack = '';
-
-  if (env.ie) {
-    var evt = window.event;
-    msg = msg || evt.errorMessage || '';
-    url = url || evt.errorUrl || '';
-    line = line || evt.errorLine || '';
-    col = col || evt.errorCharacter || '';
-  } else {
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    url = url || err && err.fileName || '';
-    line = line || err && err.lineNumber || '';
-    col = col || err && err.columnNumber || '';
-    stack = err && err.stack || '';
-  }
-
-  return {
-    msg: msg,
-    url: url,
-    line: line,
-    col: col,
-    stack: stack
-  };
-}
 
 /**
  * left pad
@@ -384,7 +389,6 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
-// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'
@@ -574,10 +578,10 @@ var ErrorTracker = function () {
     value: function captureError(ex, params) {
       if (!isError(ex)) return;
 
-      this._send(_extends({
-        msg: (ex.name || '') + ': ' + (ex.message || ''),
-        stack: ex.stack
-      }, params));
+      this._send(_extends(processError((ex.name || '') + ': ' + (ex.message || ''), // msg
+      '', '', '', // url, line, col
+      ex // err
+      ), params));
     }
   }]);
   return ErrorTracker;
