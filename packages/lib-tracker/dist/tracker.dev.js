@@ -5,6 +5,71 @@
 }(this, (function () { 'use strict';
 
 /**
+ * onerror
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
+ */
+
+/**
+ * window.onerror
+ * @param {Object} options 选项
+ * @param {Function} cb 回调
+ */
+function onError() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var cb = arguments[1];
+
+  // 先存下旧的onerror事件处理函数
+  var oldOnErrorHandler = window.onerror;
+
+  /* eslint-disable space-before-function-paren */
+  window.onerror = function () /* msg, url, line, col, err */{
+    /* eslint-disable prefer-rest-params */
+    var args = Array.prototype.slice.call(arguments);
+
+    if (oldOnErrorHandler) {
+      oldOnErrorHandler.apply(window, args);
+    }
+
+    var error = processError.apply(window, args);
+    if (error.msg.indexOf('Script error') > -1 && !error.url) {
+      if (options.debug) {
+        console.log(error.msg);
+      }
+      return false;
+    }
+
+    cb && cb(error);
+    return false;
+  };
+}
+
+/**
+ * 处理错误信息
+ * @param {String} msg
+ * @param {String} url
+ * @param {String} line
+ * @param {String} col
+ * @param {Object} err
+ */
+function processError(msg, url, line, col, err) {
+  var stack = '';
+
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+  url = url || err && err.fileName || '';
+  line = line || err && err.lineNumber || '';
+  col = col || err && err.columnNumber || '';
+  stack = err && err.stack || '';
+
+  return {
+    msg: msg,
+    url: url,
+    line: line,
+    col: col,
+    stack: stack
+  };
+}
+
+/**
  * 环境
  */
 
@@ -55,66 +120,6 @@ function getEnv(ua) {
 }
 
 var env = getEnv(window.navigator.userAgent);
-
-/**
- * onerror
- * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
- */
-
-function onError() {
-  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var cb = arguments[1];
-
-  // 先存下旧的onerror事件处理函数
-  var oldOnErrorHandler = window.onerror;
-
-  /* eslint-disable space-before-function-paren */
-  window.onerror = function () /* msg, url, line, col, err */{
-    /* eslint-disable prefer-rest-params */
-    var args = Array.prototype.slice.call(arguments);
-
-    if (oldOnErrorHandler) {
-      oldOnErrorHandler.apply(window, args);
-    }
-
-    var error = processError.apply(window, args);
-    if (error.msg.indexOf('Script error') > -1 && !error.url) {
-      if (options.debug) {
-        console.log(error.msg);
-      }
-      return false;
-    }
-
-    cb && cb(error);
-    return false;
-  };
-}
-
-function processError(msg, url, line, col, err) {
-  var stack = '';
-
-  if (env.ie) {
-    var evt = window.event;
-    msg = msg || evt.errorMessage || '';
-    url = url || evt.errorUrl || '';
-    line = line || evt.errorLine || '';
-    col = col || evt.errorCharacter || '';
-  } else {
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    url = url || err && err.fileName || '';
-    line = line || err && err.lineNumber || '';
-    col = col || err && err.columnNumber || '';
-    stack = err && err.stack || '';
-  }
-
-  return {
-    msg: msg,
-    url: url,
-    line: line,
-    col: col,
-    stack: stack
-  };
-}
 
 /**
  * left pad
@@ -573,10 +578,10 @@ var ErrorTracker = function () {
     value: function captureError(ex, params) {
       if (!isError(ex)) return;
 
-      this._send(_extends({
-        msg: (ex.name || '') + ': ' + (ex.message || ''),
-        stack: ex.stack
-      }, params));
+      this._send(_extends(processError((ex.name || '') + ': ' + (ex.message || ''), // msg
+      '', '', '', // url, line, col
+      ex // err
+      ), params));
     }
   }]);
   return ErrorTracker;
@@ -705,12 +710,15 @@ var ApiTracker = function () {
 
           if (!trackData) return;
 
+          // 响应时间
+          var responseTime = Date.now() - trackData.start;
+
           // 上报参数
           var reportParams = {
             method: trackData.method,
             url: trackData.url,
             body: trackData.body,
-            time: Date.now() - trackData.start,
+            time: responseTime,
             statusCode: xhr.status,
             statusText: xhr.statusText
           };
@@ -719,6 +727,7 @@ var ApiTracker = function () {
           // 如果状态码大于等于400，上报
           if (xhr.status >= 400) {
             _this._send(_extends({ result: '' }, reportParams));
+            return;
           }
 
           // 如果状态码为200
@@ -730,10 +739,16 @@ var ApiTracker = function () {
               // 如果code值在apiCodeList列表中，则上报
               if (apiCodeList.length === 0 && result.code !== 0 && result.code !== '0' || apiCodeList.indexOf(result.code) > -1) {
                 _this._send(_extends({ result: xhr.responseText }, reportParams));
+                return;
               }
             } catch (e) {
               // e
             }
+          }
+
+          // 时间超过apiThreshold，则上报
+          if (responseTime > _this.$options.apiThreshold) {
+            _this._send(_extends({ result: xhr.responseText }, reportParams));
           }
         }
       }, true);
@@ -783,6 +798,7 @@ var defaultOptions = {
   pid: getFirstPathName(), // 产品ID
   debug: false,
   ajax: false, // 是否对ajax请求上报
+  apiThreshold: 3000, // 接口响应时间超过3s上报
   apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
   collectWindowErrors: true, // 是否通过window.onerror收集
   stackDepth: 8, // 堆栈深度

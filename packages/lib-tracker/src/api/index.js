@@ -79,12 +79,15 @@ class ApiTracker {
 
         if (!trackData) return;
 
+        // 响应时间
+        const responseTime = Date.now() - trackData.start;
+
         // 上报参数
         const reportParams = {
           method: trackData.method,
           url: trackData.url,
           body: trackData.body,
-          time: Date.now() - trackData.start,
+          time: responseTime,
           statusCode: xhr.status,
           statusText: xhr.statusText
         };
@@ -93,6 +96,7 @@ class ApiTracker {
         // 如果状态码大于等于400，上报
         if (xhr.status >= 400) {
           this._send(Object.assign({ result: '' }, reportParams));
+          return;
         }
 
         // 如果状态码为200
@@ -105,10 +109,16 @@ class ApiTracker {
             if ((apiCodeList.length === 0 && result.code !== 0 && result.code !== '0') ||
               apiCodeList.indexOf(result.code) > -1) {
               this._send(Object.assign({ result: xhr.responseText }, reportParams));
+              return;
             }
           } catch (e) {
             // e
           }
+        }
+
+        // 时间超过apiThreshold，则上报
+        if (responseTime > this.$options.apiThreshold) {
+          this._send(Object.assign({ result: xhr.responseText }, reportParams));
         }
       }
     }, true);

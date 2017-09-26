@@ -3,9 +3,12 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
  */
 
-import env from '../util/env';
-
-function onError(options = {}, cb) {
+/**
+ * window.onerror
+ * @param {Object} options 选项
+ * @param {Function} cb 回调
+ */
+export function onError(options = {}, cb) {
   // 先存下旧的onerror事件处理函数
   const oldOnErrorHandler = window.onerror;
 
@@ -31,22 +34,22 @@ function onError(options = {}, cb) {
   };
 }
 
-function processError(msg, url, line, col, err) {
+/**
+ * 处理错误信息
+ * @param {String} msg
+ * @param {String} url
+ * @param {String} line
+ * @param {String} col
+ * @param {Object} err
+ */
+export function processError(msg, url, line, col, err) {
   let stack = '';
 
-  if (env.ie) {
-    const evt = window.event;
-    msg = msg || evt.errorMessage || '';
-    url = url || evt.errorUrl || '';
-    line = line || evt.errorLine || '';
-    col = col || evt.errorCharacter || '';
-  } else {
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    url = url || (err && err.fileName) || '';
-    line = line || (err && err.lineNumber) || '';
-    col = col || (err && err.columnNumber) || '';
-    stack = (err && err.stack) || '';
-  }
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+  url = url || (err && err.fileName) || '';
+  line = line || (err && err.lineNumber) || '';
+  col = col || (err && err.columnNumber) || '';
+  stack = (err && err.stack) || '';
 
   return {
     msg,
@@ -57,4 +60,3 @@ function processError(msg, url, line, col, err) {
   };
 }
 
-export default onError;

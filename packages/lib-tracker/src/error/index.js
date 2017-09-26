@@ -2,7 +2,7 @@
  * 错误信息自动采集
  */
 
-import onError from './onerror';
+import { onError, processError } from './onerror';
 import report from '../report';
 import * as util from '../util';
 import { TRACKER_TYPE } from '../enum';
@@ -66,10 +66,11 @@ class ErrorTracker {
   captureError(ex, params) {
     if (!util.isError(ex)) return;
 
-    this._send(Object.assign({
-      msg: `${ex.name || ''}: ${ex.message || ''}`,
-      stack: ex.stack
-    }, params));
+    this._send(Object.assign(processError(
+      `${ex.name || ''}: ${ex.message || ''}`, // msg
+      '', '', '', // url, line, col
+      ex // err
+    ), params));
   }
 }
 

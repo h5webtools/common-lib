@@ -24,11 +24,18 @@ import tracker from '@jyb/lib-tracker'
 - Type: `Boolean`
 - Default: false
 
-是否对ajax请求上报，设置为true的时候，三种情况下会上报：
+是否对ajax请求上报，设置为true的时候，4种情况下会上报：
 
 1. 如果状态码大于等于400，则上报  
 2. 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报  
-3. 如果code值在apiCodeList列表中，则上报
+3. 如果code值在apiCodeList列表中，则上报  
+4. 如果接口响应时间超过apiThreshold的值，则上报
+
+### apiThreshold
+- Type: `Number`
+- Default: 3000
+
+接口响应时间超过该值的时候上报，默认3000ms
 
 ### apiCodeList
 - Type: `Array`
@@ -131,7 +138,7 @@ network: util.networkType
 
 `pid`可以在初始化的时候传入，如果不定义，则使用默认值
 
-`t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`为`2`
+`t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`自动设置为`2`
 
 `badjs`用于筛选日志数据，一般不需要改动
 
