@@ -63,14 +63,16 @@ export function ajaxGet(options, fnSuccess, fnError) {
   const xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      try {
-        fnSuccess(JSON.parse(xhr.responseText));
-      } catch (e) {
-        fnError(e);
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        try {
+          fnSuccess && fnSuccess(JSON.parse(xhr.responseText));
+        } catch (e) {
+          fnError && fnError(e);
+        }
+      } else {
+        fnError && fnError(xhr.status, xhr.responseText);
       }
-    } else {
-      fnError(xhr.status, xhr.responseText);
     }
   };
   xhr.open('GET', options.url + (options.url.indexOf('?') > 0 ? '&' : '?') + processData(options.data));
