@@ -8,44 +8,53 @@
  * 环境
  */
 
-var ua = window.navigator.userAgent;
+/**
+ * 获取当前环境信息
+ * @param {String} ua
+ * @return {Object}
+ */
+function getEnv(ua) {
+  /* eslint-disable no-useless-escape */
+  var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+  var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+  var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+  var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+  var inApp = /jiayoubao/.test(ua.toLowerCase());
 
-/* eslint-disable no-useless-escape */
-var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
-var inApp = /jiayoubao/.test(ua.toLowerCase());
+  var os = {};
 
-var os = {};
+  // jyb app
+  os.jyb = inApp;
 
-// jyb app
-os.jyb = inApp;
+  // ie
+  os.ie = 'ActiveXObject' in window;
 
-// ie
-os.ie = 'ActiveXObject' in window;
+  // android
+  if (android) {
+    os.android = true;
+    os.version = android[2];
+  }
 
-// android
-if (android) {
-  os.android = true;
-  os.version = android[2];
+  // ios
+  if (iphone && !ipod) {
+    os.ios = os.iphone = true;
+    os.version = iphone[2].replace(/_/g, '.');
+  }
+
+  if (ipad) {
+    os.ios = os.ipad = true;
+    os.version = ipad[2].replace(/_/g, '.');
+  }
+
+  if (ipod) {
+    os.ios = os.ipod = true;
+    os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
+  }
+
+  return os;
 }
 
-// ios
-if (iphone && !ipod) {
-  os.ios = os.iphone = true;
-  os.version = iphone[2].replace(/_/g, '.');
-}
-
-if (ipad) {
-  os.ios = os.ipad = true;
-  os.version = ipad[2].replace(/_/g, '.');
-}
-
-if (ipod) {
-  os.ios = os.ipod = true;
-  os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-}
+var env = getEnv(window.navigator.userAgent);
 
 /**
  * onerror
@@ -84,7 +93,7 @@ function onError() {
 function processError(msg, url, line, col, err) {
   var stack = '';
 
-  if (os.ie) {
+  if (env.ie) {
     var evt = window.event;
     msg = msg || evt.errorMessage || '';
     url = url || evt.errorUrl || '';
@@ -103,7 +112,7 @@ function processError(msg, url, line, col, err) {
     url: url,
     line: line,
     col: col,
-    errStack: stack.toString()
+    stack: stack
   };
 }
 
@@ -227,9 +236,9 @@ function getFirstPathName() {
 function getPlatform() {
   var platformStr = '';
 
-  if (os.android) {
+  if (env.android) {
     platformStr = 'android';
-  } else if (os.ios) {
+  } else if (env.ios) {
     platformStr = 'ios';
   }
 
@@ -254,7 +263,7 @@ function getNetworkType() {
     return networkType;
   }
 
-  if (os.jyb && typeof wv !== 'undefined') {
+  if (env.jyb && typeof wv !== 'undefined') {
     /* global wv */
     wv.ready(function () {
       wv.getNetworkType({
@@ -434,7 +443,7 @@ function report() {
         op_page: '', // h5为空（可选）
         op_params: _extends({
           platform: getPlatform(), // 平台
-          in_app: os.jyb ? 1 : 0, // 1为加油宝app内，0为app外
+          in_app: env.jyb ? 1 : 0, // 1为加油宝app内，0为app外
           cust_id: CUST_ID, // 客户id
           uniq_id: CUST_ID || UUID, // 如果未登录设置此id,如果登录与custId一致
           source: getQuery('channel') || getQuery('from') || '',
@@ -520,7 +529,38 @@ var ErrorTracker = function () {
     value: function _send() {
       var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      report(this.$options, paramsAdaptor(_extends({}, this.params, params)));
+      report(this.$options, this._paramsAdaptor(_extends({}, this.params, params)));
+    }
+
+    /**
+     * 参数适配
+     */
+
+  }, {
+    key: '_paramsAdaptor',
+    value: function _paramsAdaptor(params) {
+      // msg, line, col => c1
+      // url => c2
+      // stack.toString() => c3
+      var ps = ['msg', 'line', 'col', 'url', 'stack'];
+      var options = this.$options;
+
+      // 保证有值
+      ps.forEach(function (p) {
+        if (!params[p]) {
+          params[p] = '';
+        }
+      });
+
+      params.c1 = [params.msg, params.line, params.col].join(',');
+      params.c2 = params.url;
+      params.c3 = cutStack(params.stack, options.stackDepth);
+
+      // 删除参数
+      ps.forEach(function (p) {
+        return delete params[p];
+      });
+      return params;
     }
 
     /**
@@ -534,14 +574,173 @@ var ErrorTracker = function () {
     value: function captureError(ex, params) {
       if (!isError(ex)) return;
 
-      // TODO: 如果堆栈过长是否应该先解析堆栈内容（msg, url, line, col, errStack）
       this._send(_extends({
         msg: (ex.name || '') + ': ' + (ex.message || ''),
-        errStack: (ex.stack || '').toString()
+        stack: ex.stack
       }, params));
     }
   }]);
   return ErrorTracker;
+}();
+
+/**
+ * 截取堆栈内容
+ */
+
+
+function cutStack(stack, depth) {
+  if (!stack) return '';
+
+  var stackStr = stack.toString();
+  var arrStack = stackStr.split('\n');
+  var stackDepth = arrStack.length;
+
+  // 如果堆栈的深度大于设置的深度
+  if (stackDepth > depth) {
+    return arrStack.slice(0, depth).join('\n');
+  }
+
+  return stackStr;
+}
+
+/**
+ * 接口异常自动采集
+ */
+
+var ApiTracker = function () {
+  function ApiTracker() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    classCallCheck(this, ApiTracker);
+
+    this.$options = options;
+    this.params = _extends({ t_type: TRACKER_TYPE.API_ERROR }, params);
+    this._init();
+  }
+
+  /**
+   * 上报接口异常API
+   * @param {Object} trackParams
+   */
+
+
+  createClass(ApiTracker, [{
+    key: 'captureApi',
+    value: function captureApi(trackParams) {
+      this._send(trackParams, false);
+    }
+
+    /**
+     * 初始化
+     */
+
+  }, {
+    key: '_init',
+    value: function _init() {
+      if (this.$options.ajax) {
+        this._ajaxHook(window.XMLHttpRequest);
+      }
+    }
+
+    /**
+     * 发送日志
+     * @param {Object} params
+     */
+
+  }, {
+    key: '_send',
+    value: function _send() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var adaptor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      var reportParams = _extends({}, this.params, params);
+
+      // 是否适配参数
+      if (adaptor) {
+        reportParams = paramsAdaptor(reportParams);
+      }
+      report(this.$options, reportParams);
+    }
+
+    /**
+     * 重写open, send方法
+     * @param {Function} Ctor
+     */
+
+  }, {
+    key: '_ajaxHook',
+    value: function _ajaxHook(Ctor) {
+      /* eslint-disable prefer-rest-params */
+      var originOpen = Ctor.prototype.open;
+      var originSend = Ctor.prototype.send;
+      var that = this;
+
+      // 重写open, send方法
+      Ctor.prototype.open = function (method, url) {
+        this._apiTrackData = { method: method.toLowerCase(), url: url };
+        return originOpen.apply(this, arguments);
+      };
+
+      Ctor.prototype.send = function (data) {
+        this._apiTrackData.start = Date.now();
+        this._apiTrackData.body = data ? JSON.stringify(data) : '';
+        that._addEvent(this);
+        return originSend.apply(this, arguments);
+      };
+    }
+
+    /**
+     * 添加事件监听
+     * @param {Object} xhr
+     */
+
+  }, {
+    key: '_addEvent',
+    value: function _addEvent(xhr) {
+      var _this = this;
+
+      xhr.addEventListener('readystatechange', function () {
+        if (xhr.readyState === 4) {
+          var trackData = xhr._apiTrackData;
+          var apiCodeList = _this.$options.apiCodeList;
+
+          if (!trackData) return;
+
+          // 上报参数
+          var reportParams = {
+            method: trackData.method,
+            url: trackData.url,
+            body: trackData.body,
+            time: Date.now() - trackData.start,
+            statusCode: xhr.status,
+            statusText: xhr.statusText
+          };
+          var result = null;
+
+          // 如果状态码大于等于400，上报
+          if (xhr.status >= 400) {
+            _this._send(_extends({ result: '' }, reportParams));
+          }
+
+          // 如果状态码为200
+          if (xhr.status === 200) {
+            try {
+              result = JSON.parse(xhr.responseText);
+
+              // 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报
+              // 如果code值在apiCodeList列表中，则上报
+              if (apiCodeList.length === 0 && result.code !== 0 && result.code !== '0' || apiCodeList.indexOf(result.code) > -1) {
+                _this._send(_extends({ result: xhr.responseText }, reportParams));
+              }
+            } catch (e) {
+              // e
+            }
+          }
+        }
+      }, true);
+    }
+  }]);
+  return ApiTracker;
 }();
 
 /**
@@ -550,21 +749,25 @@ var ErrorTracker = function () {
 
 
 function paramsAdaptor(params) {
-  // msg, line, col => c1
-  // errStack => c2
-  // url => c3
-  var ps = ['msg', 'line', 'col', 'url', 'errStack'];
+  // method, url, body => c1
+  // time, statusCode, statusText => c2
+  // result => c3
+  var ps = ['method', 'url', 'body', 'time', 'statusCode', 'statusText', 'result'];
 
   // 保证有值
   ps.forEach(function (p) {
-    if (!params[p]) {
+    if (typeof params[p] === 'undefined') {
       params[p] = '';
     }
   });
 
-  params.c1 = [params.msg, params.line, params.col].join(',');
-  params.c2 = params.url;
-  params.c3 = params.errStack;
+  params.c1 = ['method', 'url', 'body'].map(function (v) {
+    return v + ':' + params[v];
+  }).join(';');
+  params.c2 = ['time', 'statusCode', 'statusText'].map(function (v) {
+    return v + ':' + params[v];
+  }).join(';');
+  params.c3 = params.result;
 
   // 删除参数
   ps.forEach(function (p) {
@@ -578,11 +781,14 @@ function paramsAdaptor(params) {
  */
 
 var defaultOptions = {
-  pid: getFirstPathName(),
+  pid: getFirstPathName(), // 产品ID
   debug: false,
-  collectWindowErrors: true,
-  env: 'prod', // test/prod
-  commonParams: null
+  ajax: false, // 是否对ajax请求上报
+  apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
+  collectWindowErrors: true, // 是否通过window.onerror收集
+  stackDepth: 8, // 堆栈深度
+  env: 'prod', // 上报环境，test/prod
+  commonParams: null // 公共参数
 };
 
 // 数据采集
@@ -614,6 +820,7 @@ var Tracker = function () {
       this.$options = _extends({}, defaultOptions, options);
       this.commonParams = this.$options.commonParams || {};
       this.initError();
+      this.initApi();
       this.inited = true;
     }
 
@@ -632,14 +839,17 @@ var Tracker = function () {
     }
 
     /**
-     * 上报接口异常API
-     * @param {Object} trackParams
+     * 接口采集初始化
      */
 
   }, {
-    key: 'captureApi',
-    value: function captureApi(trackParams) {
-      this.log(_extends({ t_type: TRACKER_TYPE.API_ERROR }, trackParams));
+    key: 'initApi',
+    value: function initApi() {
+      // api
+      var apiTracker = new ApiTracker(this.$options, this.commonParams);
+      this.api = apiTracker;
+      this.Api = apiTracker;
+      this.captureApi = apiTracker.captureApi.bind(apiTracker);
     }
 
     /**

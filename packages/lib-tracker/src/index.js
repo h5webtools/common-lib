@@ -3,16 +3,19 @@
  */
 
 import ErrorTracker from './error';
+import ApiTracker from './api';
 import report from './report';
 import * as util from './util';
-import { TRACKER_TYPE } from './enum';
 
 const defaultOptions = {
-  pid: util.getFirstPathName(),
+  pid: util.getFirstPathName(), // 产品ID
   debug: false,
-  collectWindowErrors: true,
-  env: 'prod', // test/prod
-  commonParams: null
+  ajax: false, // 是否对ajax请求上报
+  apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
+  collectWindowErrors: true, // 是否通过window.onerror收集
+  stackDepth: 8, // 堆栈深度
+  env: 'prod', // 上报环境，test/prod
+  commonParams: null // 公共参数
 };
 
 // 数据采集
@@ -35,6 +38,7 @@ class Tracker {
     this.$options = Object.assign({}, defaultOptions, options);
     this.commonParams = this.$options.commonParams || {};
     this.initError();
+    this.initApi();
     this.inited = true;
   }
 
@@ -50,11 +54,14 @@ class Tracker {
   }
 
   /**
-   * 上报接口异常API
-   * @param {Object} trackParams
+   * 接口采集初始化
    */
-  captureApi(trackParams) {
-    this.log(Object.assign({ t_type: TRACKER_TYPE.API_ERROR }, trackParams));
+  initApi() {
+    // api
+    const apiTracker = new ApiTracker(this.$options, this.commonParams);
+    this.api = apiTracker;
+    this.Api = apiTracker;
+    this.captureApi = apiTracker.captureApi.bind(apiTracker);
   }
 
   /**

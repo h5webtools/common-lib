@@ -2,43 +2,50 @@
  * 环境
  */
 
-const ua = window.navigator.userAgent;
+/**
+ * 获取当前环境信息
+ * @param {String} ua
+ * @return {Object}
+ */
+export function getEnv(ua) {
+  /* eslint-disable no-useless-escape */
+  const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+  const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+  const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+  const iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+  const inApp = /jiayoubao/.test(ua.toLowerCase());
 
-/* eslint-disable no-useless-escape */
-const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-const iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
-const inApp = /jiayoubao/.test(ua.toLowerCase());
+  const os = {};
 
-const os = {};
+  // jyb app
+  os.jyb = inApp;
 
-// jyb app
-os.jyb = inApp;
+  // ie
+  os.ie = 'ActiveXObject' in window;
 
-// ie
-os.ie = 'ActiveXObject' in window;
+  // android
+  if (android) {
+    os.android = true;
+    os.version = android[2];
+  }
 
-// android
-if (android) {
-  os.android = true;
-  os.version = android[2];
+  // ios
+  if (iphone && !ipod) {
+    os.ios = os.iphone = true;
+    os.version = iphone[2].replace(/_/g, '.');
+  }
+
+  if (ipad) {
+    os.ios = os.ipad = true;
+    os.version = ipad[2].replace(/_/g, '.');
+  }
+
+  if (ipod) {
+    os.ios = os.ipod = true;
+    os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
+  }
+
+  return os;
 }
 
-// ios
-if (iphone && !ipod) {
-  os.ios = os.iphone = true;
-  os.version = iphone[2].replace(/_/g, '.');
-}
-
-if (ipad) {
-  os.ios = os.ipad = true;
-  os.version = ipad[2].replace(/_/g, '.');
-}
-
-if (ipod) {
-  os.ios = os.ipod = true;
-  os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-}
-
-export default os;
+export default getEnv(window.navigator.userAgent);

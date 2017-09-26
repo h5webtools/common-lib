@@ -29,7 +29,33 @@ class ErrorTracker {
    * @param {Object} params
    */
   _send(params = {}) {
-    report(this.$options, paramsAdaptor(Object.assign({}, this.params, params)));
+    report(this.$options, this._paramsAdaptor(Object.assign({}, this.params, params)));
+  }
+
+  /**
+   * 参数适配
+   */
+  _paramsAdaptor(params) {
+    // msg, line, col => c1
+    // url => c2
+    // stack.toString() => c3
+    const ps = ['msg', 'line', 'col', 'url', 'stack'];
+    const options = this.$options;
+
+    // 保证有值
+    ps.forEach((p) => {
+      if (!params[p]) {
+        params[p] = '';
+      }
+    });
+
+    params.c1 = [params.msg, params.line, params.col].join(',');
+    params.c2 = params.url;
+    params.c3 = cutStack(params.stack, options.stackDepth);
+
+    // 删除参数
+    ps.forEach(p => delete params[p]);
+    return params;
   }
 
   /**
@@ -40,37 +66,29 @@ class ErrorTracker {
   captureError(ex, params) {
     if (!util.isError(ex)) return;
 
-    // TODO: 如果堆栈过长是否应该先解析堆栈内容（msg, url, line, col, errStack）
     this._send(Object.assign({
       msg: `${ex.name || ''}: ${ex.message || ''}`,
-      errStack: (ex.stack || '').toString()
+      stack: ex.stack
     }, params));
   }
 }
 
 /**
- * 参数适配
+ * 截取堆栈内容
  */
-function paramsAdaptor(params) {
-  // msg, line, col => c1
-  // errStack => c2
-  // url => c3
-  const ps = ['msg', 'line', 'col', 'url', 'errStack'];
+function cutStack(stack, depth) {
+  if (!stack) return '';
 
-  // 保证有值
-  ps.forEach((p) => {
-    if (!params[p]) {
-      params[p] = '';
-    }
-  });
+  const stackStr = stack.toString();
+  const arrStack = stackStr.split('\n');
+  const stackDepth = arrStack.length;
 
-  params.c1 = [params.msg, params.line, params.col].join(',');
-  params.c2 = params.url;
-  params.c3 = params.errStack;
+  // 如果堆栈的深度大于设置的深度
+  if (stackDepth > depth) {
+    return arrStack.slice(0, depth).join('\n');
+  }
 
-  // 删除参数
-  ps.forEach(p => delete params[p]);
-  return params;
+  return stackStr;
 }
 
 export default ErrorTracker;

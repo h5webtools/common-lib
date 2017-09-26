@@ -8,6 +8,8 @@ npm install @jyb/lib-share --save
 
 ## 使用
 
+微信和QQ的sdk会自动引入，不需要再通过script标签手动引入
+
 ### 引入
 
 ```javascript

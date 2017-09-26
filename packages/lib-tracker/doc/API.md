@@ -20,6 +20,22 @@ import tracker from '@jyb/lib-tracker'
 
 是否调试模式，如果设置为true，会输出日志，不发送上报请求
 
+### ajax
+- Type: `Boolean`
+- Default: false
+
+是否对ajax请求上报，设置为true的时候，三种情况下会上报：
+
+1. 如果状态码大于等于400，则上报  
+2. 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报  
+3. 如果code值在apiCodeList列表中，则上报
+
+### apiCodeList
+- Type: `Array`
+- Default: []
+
+如果接口响应的数据code值在该列表中，则上报（`t_type`为`2`）
+
 ### env
 - Type: `String`
 - Default: 'prod'
@@ -31,6 +47,12 @@ import tracker from '@jyb/lib-tracker'
 - Default: true
 
 是否使用window.onerror捕获错误
+
+### stackDepth
+- Type: `Number`
+- Default: 8
+
+错误堆栈深度
 
 ### commonParams
 - Type: `Object`
@@ -56,6 +78,14 @@ ErrorTracker对象
 
 ErrorTracker构造函数
 
+### tracker.api
+
+ApiTracker对象
+
+### tracker.Api
+
+ApiTracker构造函数
+
 ## 方法
 
 ### tracker.init(options)
@@ -66,13 +96,13 @@ ErrorTracker构造函数
 
 通用采集数据API，params为`Object`类型，可参考下面采集数据部分内容
 
-### tracker.captureApi(params)
-
-上报接口异常API，params为`Object`类型，可参考下面采集数据部分内容
-
 ### tracker.captureError(ex, [params])
 
-捕获错误API，ex为`Error`对象，params为`Object`类型，可参考下面采集数据部分内容
+捕获错误API（`t_type`自动设置为`1`），ex为`Error`对象，params为`Object`类型，可参考下面采集数据部分内容
+
+### tracker.captureApi(params)
+
+上报接口异常API（`t_type`自动设置为`2`），params为`Object`类型，可参考下面采集数据部分内容
 
 ## 采集数据定义
 
@@ -99,7 +129,7 @@ network: util.networkType
 
 ### 必填参数
 
-`pid`可以通过`window.g_config.tracker`修改，如果不定义，则使用默认值
+`pid`可以在初始化的时候传入，如果不定义，则使用默认值
 
 `t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`为`2`
 
@@ -118,12 +148,21 @@ badjs: '1'
 
 一般用户需要修改的就是通用参数
 
-当通过`window.onerror`或者使用`captureError`上报时候，`msg, line, col => c1`，`errStack => c2`，`url => c3`
+当通过`window.onerror`或者使用`captureError`上报时候，`msg, line, col => c1`，`url => c2`，`stack => c3`
 
 ```javascript
 // 通用参数
-c1: '',
-c2: '',
-c3: ''
+c1: 'Uncaught TypeError: i is not a function,1,30761',
+c2: 'https://jyb.com/s1.js',
+c3: 'TypeError: i is not a function\n at XMLHttpRequest.o.onreadystatechange'
+```
+
+当开启接口上报时，`method, url, body => c1`, `time, statusCode, statusText => c2`, `result => c3`
+
+```javascript
+// 通用参数
+c1: 'method:get;url:http://api.jyb.com/act/index;body:123',
+c2: 'time:9839;statusCode:200;statusText:ok',
+c3: 'result:'
 ```
 

@@ -53,7 +53,7 @@ function processError(msg, url, line, col, err) {
     url,
     line,
     col,
-    errStack: stack.toString()
+    stack
   };
 }
 
