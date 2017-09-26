@@ -11,6 +11,7 @@ const defaultOptions = {
   pid: util.getFirstPathName(), // 产品ID
   debug: false,
   ajax: false, // 是否对ajax请求上报
+  apiThreshold: 3000, // 接口响应时间超过3s上报
   apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
   collectWindowErrors: true, // 是否通过window.onerror收集
   stackDepth: 8, // 堆栈深度

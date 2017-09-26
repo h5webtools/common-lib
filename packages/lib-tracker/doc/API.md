@@ -24,11 +24,18 @@ import tracker from '@jyb/lib-tracker'
 - Type: `Boolean`
 - Default: false
 
-是否对ajax请求上报，设置为true的时候，三种情况下会上报：
+是否对ajax请求上报，设置为true的时候，4种情况下会上报：
 
 1. 如果状态码大于等于400，则上报  
 2. 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报  
-3. 如果code值在apiCodeList列表中，则上报
+3. 如果code值在apiCodeList列表中，则上报  
+4. 如果接口响应时间超过apiThreshold的值，则上报
+
+### apiThreshold
+- Type: `Number`
+- Default: 3000
+
+接口响应时间超过该值的时候上报，默认3000ms
 
 ### apiCodeList
 - Type: `Array`

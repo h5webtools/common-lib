@@ -384,6 +384,7 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
+// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'
@@ -705,12 +706,15 @@ var ApiTracker = function () {
 
           if (!trackData) return;
 
+          // 响应时间
+          var responseTime = Date.now() - trackData.start;
+
           // 上报参数
           var reportParams = {
             method: trackData.method,
             url: trackData.url,
             body: trackData.body,
-            time: Date.now() - trackData.start,
+            time: responseTime,
             statusCode: xhr.status,
             statusText: xhr.statusText
           };
@@ -719,6 +723,7 @@ var ApiTracker = function () {
           // 如果状态码大于等于400，上报
           if (xhr.status >= 400) {
             _this._send(_extends({ result: '' }, reportParams));
+            return;
           }
 
           // 如果状态码为200
@@ -730,10 +735,16 @@ var ApiTracker = function () {
               // 如果code值在apiCodeList列表中，则上报
               if (apiCodeList.length === 0 && result.code !== 0 && result.code !== '0' || apiCodeList.indexOf(result.code) > -1) {
                 _this._send(_extends({ result: xhr.responseText }, reportParams));
+                return;
               }
             } catch (e) {
               // e
             }
+          }
+
+          // 时间超过apiThreshold，则上报
+          if (responseTime > _this.$options.apiThreshold) {
+            _this._send(_extends({ result: xhr.responseText }, reportParams));
           }
         }
       }, true);
@@ -783,6 +794,7 @@ var defaultOptions = {
   pid: getFirstPathName(), // 产品ID
   debug: false,
   ajax: false, // 是否对ajax请求上报
+  apiThreshold: 3000, // 接口响应时间超过3s上报
   apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
   collectWindowErrors: true, // 是否通过window.onerror收集
   stackDepth: 8, // 堆栈深度
