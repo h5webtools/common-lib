@@ -108,7 +108,7 @@ class ApiTracker {
             // 如果code值在apiCodeList列表中，则上报
             if ((apiCodeList.length === 0 && result.code !== 0 && result.code !== '0') ||
               apiCodeList.indexOf(result.code) > -1) {
-              this._send(Object.assign({ result: xhr.responseText }, reportParams));
+              this._send(Object.assign({ result: result.msg || '' }, reportParams));
               return;
             }
           } catch (e) {
@@ -118,7 +118,7 @@ class ApiTracker {
 
         // 时间超过apiThreshold，则上报
         if (responseTime > this.$options.apiThreshold) {
-          this._send(Object.assign({ result: xhr.responseText }, reportParams));
+          this._send(Object.assign({ result: '' }, reportParams));
         }
       }
     }, true);

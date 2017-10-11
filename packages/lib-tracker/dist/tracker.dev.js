@@ -389,6 +389,7 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
+// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'
@@ -738,7 +739,7 @@ var ApiTracker = function () {
               // 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报
               // 如果code值在apiCodeList列表中，则上报
               if (apiCodeList.length === 0 && result.code !== 0 && result.code !== '0' || apiCodeList.indexOf(result.code) > -1) {
-                _this._send(_extends({ result: xhr.responseText }, reportParams));
+                _this._send(_extends({ result: result.msg || '' }, reportParams));
                 return;
               }
             } catch (e) {
@@ -748,7 +749,7 @@ var ApiTracker = function () {
 
           // 时间超过apiThreshold，则上报
           if (responseTime > _this.$options.apiThreshold) {
-            _this._send(_extends({ result: xhr.responseText }, reportParams));
+            _this._send(_extends({ result: '' }, reportParams));
           }
         }
       }, true);

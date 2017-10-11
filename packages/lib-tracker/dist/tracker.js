@@ -739,7 +739,7 @@ var ApiTracker = function () {
               // 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报
               // 如果code值在apiCodeList列表中，则上报
               if (apiCodeList.length === 0 && result.code !== 0 && result.code !== '0' || apiCodeList.indexOf(result.code) > -1) {
-                _this._send(_extends({ result: xhr.responseText }, reportParams));
+                _this._send(_extends({ result: result.msg || '' }, reportParams));
                 return;
               }
             } catch (e) {
@@ -749,7 +749,7 @@ var ApiTracker = function () {
 
           // 时间超过apiThreshold，则上报
           if (responseTime > _this.$options.apiThreshold) {
-            _this._send(_extends({ result: xhr.responseText }, reportParams));
+            _this._send(_extends({ result: '' }, reportParams));
           }
         }
       }, true);
