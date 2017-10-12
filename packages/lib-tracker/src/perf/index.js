@@ -5,6 +5,7 @@
 import report from '../report';
 import { TRACKER_TYPE } from '../enum';
 import getTiming from './timing';
+import * as util from '../util';
 
 class PerfTracker {
   constructor(options = {}, params = {}) {
@@ -18,7 +19,7 @@ class PerfTracker {
    * @param {Object} trackParams
    */
   capturePerf(trackParams) {
-    this._send({ c2: trackParams });
+    this._send({ c2: obj2Str(trackParams) });
   }
 
   /**
@@ -35,10 +36,10 @@ class PerfTracker {
    */
   _addEvent() {
     if (document.readyState === 'complete') {
-      setTimeout(() => { this._send({ c1: getTiming() }); }, 0);
+      setTimeout(() => { this._send({ c1: obj2Str(getTiming()) }); }, 0);
     } else {
       window.addEventListener('load', () => {
-        setTimeout(() => { this._send({ c1: getTiming() }); }, 0);
+        setTimeout(() => { this._send({ c1: obj2Str(getTiming()) }); }, 0);
       });
     }
   }
@@ -50,6 +51,14 @@ class PerfTracker {
   _send(params = {}) {
     report(this.$options, Object.assign({}, this.params, params));
   }
+}
+
+function obj2Str(obj) {
+  if (!util.isObject(obj)) {
+    return '';
+  }
+
+  return Object.keys(obj).map(k => `${k}:${obj[k]}`).join(';');
 }
 
 export default PerfTracker;

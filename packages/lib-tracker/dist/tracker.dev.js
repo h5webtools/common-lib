@@ -167,12 +167,21 @@ function leftPad(str, len, ch) {
  * util
  */
 
+var toStr = Object.prototype.toString;
 var rhashcode = /\d\.\d{4}/;
 var UUID_KEY = '__TRACKER_UUID__';
 var networkType = '';
 
 // 立即获取网络类型
 getNetworkType();
+
+/**
+ * 是否对象类型
+ * @param {Object} obj
+ */
+function isObject(obj) {
+  return toStr.call(obj) === '[object Object]';
+}
 
 /**
  * 获取用户ID
@@ -390,7 +399,6 @@ var _extends = Object.assign || function (target) {
  * @see http://wiki.jtjr.com/doku.php?id=%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0:%E4%BA%8B%E4%BB%B6%E4%B8%8A%E6%8A%A5%E8%A7%84%E8%8C%83
  */
 
-// 上报地址
 var reportURL = {
   test: '//172.16.1.16:8890',
   prod: '//report.jyblife.com'
@@ -881,7 +889,7 @@ var PerfTracker = function () {
   createClass(PerfTracker, [{
     key: 'capturePerf',
     value: function capturePerf(trackParams) {
-      this._send({ c2: trackParams });
+      this._send({ c2: obj2Str(trackParams) });
     }
 
     /**
@@ -907,12 +915,12 @@ var PerfTracker = function () {
 
       if (document.readyState === 'complete') {
         setTimeout(function () {
-          _this._send({ c1: getTiming() });
+          _this._send({ c1: obj2Str(getTiming()) });
         }, 0);
       } else {
         window.addEventListener('load', function () {
           setTimeout(function () {
-            _this._send({ c1: getTiming() });
+            _this._send({ c1: obj2Str(getTiming()) });
           }, 0);
         });
       }
@@ -933,6 +941,16 @@ var PerfTracker = function () {
   }]);
   return PerfTracker;
 }();
+
+function obj2Str(obj) {
+  if (!isObject(obj)) {
+    return '';
+  }
+
+  return Object.keys(obj).map(function (k) {
+    return k + ':' + obj[k];
+  }).join(';');
+}
 
 /**
  * 前端数据采集

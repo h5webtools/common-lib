@@ -167,12 +167,21 @@ function leftPad(str, len, ch) {
  * util
  */
 
+var toStr = Object.prototype.toString;
 var rhashcode = /\d\.\d{4}/;
 var UUID_KEY = '__TRACKER_UUID__';
 var networkType = '';
 
 // 立即获取网络类型
 getNetworkType();
+
+/**
+ * 是否对象类型
+ * @param {Object} obj
+ */
+function isObject(obj) {
+  return toStr.call(obj) === '[object Object]';
+}
 
 /**
  * 获取用户ID
@@ -881,7 +890,7 @@ var PerfTracker = function () {
   createClass(PerfTracker, [{
     key: 'capturePerf',
     value: function capturePerf(trackParams) {
-      this._send({ c2: trackParams });
+      this._send({ c2: obj2Str(trackParams) });
     }
 
     /**
@@ -907,12 +916,12 @@ var PerfTracker = function () {
 
       if (document.readyState === 'complete') {
         setTimeout(function () {
-          _this._send({ c1: getTiming() });
+          _this._send({ c1: obj2Str(getTiming()) });
         }, 0);
       } else {
         window.addEventListener('load', function () {
           setTimeout(function () {
-            _this._send({ c1: getTiming() });
+            _this._send({ c1: obj2Str(getTiming()) });
           }, 0);
         });
       }
@@ -933,6 +942,16 @@ var PerfTracker = function () {
   }]);
   return PerfTracker;
 }();
+
+function obj2Str(obj) {
+  if (!isObject(obj)) {
+    return '';
+  }
+
+  return Object.keys(obj).map(function (k) {
+    return k + ':' + obj[k];
+  }).join(';');
+}
 
 /**
  * 前端数据采集

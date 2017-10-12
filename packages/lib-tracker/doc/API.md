@@ -195,20 +195,7 @@ c3: 'result:'
 
 ```javascript
 // 通用参数
-c1: {
-  "firstPaintTime": 99,
-  "loadTime": 396,
-  "domReadyTime": 14,
-  "readyStart": 5,
-  "redirectTime": 0,
-  "appcacheTime": 0,
-  "unloadEventTime": 0,
-  "lookupDomainTime": 0,
-  "connectTime": 0,
-  "requestTime": 18,
-  "initDomTreeTime": 361,
-  "loadEventTime": 0
-},
+c1: 'firstPaintTime:169;loadTime:756;domReadyTime:73;readyStart:10;redirectTime:0;appcacheTime:0;unloadEventTime:0;lookupDomainTime:0;connectTime:0;requestTime:23;initDomTreeTime:652;loadEventTime:0',
 c2: '',
 c3: ''
 ```

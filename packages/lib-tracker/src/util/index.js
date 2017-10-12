@@ -6,12 +6,21 @@ import leftPad from './left_pad';
 import env from './env';
 
 const hasOwn = Object.prototype.hasOwnProperty;
+const toStr = Object.prototype.toString;
 const rhashcode = /\d\.\d{4}/;
 const UUID_KEY = '__TRACKER_UUID__';
 let networkType = '';
 
 // 立即获取网络类型
 getNetworkType();
+
+/**
+ * 是否对象类型
+ * @param {Object} obj
+ */
+export function isObject(obj) {
+  return toStr.call(obj) === '[object Object]';
+}
 
 /**
  * 获取用户ID
