@@ -4,6 +4,7 @@
 
 import ErrorTracker from './error';
 import ApiTracker from './api';
+import PerfTracker from './perf';
 import report from './report';
 import * as util from './util';
 
@@ -11,6 +12,7 @@ const defaultOptions = {
   pid: util.getFirstPathName(), // 产品ID
   debug: false,
   ajax: false, // 是否对ajax请求上报
+  perf: false, // 是否上报性能数据
   apiThreshold: 3000, // 接口响应时间超过3s上报
   apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
   collectWindowErrors: true, // 是否通过window.onerror收集
@@ -40,6 +42,7 @@ class Tracker {
     this.commonParams = this.$options.commonParams || {};
     this.initError();
     this.initApi();
+    this.initPerf();
     this.inited = true;
   }
 
@@ -74,6 +77,17 @@ class Tracker {
     this.error = errorTracker;
     this.Error = ErrorTracker;
     this.captureError = errorTracker.captureError.bind(errorTracker);
+  }
+
+  /**
+   * 性能数据采集初始化
+   */
+  initPerf() {
+    // perf
+    const perfTracker = new PerfTracker(this.$options, this.commonParams);
+    this.perf = perfTracker;
+    this.Perf = PerfTracker;
+    this.capturePerf = perfTracker.capturePerf.bind(perfTracker);
   }
 }
 

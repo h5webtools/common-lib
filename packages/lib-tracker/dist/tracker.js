@@ -167,12 +167,21 @@ function leftPad(str, len, ch) {
  * util
  */
 
+var toStr = Object.prototype.toString;
 var rhashcode = /\d\.\d{4}/;
 var UUID_KEY = '__TRACKER_UUID__';
 var networkType = '';
 
 // 立即获取网络类型
 getNetworkType();
+
+/**
+ * 是否对象类型
+ * @param {Object} obj
+ */
+function isObject(obj) {
+  return toStr.call(obj) === '[object Object]';
+}
 
 /**
  * 获取用户ID
@@ -331,8 +340,9 @@ function getTime() {
 
 // 采集信息类型
 var TRACKER_TYPE = {
-  JS_ERROR: '1',
-  API_ERROR: '2'
+  JS_ERROR: '1', // 脚本异常
+  API_ERROR: '2', // 数据接口异常
+  PERFORMANCE: '3' // 性能数据
 };
 
 // 标识符
@@ -739,7 +749,7 @@ var ApiTracker = function () {
               // 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报
               // 如果code值在apiCodeList列表中，则上报
               if (apiCodeList.length === 0 && result.code !== 0 && result.code !== '0' || apiCodeList.indexOf(result.code) > -1) {
-                _this._send(_extends({ result: xhr.responseText }, reportParams));
+                _this._send(_extends({ result: (result.code || '') + ', ' + (result.msg || '') }, reportParams));
                 return;
               }
             } catch (e) {
@@ -749,7 +759,7 @@ var ApiTracker = function () {
 
           // 时间超过apiThreshold，则上报
           if (responseTime > _this.$options.apiThreshold) {
-            _this._send(_extends({ result: xhr.responseText }, reportParams));
+            _this._send(_extends({ result: '' }, reportParams));
           }
         }
       }, true);
@@ -792,6 +802,158 @@ function paramsAdaptor(params) {
 }
 
 /**
+ * performance
+ * @see https://www.w3.org/TR/navigation-timing/#sec-window.performance-attribute
+ */
+
+/**
+ * 性能数据，使用Navigation Timing API
+ * @return {Object}
+ */
+function getTiming() {
+  var performance = window.performance || window.webkitPerformance || window.msPerformance || window.mozPerformance;
+
+  if (typeof performance === 'undefined') {
+    return {};
+  }
+
+  var timing = performance.timing;
+  var api = {};
+
+  if (timing) {
+    // Time to first paint
+    if (typeof api.firstPaint === 'undefined') {
+      // All times are relative times to the start time within the
+      // same objects
+      var firstPaint = 0;
+
+      if (window.chrome && window.chrome.loadTimes) {
+        // Chrome
+        // Convert to ms
+        firstPaint = window.chrome.loadTimes().firstPaintTime * 1000;
+        api.firstPaintTime = firstPaint - window.performance.timing.navigationStart;
+      } else if (typeof window.performance.timing.msFirstPaint === 'number') {
+        // IE
+        firstPaint = window.performance.timing.msFirstPaint;
+        api.firstPaintTime = firstPaint - window.performance.timing.navigationStart;
+      }
+    }
+
+    // Total time from start to load
+    api.loadTime = timing.loadEventEnd - timing.fetchStart;
+    // Time spent constructing the DOM tree
+    api.domReadyTime = timing.domComplete - timing.domInteractive;
+    // Time consumed preparing the new page
+    api.readyStart = timing.fetchStart - timing.navigationStart;
+    // Time spent during redirection
+    api.redirectTime = timing.redirectEnd - timing.redirectStart;
+    // AppCache
+    api.appcacheTime = timing.domainLookupStart - timing.fetchStart;
+    // Time spent unloading documents
+    api.unloadEventTime = timing.unloadEventEnd - timing.unloadEventStart;
+    // DNS query time
+    api.lookupDomainTime = timing.domainLookupEnd - timing.domainLookupStart;
+    // TCP connection time
+    api.connectTime = timing.connectEnd - timing.connectStart;
+    // Time spent during the request
+    api.requestTime = timing.responseEnd - timing.requestStart;
+    // Request to completion of the DOM loading
+    api.initDomTreeTime = timing.domInteractive - timing.responseEnd;
+    // Load event time
+    api.loadEventTime = timing.loadEventEnd - timing.loadEventStart;
+  }
+
+  return api;
+}
+
+/**
+ * 性能数据采集
+ */
+
+var PerfTracker = function () {
+  function PerfTracker() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    classCallCheck(this, PerfTracker);
+
+    this.$options = options;
+    this.params = _extends({ t_type: TRACKER_TYPE.PERFORMANCE }, params);
+    this._init();
+  }
+
+  /**
+   * 上报性能数据API
+   * @param {Object} trackParams
+   */
+
+
+  createClass(PerfTracker, [{
+    key: 'capturePerf',
+    value: function capturePerf(trackParams) {
+      this._send({ c2: obj2Str(trackParams) });
+    }
+
+    /**
+     * 初始化
+     */
+
+  }, {
+    key: '_init',
+    value: function _init() {
+      if (this.$options.perf) {
+        this._addEvent();
+      }
+    }
+
+    /**
+     * 添加事件
+     */
+
+  }, {
+    key: '_addEvent',
+    value: function _addEvent() {
+      var _this = this;
+
+      if (document.readyState === 'complete') {
+        setTimeout(function () {
+          _this._send({ c1: obj2Str(getTiming()) });
+        }, 0);
+      } else {
+        window.addEventListener('load', function () {
+          setTimeout(function () {
+            _this._send({ c1: obj2Str(getTiming()) });
+          }, 0);
+        });
+      }
+    }
+
+    /**
+     * 发送日志
+     * @param {Object} params
+     */
+
+  }, {
+    key: '_send',
+    value: function _send() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      report(this.$options, _extends({}, this.params, params));
+    }
+  }]);
+  return PerfTracker;
+}();
+
+function obj2Str(obj) {
+  if (!isObject(obj)) {
+    return '';
+  }
+
+  return Object.keys(obj).map(function (k) {
+    return k + ':' + obj[k];
+  }).join(';');
+}
+
+/**
  * 前端数据采集
  */
 
@@ -799,6 +961,7 @@ var defaultOptions = {
   pid: getFirstPathName(), // 产品ID
   debug: false,
   ajax: false, // 是否对ajax请求上报
+  perf: false, // 是否上报性能数据
   apiThreshold: 3000, // 接口响应时间超过3s上报
   apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
   collectWindowErrors: true, // 是否通过window.onerror收集
@@ -837,6 +1000,7 @@ var Tracker = function () {
       this.commonParams = this.$options.commonParams || {};
       this.initError();
       this.initApi();
+      this.initPerf();
       this.inited = true;
     }
 
@@ -880,6 +1044,20 @@ var Tracker = function () {
       this.error = errorTracker;
       this.Error = ErrorTracker;
       this.captureError = errorTracker.captureError.bind(errorTracker);
+    }
+
+    /**
+     * 性能数据采集初始化
+     */
+
+  }, {
+    key: 'initPerf',
+    value: function initPerf() {
+      // perf
+      var perfTracker = new PerfTracker(this.$options, this.commonParams);
+      this.perf = perfTracker;
+      this.Perf = PerfTracker;
+      this.capturePerf = perfTracker.capturePerf.bind(perfTracker);
     }
   }]);
   return Tracker;

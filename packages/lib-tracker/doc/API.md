@@ -31,6 +31,12 @@ import tracker from '@jyb/lib-tracker'
 3. 如果code值在apiCodeList列表中，则上报  
 4. 如果接口响应时间超过apiThreshold的值，则上报
 
+### perf
+- Type: `Boolean`
+- Default: false
+
+是否自动上报性能数据，通过[Navigation Timing API](https://www.w3.org/TR/navigation-timing/#sec-window.performance-attribute)
+
 ### apiThreshold
 - Type: `Number`
 - Default: 3000
@@ -93,6 +99,14 @@ ApiTracker对象
 
 ApiTracker构造函数
 
+### tracker.perf
+
+PerfTracker对象
+
+### tracker.Perf
+
+PerfTracker构造函数
+
 ## 方法
 
 ### tracker.init(options)
@@ -110,6 +124,10 @@ ApiTracker构造函数
 ### tracker.captureApi(params)
 
 上报接口异常API（`t_type`自动设置为`2`），params为`Object`类型，可参考下面采集数据部分内容
+
+### tracker.capturePerf(params)
+
+上报性能数据API（`t_type`自动设置为`3`），params为`Object`类型，可参考下面采集数据部分内容
 
 ## 采集数据定义
 
@@ -138,7 +156,7 @@ network: util.networkType
 
 `pid`可以在初始化的时候传入，如果不定义，则使用默认值
 
-`t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`自动设置为`2`
+`t_type`为上报数据类型，通过默认的错误捕获和`captureError`上报的数据`t_type`自动设置为`1`；通过`captureApi`上报的数据`t_type`自动设置为`2`；通过`capturePerf`上报的数据`t_type`自动设置为`3`
 
 `badjs`用于筛选日志数据，一般不需要改动
 
@@ -146,7 +164,7 @@ network: util.networkType
 // 产品ID，默认值为location.pathname（用/分割后）的下标为1的字符串
 pid: '',
 // 上报数据类型，会根据调用接口不同自动设置
-t_type: '', // 1: js错误，2: 接口错误上报
+t_type: '', // 1: js错误，2: 接口错误上报，3: 性能数据上报
 // badjs标识符，用于统计数据
 badjs: '1'
 ```
@@ -171,5 +189,14 @@ c3: 'TypeError: i is not a function\n at XMLHttpRequest.o.onreadystatechange'
 c1: 'method:get;url:http://api.jyb.com/act/index;body:123',
 c2: 'time:9839;statusCode:200;statusText:ok',
 c3: 'result:'
+```
+
+当开启性能数据上报时，c1为自动采集的数据，c2为通过`capturePerf`传入的数据
+
+```javascript
+// 通用参数
+c1: 'firstPaintTime:169;loadTime:756;domReadyTime:73;readyStart:10;redirectTime:0;appcacheTime:0;unloadEventTime:0;lookupDomainTime:0;connectTime:0;requestTime:23;initDomTreeTime:652;loadEventTime:0',
+c2: '',
+c3: ''
 ```
 
