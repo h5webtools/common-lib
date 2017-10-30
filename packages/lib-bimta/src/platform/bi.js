@@ -6,7 +6,6 @@ import * as log from '../util/log';
 import * as _ from '../util/index';
 import os from '../util/env';
 
-const custId = _.getCustId();
 const uuid = _.getUUID();
 
 // 上报地址
@@ -58,6 +57,7 @@ class BI {
     // set params
     params = params || {};
 
+    const custId = _.getCustId();
     /* eslint-disable camelcase */
     const oImg = new Image();
     const url = reportURL[this.env] || '';

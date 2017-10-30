@@ -299,7 +299,6 @@ var toConsumableArray = function (arr) {
  * BI统计
  */
 
-var custId = getCustId();
 var uuid = getUUID();
 
 // 上报地址
@@ -360,6 +359,7 @@ var BI = function () {
       // set params
       params = params || {};
 
+      var custId = getCustId();
       /* eslint-disable camelcase */
       var oImg = new Image();
       var url = reportURL[this.env] || '';
@@ -523,6 +523,7 @@ var platform = {
  */
 
 /* eslint-disable class-methods-use-this */
+/* eslint-disable no-useless-escape */
 var DATA_REGEX = /data\-(\w*)\-(\w*)/;
 
 // 定义自定义属性
