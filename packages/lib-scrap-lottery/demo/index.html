@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>刮奖demo</title>
+  <link rel="stylesheet" href="https://cdnsit.jyblife.com/act/201711/platform/css/index-cd5d09ca.css">
+  <style>
+    
+/* #lotteryContainer {
+    position:relative;
+    width: 5.91rem;
+    height:2.27rem;
+    display: inline-block;
+    background: #fcc4c4;
+    border-radius: 0.1rem;
+    
+}
+#lotteryContainer a{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.lottery-wrap{
+  width: 7rem;
+  height: 4.35rem;
+  border-radius: 0.15rem;
+  background: #c93c1a;
+  border: 1px solid #b13316;
+  margin: 0 auto;
+}
+.lottery-wrap .lottery-box{
+  width: 6.56rem;
+  height: 2.75rem;
+  background: #ffce3d;
+  background-size: 100% 100%;
+  margin: 0.35rem auto;
+  text-align: center;
+  padding-top: 0.24rem;
+}
+.lottery-wrap .lottery-content{
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+  }
+.lottery-wrap .lottery-content .lottery-chance{
+  float: left;
+  display: inline-block;
+  text-align: center;
+  width: 70%;
+}
+.lottery-wrap  .lottery-content .lottery-reload{
+  display: inline-block;
+  position: absolute;
+  bottom: 0rem;
+  right: 0;
+  text-decoration: underline;
+  color: #ffce3d;
+  height: .4rem;
+  line-height: .4rem;
+  width: 20%;
+  margin-right: 10%;
+  display: block;
+}
+.lottery-wrap .lottery-content-none .lottery-chance{
+  display: block;
+}
+.lottery-wrap .lottery-content-none .lottery-reload{
+  display: none;
+}
+.number{
+  display: inline-block;
+  height: .5rem;
+  line-height: .5rem;
+  border-radius: .5rem;
+  padding: 0 .25rem;
+  background: #ffce3d;
+  color: #ea3003;
+}
+.f-30{
+  font-size: 0.3rem;
+}
+.f-24{
+  font-size: 0.24rem;
+}
+.color-fff{
+  color: #fff;
+} */
+</style>
+<script type="text/javascript">
+  (function(doc, win) {
+      var basicWidth = window.basicWidth || 750;
+      var minWidth = 320;
+      var htmlElement = doc.documentElement;
+      var recalc = function() {
+          var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+          clientWidth = clientWidth < minWidth ? minWidth : clientWidth;
+          htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+      };
+      recalc();
+      if (!win.addEventListener) return;
+      win.addEventListener('resize', recalc, false);
+  })(document, window);
+</script>
+</head>
+
+<body>
+  <div class="lottery-wrap">
+    <div class="lottery-box">
+      <div id="lotteryContainer"></div>
+    </div> 
+    <div class="lottery-content-none"  id="lottery_again">
+        <p class="f-30 color-fff lottery-chance">当前您的刮奖机会：<span class="number" id="number">0次</span></p>
+        <a href="javascript:;" class="lottery-reload f-24" et="click:lotteryAgain">再刮一次</a>
+      </div>
+  </div>
+  <script src="../dist/scrapLottery.dev.js"></script>
+  <script>
+    (function() {
+      const width = document.getElementById("lotteryContainer").offsetWidth;
+      const height = document.getElementById("lotteryContainer").offsetHeight;
+      const lottery = new ScrapLottery({
+        conId:'lotteryContainer', 
+        cover:'#ccc', 
+        coverType:'color', 
+        width:width, 
+        height:height, 
+        isScrape:true,
+        drawPercentCallback(percent) {
+          if(percent > 65){
+            alert("恭喜您中奖了");
+          }
+         }
+      });
+      lottery.init('red', 'text');
+    })();
+  </script>
+</body>
+
+</html>
