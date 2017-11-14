@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-scrap-lottery",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "刮奖",
   "main": "dist/scrapLottery.js",
   "scripts": {
