@@ -15,11 +15,11 @@ describe('src/dataset/index.js', () => {
     should(alias['ec']).be.equal('statEc');
     should(alias['visit']).be.equal('statVisit');
     should(alias['para']).be.equal('statPara');
+    should(alias['id']).be.equal('statId');
   });
 
   it('should get dataset obj', () => {
-    let obj = {};
-    const dataSetObj = dataAttr.getDataSetObj(obj, [alias.ea, alias.eb, alias.ec], {
+    const dataSetObj = dataAttr.getDataSetObj([alias.ea, alias.eb, alias.ec], {
       statEa: 'ea',
       statEb: 'eb',
       statEc: 'ec'

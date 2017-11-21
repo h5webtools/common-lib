@@ -6,6 +6,7 @@
 <div data-stat-ea="home">
   <div data-stat-eb="search" data-stat-visit="pv">
     <a data-stat-ec="btn" data-stat-para="{'op_type': 'click'}" href="javascript:;">search</a>
+    <a data-stat-id="30008.1.1" href="javascript:;">report id</a>
   </div>
 </div>
 ```
