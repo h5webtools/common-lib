@@ -22,18 +22,18 @@ import Bimta from '@jyb/lib-bimta'
 
 ```javascript
 const configMap = {
-    home: { // 自定义，对应ea
-        id: '30000',
-        search: { // 自定义，对应eb
-            id: '1',
-            pv: { // 固定为pv
-                id: '1'
-            },
-            btn: { // 自定义，对应ec
-                id: '2'
-            }
-        }
+  home: { // 自定义，对应ea
+    id: '30000',
+    search: { // 自定义，对应eb
+      id: '1',
+      pv: { // 固定为pv
+        id: '1'
+      },
+      btn: { // 自定义，对应ec
+        id: '2'
+      }
     }
+  }
 };
 ```
 
@@ -49,16 +49,16 @@ const configMap = {
 
 ```javascript
 {
-    bi: {
-        ak: '', // 默认：KVQiUTJf
-        cmd: '' // 默认：65010000
-    },
-    mta: {
-        src: '', // 默认：//pingjs.qq.com/h5/stats.js?v2.0.4
-        name: '', // 默认：MTAH5
-        sid: '', // 默认：500478186
-        cid: '' // 默认：500478188
-    }
+  bi: {
+    ak: '', // 默认：KVQiUTJf
+    cmd: '' // 默认：65010000
+  },
+  mta: {
+    src: '', // 默认：//pingjs.qq.com/h5/stats.js?v2.0.4
+    name: '', // 默认：MTAH5
+    sid: '', // 默认：500478186
+    cid: '' // 默认：500478188
+  }
 }
 ```
 
@@ -70,8 +70,8 @@ const configMap = {
 
 ```javascript
 function createCommonParams(defaults) {
-    // defaults为内部的生成公共参数函数返回的值，你可以选择进行合并
-    return {};
+  // defaults为内部的生成公共参数函数返回的值，你可以选择进行合并
+  return {};
 }
 ```
 

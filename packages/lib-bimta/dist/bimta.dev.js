@@ -251,6 +251,20 @@ var createClass = function () {
 
 
 
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 
 
 
@@ -532,7 +546,8 @@ var customAttr = {
   eb: 'data-stat-eb',
   ec: 'data-stat-ec',
   visit: 'data-stat-visit',
-  para: 'data-stat-para'
+  para: 'data-stat-para',
+  id: 'data-stat-id'
 };
 
 // 默认配置
@@ -583,7 +598,6 @@ var DataAttribute = function () {
 
     /**
      * 获取数据属性的值，返回对象
-     * @param {Object} obj 用来保存数据属性的值
      * @param {Array} attrs 用于数据属性顺序
      * @param {Object} dataset 获取到的数据集合
      * @return {Object}
@@ -592,10 +606,10 @@ var DataAttribute = function () {
   }, {
     key: 'getDataSetObj',
     value: function getDataSetObj() {
-      var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      var dataset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var dataset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+      var obj = {};
       attrs.forEach(function (attr) {
         if (typeof dataset[attr] !== 'undefined') {
           obj[attr] = dataset[attr];
@@ -702,6 +716,7 @@ var Bimta = function () {
     value: function start() {
       try {
         this._init();
+        this._initQueryStringReport();
         this._initPageviewReport();
         this._initEventReport();
       } catch (e) {
@@ -806,6 +821,24 @@ var Bimta = function () {
     }
 
     /**
+     * 初始化qs上报
+     */
+
+  }, {
+    key: '_initQueryStringReport',
+    value: function _initQueryStringReport() {
+      // 客户端内
+      if (os.jyb) {
+        var mtaID = getQuery('mta_id');
+        // 检查事件ID格式
+        if (this._checkEventID(mtaID)) {
+          // 因为客户端内打开，客户端会获取mta_id上报，所以这里只报MTA
+          this._call('event', mtaID, {}, ['mta']);
+        }
+      }
+    }
+
+    /**
      * 初始化pv上报
      */
 
@@ -862,9 +895,10 @@ var Bimta = function () {
       var ids = '';
       var dataAttribute = this.dataAttribute;
       var alias = dataAttribute.alias;
+      var needAttrs = attrs.concat(alias.id);
 
       while (el && el !== document.documentElement) {
-        dataAttribute.getDataSetObj(dataSetObj, attrs, el.dataset);
+        _extends(dataSetObj, dataAttribute.getDataSetObj(needAttrs, el.dataset));
 
         // 如果第一个层级有值，跳出循环
         if (dataSetObj[alias.ea]) {
@@ -872,6 +906,11 @@ var Bimta = function () {
         }
 
         el = el.parentNode;
+      }
+
+      // 如果获取到事件ID，直接上报
+      if (dataSetObj[alias.id]) {
+        this._call(method, dataSetObj[alias.id]);
       }
 
       // 检查ea,eb,ec是否有值
@@ -964,14 +1003,17 @@ var Bimta = function () {
     /**
      * 方法调用
      * @param {String} method 调用方法，pageview/event
-     * @param {String|Object} eventID
-     * @param {Object} params
+     * @param {String|Object} eventID 事件ID
+     * @param {Object} params 参数
+     * @param {Array} platforms 平台
      * @return {Boolean}
      */
 
   }, {
     key: '_call',
-    value: function _call(method, eventID, params) {
+    value: function _call(method, eventID, params, platforms) {
+      var _this4 = this;
+
       params = params || {};
 
       // 检查事件ID格式是否正确
@@ -994,9 +1036,16 @@ var Bimta = function () {
       }
 
       mergeParams = assign(commonParams, params);
-      each(this.platform, function (p) {
-        p[method](ids, mergeParams);
-      });
+      // 如果platforms参数为数组，按照platforms上报
+      if (Array.isArray(platforms)) {
+        platforms.forEach(function (val) {
+          return _this4.platform[val] && _this4.platform[val][method](ids, mergeParams);
+        });
+      } else {
+        each(this.platform, function (p) {
+          p[method](ids, mergeParams);
+        });
+      }
 
       return true;
     }
