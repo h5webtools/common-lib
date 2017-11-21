@@ -15,7 +15,8 @@ const customAttr = {
   eb: 'data-stat-eb',
   ec: 'data-stat-ec',
   visit: 'data-stat-visit',
-  para: 'data-stat-para'
+  para: 'data-stat-para',
+  id: 'data-stat-id'
 };
 
 // 默认配置
@@ -57,12 +58,12 @@ class DataAttribute {
 
   /**
    * 获取数据属性的值，返回对象
-   * @param {Object} obj 用来保存数据属性的值
    * @param {Array} attrs 用于数据属性顺序
    * @param {Object} dataset 获取到的数据集合
    * @return {Object}
    */
-  getDataSetObj(obj = {}, attrs = [], dataset = {}) {
+  getDataSetObj(attrs = [], dataset = {}) {
+    const obj = {};
     attrs.forEach((attr) => {
       if (typeof dataset[attr] !== 'undefined') {
         obj[attr] = dataset[attr];

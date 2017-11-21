@@ -5,6 +5,7 @@
 /* eslint-disable class-methods-use-this */
 import * as _ from './util/index';
 import * as log from './util/log';
+import utilEnv from './util/env';
 import platform from './platform/index';
 import DataAttribute from './dataset/index';
 import { createCommonParams } from './param';
@@ -41,6 +42,7 @@ class Bimta {
   start() {
     try {
       this._init();
+      this._initQueryStringReport();
       this._initPageviewReport();
       this._initEventReport();
     } catch (e) {
@@ -125,6 +127,21 @@ class Bimta {
   }
 
   /**
+   * 初始化qs上报
+   */
+  _initQueryStringReport() {
+    // 客户端内
+    if (utilEnv.jyb) {
+      const mtaID = _.getQuery('mta_id');
+      // 检查事件ID格式
+      if (this._checkEventID(mtaID)) {
+        // 因为客户端内打开，客户端会获取mta_id上报，所以这里只报MTA
+        this._call('event', mtaID, {}, ['mta']);
+      }
+    }
+  }
+
+  /**
    * 初始化pv上报
    */
   _initPageviewReport() {
@@ -168,9 +185,10 @@ class Bimta {
     let ids = '';
     const dataAttribute = this.dataAttribute;
     const alias = dataAttribute.alias;
+    const needAttrs = attrs.concat(alias.id);
 
     while (el && el !== document.documentElement) {
-      dataAttribute.getDataSetObj(dataSetObj, attrs, el.dataset);
+      Object.assign(dataSetObj, dataAttribute.getDataSetObj(needAttrs, el.dataset));
 
       // 如果第一个层级有值，跳出循环
       if (dataSetObj[alias.ea]) {
@@ -178,6 +196,11 @@ class Bimta {
       }
 
       el = el.parentNode;
+    }
+
+    // 如果获取到事件ID，直接上报
+    if (dataSetObj[alias.id]) {
+      this._call(method, dataSetObj[alias.id]);
     }
 
     // 检查ea,eb,ec是否有值
@@ -256,11 +279,12 @@ class Bimta {
   /**
    * 方法调用
    * @param {String} method 调用方法，pageview/event
-   * @param {String|Object} eventID
-   * @param {Object} params
+   * @param {String|Object} eventID 事件ID
+   * @param {Object} params 参数
+   * @param {Array} platforms 平台
    * @return {Boolean}
    */
-  _call(method, eventID, params) {
+  _call(method, eventID, params, platforms) {
     params = params || {};
 
     // 检查事件ID格式是否正确
@@ -283,9 +307,14 @@ class Bimta {
     }
 
     mergeParams = _.assign(commonParams, params);
-    _.each(this.platform, (p) => {
-      p[method](ids, mergeParams);
-    });
+    // 如果platforms参数为数组，按照platforms上报
+    if (Array.isArray(platforms)) {
+      platforms.forEach(val => this.platform[val] && this.platform[val][method](ids, mergeParams));
+    } else {
+      _.each(this.platform, (p) => {
+        p[method](ids, mergeParams);
+      });
+    }
 
     return true;
   }

@@ -2,7 +2,7 @@
  * 统计配置
  */
 
-(function(exports) {
+(function (exports) {
   exports.configMap = {
     home: {
       id: '30000',
@@ -20,4 +20,4 @@
       }
     }
   };
-})(window);
+}(window));
