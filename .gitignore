@@ -2,5 +2,7 @@ node_modules
 .DS_Store
 coverage
 packages/**/dist/*.map
+packages/**/package-lock.json
+package-lock.json
 *.log
 _book

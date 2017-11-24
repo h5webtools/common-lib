@@ -99,10 +99,10 @@ class Dialog {
    * 关闭
    */
   close() {
-    this.options.onClose();
     this.dialogNode.css({
       display: 'none'
     });
+    this.options.onClose();
   }
 
   /**
