@@ -95,6 +95,7 @@ describe('src/index.js', () => {
             <div data-stat-ea="home">
                 <div data-stat-eb="search" data-stat-visit="pv">
                     <a class="search-btn" data-stat-ec="btn" data-stat-para="{'action': 'click'}" href="javascript:;">search</a>
+                    <a class="report-id-btn" data-stat-id="30008.1.1" href="javascript:;">report id</a>
                 </div>
             </div>
         `;
@@ -124,6 +125,16 @@ describe('src/index.js', () => {
     should(objR2Body.cmd).be.equal('65010000');
     should(objR2Body.data[0].op_object).be.equal('30000.1.2');
     should(objR2Body.data[0].op_params.action).be.equal('click');
+
+    // event
+    document.querySelector('.report-id-btn').click();
+
+    const objR3 = report.reportURLInverse(oImage.loadQueue.dequeue());
+    const objR3Body = JSON.parse(objR3.body);
+
+    should(objR3.ak).be.equal('KVQiUTJf');
+    should(objR3Body.cmd).be.equal('65010000');
+    should(objR3Body.data[0].op_object).be.equal('30008.1.1');
 
     should(oImage.loadQueue.length()).be.equal(0);
   });
