@@ -6,7 +6,7 @@ import tips from '@jyb/lib-tips';
 
 const PayTypes = {
   weixinPay: 2,
-  newWXPay: 7,
+  newWXPay: window.wxPayType || 7,
   baofooPay: 6,
   QQpay: 8,
   jybPay: -1,
@@ -98,7 +98,7 @@ class PayHelper {
     let payType = PayTypes.baiduPay;
 
     if (/micromessenger/.test(ua)) {
-      payType = PayTypes.newWXPay;
+      payType = window.wxPayType ? PayTypes.newWXPay : PayTypes.weixinPay;
     } else if (/qq\//.test(ua)) {
       payType = PayTypes.QQpay;
     } else if (/jiayoubao/.test(ua)) {
