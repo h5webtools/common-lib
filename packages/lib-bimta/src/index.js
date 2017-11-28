@@ -5,7 +5,6 @@
 /* eslint-disable class-methods-use-this */
 import * as _ from './util/index';
 import * as log from './util/log';
-import utilEnv from './util/env';
 import platform from './platform/index';
 import DataAttribute from './dataset/index';
 import { createCommonParams } from './param';
@@ -130,14 +129,11 @@ class Bimta {
    * 初始化qs上报
    */
   _initQueryStringReport() {
-    // 客户端内
-    if (utilEnv.jyb) {
-      const mtaID = _.getQuery('mta_id');
-      // 检查事件ID格式
-      if (this._checkEventID(mtaID)) {
-        // 因为客户端内打开，客户端会获取mta_id上报，所以这里只报MTA
-        this._call('event', mtaID, {}, ['mta']);
-      }
+    const mtaID = _.getQuery('mta_id');
+    // 检查事件ID格式
+    if (this._checkEventID(mtaID)) {
+      // 只报MTA
+      this._call('event', mtaID, {}, ['mta']);
     }
   }
 
