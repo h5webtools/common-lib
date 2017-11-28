@@ -7,10 +7,10 @@ import tips from '@jyb/lib-tips';
 const PayTypes = {
   weixinPay: 2,
   newWXPay: window.wxPayType || 7,
-  baofooPay: 6,
+  baofooPay: 6, // 宝付和支付宝
   QQpay: 8,
   jybPay: -1,
-  baiduPay: 0,
+  baiduPay: 1,
 };
 
 const payHandler = {

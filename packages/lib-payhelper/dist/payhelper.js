@@ -231,10 +231,10 @@ var _payHandler;
 var PayTypes = {
   weixinPay: 2,
   newWXPay: window.wxPayType || 7,
-  baofooPay: 6,
+  baofooPay: 6, // 宝付和支付宝
   QQpay: 8,
   jybPay: -1,
-  baiduPay: 0
+  baiduPay: 1
 };
 
 var payHandler = (_payHandler = {}, defineProperty(_payHandler, PayTypes.baofooPay, function (_ref) {
