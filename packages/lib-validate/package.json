@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-validate",
-  "version": "0.1.8",
+  "version": "1.0.12",
   "description": "表单校验",
   "main": "dist/validate.js",
   "scripts": {
