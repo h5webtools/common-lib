@@ -92,7 +92,7 @@ class Validate {
       });
 
       results = results.concat(validResult);
-      rule.callback && rule.callback(node, validResult);
+      rule.callback && rule.callback(node, validResult, val);
     });
 
     return results;

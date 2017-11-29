@@ -341,7 +341,7 @@ var Validate = function () {
         });
 
         results = results.concat(validResult);
-        rule.callback && rule.callback(node, validResult);
+        rule.callback && rule.callback(node, validResult, val);
       });
 
       return results;
