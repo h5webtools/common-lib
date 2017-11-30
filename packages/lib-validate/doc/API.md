@@ -47,6 +47,21 @@ instance.addValidator('newValidator', (el, value, options) => {
 });
 ```
 
+### setRuleStatus(node, isDisable)
+
+```text
+/**
+ * 设置规则状态
+ * @param {String|Number} node 字符串或者rule数组下标
+ * @param {Boolean} 是否禁用，默认为false
+ */
+```
+
+```javascript
+instance.setRuleStatus('#username', true);
+instance.setRuleStatus(0, false);
+```
+
 ### validate()
 
 校验

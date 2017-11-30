@@ -64,6 +64,15 @@ function isString(str) {
 }
 
 /**
+ * 是否是数字
+ * @param {Number} num
+ * @return {Boolean}
+ */
+function isNumber(num) {
+  return toStr.call(num) === '[object Number]';
+}
+
+/**
  * css
  * @param {Object} el
  * @param {Object} obj
@@ -236,6 +245,7 @@ var createClass = function () {
  *  node: '',
  *  validators: [{
  *    name: 'required',
+ *    disabled: true,
  *    options: {
  *      itemName: '',
  *      emptyMsg: ''
@@ -311,6 +321,36 @@ var Validate = function () {
     }
 
     /**
+     * 设置规则状态
+     * @param {String|Number} node 字符串或者rule数组下标
+     * @param {Boolean} 是否禁用，默认为false
+     */
+
+  }, {
+    key: 'setRuleStatus',
+    value: function setRuleStatus(node) {
+      var isDisable = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      var rules = this.rules;
+
+      if (isString(node)) {
+        rules.forEach(function (rule) {
+          if (rule.node === node) {
+            // 规则设置为禁用
+            rule.disabled = isDisable;
+          }
+        });
+      } else if (isNumber(node)) {
+        if (isObject(rules[node])) {
+          // 规则设置为禁用
+          rules[node].disabled = isDisable;
+        }
+      } else {
+        throw new Error('找不到规则');
+      }
+    }
+
+    /**
      * 校验
      */
 
@@ -322,6 +362,7 @@ var Validate = function () {
       var results = [];
 
       this.rules.forEach(function (rule) {
+        if (rule.disabled) return;
         var node = _this2.getRealNode(rule.node);
         var validators$$1 = rule.validators || [];
         var val = node.value.trim();

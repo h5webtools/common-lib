@@ -10,6 +10,7 @@ import * as util from './util';
  *  node: '',
  *  validators: [{
  *    name: 'required',
+ *    disabled: true,
  *    options: {
  *      itemName: '',
  *      emptyMsg: ''
@@ -69,12 +70,38 @@ class Validate {
   }
 
   /**
+   * 设置规则状态
+   * @param {String|Number} node 字符串或者rule数组下标
+   * @param {Boolean} 是否禁用，默认为false
+   */
+  setRuleStatus(node, isDisable = false) {
+    const rules = this.rules;
+
+    if (util.isString(node)) {
+      rules.forEach((rule) => {
+        if (rule.node === node) {
+          // 规则设置为禁用
+          rule.disabled = isDisable;
+        }
+      });
+    } else if (util.isNumber(node)) {
+      if (util.isObject(rules[node])) {
+        // 规则设置为禁用
+        rules[node].disabled = isDisable;
+      }
+    } else {
+      throw new Error('找不到规则');
+    }
+  }
+
+  /**
    * 校验
    */
   validate() {
     let results = [];
 
     this.rules.forEach((rule) => {
+      if (rule.disabled) return;
       const node = this.getRealNode(rule.node);
       const validators = rule.validators || [];
       const val = node.value.trim();
