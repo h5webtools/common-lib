@@ -1,1 +1,396 @@
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.Validate=t()}(this,function(){"use strict";function e(e,a){if(!n(a))throw new Error("cb must be a function.");if(Array.isArray(e))for(var r=0,i=e.length;r<i&&!1!==a(r,e[r]);r++);else if(t(e))for(var c in e)if(o.call(e,c)&&!1===a(c,e[c]))break}function t(e){return"[object Object]"===i.call(e)}function n(e){return"function"==typeof e}function a(e){return"[object String]"===i.call(e)}function r(e){return"string"==typeof e?document.querySelector(e):e}var i=Object.prototype.toString,o=Object.prototype.hasOwnProperty,c=[{name:"required",callback:function(e,t,n){var a=e.tagName,r=[];return""===t?r.push(n.errMsg||"您输入的"+n.itemName+"不能为空"):"SELECT"!==a||n.reg.test(t)||r.push(n.errMsg||"请选择"+n.itemName),r}},{name:"format",callback:function(e,t,n){var a=[];return n.reg.test(t)||a.push(n.errMsg||"您输入的"+n.itemName+"格式有误"),a}},{name:"length",callback:function(e,t,n){var a=[],r=t.length;return n.dByte&&(r=t.replace(/[\u0391-\uFFE5]/g,"__").length),n.maxLen&&r>n.maxLen?a.push(n.errMsg||"您输入的"+n.itemName+"超过"+n.maxLen+"个字符"):n.minLen&&r<n.minLen&&a.push(n.errMsg||"您输入的"+n.itemName+"不足"+n.minLen+"个字符"),a}},{name:"range",callback:function(e,t,n){var a=[];return(n.minVal&&t<n.minVal||n.maxVal&&t>n.maxVal)&&a.push(n.errMsg||"请输入"+n.minVal+"-"+n.maxVal+"的数字"),a}},{name:"compare",callback:function(e,t,n){var a=[];return n.compareWith&&(this.cacheNodes[n.compareWith]||r(n.compareWith)).value.trim()!==t&&a.push(n.errMsg||"两次输入的"+n.itemName+"不一致"),a}}],u=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},l=function(){function e(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}();return function(){function t(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];u(this,t),this.rules=e,this.validators={},this.cacheNodes={},this._init()}return l(t,[{key:"_init",value:function(){var e=this;c.forEach(function(t){e.addValidator(t.name,t.callback)})}},{key:"addValidator",value:function(e,t){if(this.validators[e])throw new Error("名称为"+e+"的校验器已经存在");this.validators[e]=t}},{key:"getRealNode",value:function(e){return a(e)?this.cacheNodes[e]?e=this.cacheNodes[e]:(this.cacheNodes[e]=r(e),e=this.cacheNodes[e]):e=r(e),e}},{key:"validate",value:function(){var t=this,n=[];return this.rules.forEach(function(a){var r=t.getRealNode(a.node),i=a.validators||[],o=r.value.trim(),c=[];e(i,function(e,n){var a=n.name,i=n.options,u=t.validators[a];return!u||0===(c=c.concat(u.call(t,r,o,i||{})||[])).length}),n=n.concat(c),a.callback&&a.callback(r,c)}),n}}]),t}()});
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Validate = factory());
+}(this, (function () { 'use strict';
+
+/**
+ * 工具库
+ */
+
+var toStr = Object.prototype.toString;
+var hasOwn = Object.prototype.hasOwnProperty;
+
+/**
+ * each
+ * @param {Object|Array} obj
+ * @param {Function} cb
+ */
+function each(obj, cb) {
+  if (!isFunction(cb)) {
+    throw new Error('cb must be a function.');
+  }
+
+  if (Array.isArray(obj)) {
+    for (var i = 0, l = obj.length; i < l; i++) {
+      var res = cb(i, obj[i]);
+      if (res === false) break;
+    }
+  } else if (isObject(obj)) {
+    for (var k in obj) {
+      if (hasOwn.call(obj, k)) {
+        var _res = cb(k, obj[k]);
+        if (_res === false) break;
+      }
+    }
+  }
+}
+
+/**
+ * 是否是对象
+ * @param {Object} obj
+ * @return {Boolean}
+ */
+function isObject(obj) {
+  return toStr.call(obj) === '[object Object]';
+}
+
+/**
+ * 是否是函数
+ * @param {Function} fn
+ * @return {Boolean}
+ */
+function isFunction(fn) {
+  return typeof fn === 'function';
+}
+
+/**
+ * 是否是字符串
+ * @param {String} str
+ * @return {Boolean}
+ */
+function isString(str) {
+  return toStr.call(str) === '[object String]';
+}
+
+/**
+ * 是否是数字
+ * @param {Number} num
+ * @return {Boolean}
+ */
+function isNumber(num) {
+  return toStr.call(num) === '[object Number]';
+}
+
+/**
+ * css
+ * @param {Object} el
+ * @param {Object} obj
+ */
+
+
+/**
+ * 获取元素
+ * @param {String|HTMLElement} node
+ * @return {HTMLElement}
+ */
+function getElement(node) {
+  if (typeof node === 'string') {
+    return document.querySelector(node);
+  }
+  return node;
+}
+
+/**
+ * 校验器
+ */
+
+var validators = [{
+  /**
+   * required validator
+   * @param {Object} el
+   * @param {Any} value
+   * @param {Object} options
+   * @param {String} options.errMsg
+   * @param {String} options.itemName
+   */
+  name: 'required',
+  callback: function callback(el, value, options) {
+    var tagName = el.tagName;
+    var validResult = [];
+
+    if (value === '') {
+      validResult.push(options.errMsg || '\u60A8\u8F93\u5165\u7684' + options.itemName + '\u4E0D\u80FD\u4E3A\u7A7A');
+    } else if (tagName === 'SELECT' && !options.reg.test(value)) {
+      validResult.push(options.errMsg || '\u8BF7\u9009\u62E9' + options.itemName);
+    }
+
+    return validResult;
+  }
+}, {
+  /**
+   * format validator
+   * @param {Object} el
+   * @param {Any} value
+   * @param {Object} options
+   * @param {Regex} options.reg
+   * @param {String} options.itemName
+   * @param {String} options.errMsg
+   */
+  name: 'format',
+  callback: function callback(el, value, options) {
+    var validResult = [];
+
+    if (!options.reg.test(value)) {
+      validResult.push(options.errMsg || '\u60A8\u8F93\u5165\u7684' + options.itemName + '\u683C\u5F0F\u6709\u8BEF');
+    }
+
+    return validResult;
+  }
+}, {
+  /**
+   * length validator
+   * @param {Object} el
+   * @param {Any} value
+   * @param {Object} options
+   * @param {Boolean} options.dByte
+   * @param {Number} options.maxLen
+   * @param {Number} options.minLen
+   * @param {String} options.errMsg
+   * @param {String} options.itemName
+   */
+  name: 'length',
+  callback: function callback(el, value, options) {
+    var validResult = [];
+    var valLen = value.length;
+
+    if (options.dByte) {
+      valLen = value.replace(/[\u0391-\uFFE5]/g, '__').length;
+    }
+
+    if (options.maxLen && valLen > options.maxLen) {
+      validResult.push(options.errMsg || '\u60A8\u8F93\u5165\u7684' + options.itemName + '\u8D85\u8FC7' + options.maxLen + '\u4E2A\u5B57\u7B26');
+    } else if (options.minLen && valLen < options.minLen) {
+      validResult.push(options.errMsg || '\u60A8\u8F93\u5165\u7684' + options.itemName + '\u4E0D\u8DB3' + options.minLen + '\u4E2A\u5B57\u7B26');
+    }
+
+    return validResult;
+  }
+}, {
+  /**
+   * range validator
+   * @param {Object} el
+   * @param {Any} value
+   * @param {Object} options
+   * @param {Number} options.minVal
+   * @param {Number} options.maxVal
+   * @param {String} options.errMsg
+   */
+  name: 'range',
+  callback: function callback(el, value, options) {
+    var validResult = [];
+
+    if (options.minVal && value < options.minVal || options.maxVal && value > options.maxVal) {
+      validResult.push(options.errMsg || '\u8BF7\u8F93\u5165' + options.minVal + '-' + options.maxVal + '\u7684\u6570\u5B57');
+    }
+
+    return validResult;
+  }
+}, {
+  /**
+   * compare validator
+   * @param {Object} el
+   * @param {Any} value
+   * @param {Object} options
+   * @param {Object|String} options.compareWith
+   * @param {String} options.itemName
+   * @param {String} options.errMsg
+   */
+  name: 'compare',
+  callback: function callback(el, value, options) {
+    var validResult = [];
+
+    if (options.compareWith) {
+      var targetNode = this.cacheNodes[options.compareWith] || getElement(options.compareWith);
+
+      if (targetNode.value.trim() !== value) {
+        validResult.push(options.errMsg || '\u4E24\u6B21\u8F93\u5165\u7684' + options.itemName + '\u4E0D\u4E00\u81F4');
+      }
+    }
+
+    return validResult;
+  }
+}];
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+/**
+ * 表单校验
+ */
+
+/**
+ * const validObj = new Validate([{
+ *  node: '',
+ *  validators: [{
+ *    name: 'required',
+ *    disabled: true,
+ *    options: {
+ *      itemName: '',
+ *      emptyMsg: ''
+ *    }
+ *  }],
+ *  callback(el, validResult) {}
+ * }]);
+ * validObj.addValidator('required', (el, value, options) => {});
+ * validObj.validate();
+ */
+
+var Validate = function () {
+  function Validate() {
+    var rules = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    classCallCheck(this, Validate);
+
+    this.rules = rules;
+    this.validators = {};
+    this.cacheNodes = {};
+    this._init();
+  }
+
+  /**
+   * 初始化
+   */
+
+
+  createClass(Validate, [{
+    key: '_init',
+    value: function _init() {
+      var _this = this;
+
+      validators.forEach(function (validator) {
+        _this.addValidator(validator.name, validator.callback);
+      });
+    }
+
+    /**
+     * 添加校验器
+     * @param {String} name 名称
+     * @param {Function} validator 函数
+     */
+
+  }, {
+    key: 'addValidator',
+    value: function addValidator(name, validator) {
+      if (this.validators[name]) {
+        throw new Error('\u540D\u79F0\u4E3A' + name + '\u7684\u6821\u9A8C\u5668\u5DF2\u7ECF\u5B58\u5728');
+      }
+      this.validators[name] = validator;
+    }
+
+    /**
+     * 获取元素
+     * @param {String|HTMLElement} node
+     * @return {HTMLElement}
+     */
+
+  }, {
+    key: 'getRealNode',
+    value: function getRealNode(node) {
+      if (isString(node)) {
+        if (this.cacheNodes[node]) {
+          node = this.cacheNodes[node];
+        } else {
+          this.cacheNodes[node] = getElement(node);
+          node = this.cacheNodes[node];
+        }
+      } else {
+        node = getElement(node);
+      }
+      return node;
+    }
+
+    /**
+     * 设置规则状态
+     * @param {String|Number} node 字符串或者rule数组下标
+     * @param {Boolean} 是否禁用，默认为false
+     */
+
+  }, {
+    key: 'setRuleStatus',
+    value: function setRuleStatus(node) {
+      var isDisable = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      var rules = this.rules;
+
+      if (isString(node)) {
+        rules.forEach(function (rule) {
+          if (rule.node === node) {
+            // 规则设置为禁用
+            rule.disabled = isDisable;
+          }
+        });
+      } else if (isNumber(node)) {
+        if (isObject(rules[node])) {
+          // 规则设置为禁用
+          rules[node].disabled = isDisable;
+        }
+      } else {
+        throw new Error('找不到规则');
+      }
+    }
+
+    /**
+     * 校验
+     */
+
+  }, {
+    key: 'validate',
+    value: function validate() {
+      var _this2 = this;
+
+      var results = [];
+
+      this.rules.forEach(function (rule) {
+        if (rule.disabled) return;
+        var node = _this2.getRealNode(rule.node);
+        var validators$$1 = rule.validators || [];
+        var val = node.value.trim();
+        var validResult = [];
+
+        each(validators$$1, function (i, obj) {
+          var name = obj.name,
+              options = obj.options;
+
+          var validator = _this2.validators[name];
+
+          if (validator) {
+            validResult = validResult.concat(validator.call(_this2, node, val, options || {}) || []);
+            return validResult.length === 0;
+          }
+          return true;
+        });
+
+        results = results.concat(validResult);
+        rule.callback && rule.callback(node, validResult, val);
+      });
+
+      return results;
+    }
+  }]);
+  return Validate;
+}();
+
+return Validate;
+
+})));

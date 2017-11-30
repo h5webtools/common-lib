@@ -28,7 +28,7 @@ import Validate from '@jyb/lib-validate'
       emptyMsg: ''
     }
   }],
-  callback(el, validResult) {} // 回调
+  callback(el, validResult, value) {} // 回调
 }
 ```
 
@@ -43,7 +43,23 @@ instance.addValidator('newValidator', (el, value, options) => {
   // el: 当前元素对象
   // value: 当前的值
   // options: 校验器的参数的值
+  return []; // 返回数组，如果校验通过，数组为空；如果校验失败，数组为错误信息
 });
+```
+
+### setRuleStatus(node, isDisable)
+
+```text
+/**
+ * 设置规则状态
+ * @param {String|Number} node 字符串或者rule数组下标
+ * @param {Boolean} 是否禁用，默认为false
+ */
+```
+
+```javascript
+instance.setRuleStatus('#username', true);
+instance.setRuleStatus(0, false);
 ```
 
 ### validate()

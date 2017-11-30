@@ -58,6 +58,15 @@ export function isString(str) {
 }
 
 /**
+ * 是否是数字
+ * @param {Number} num
+ * @return {Boolean}
+ */
+export function isNumber(num) {
+  return toStr.call(num) === '[object Number]';
+}
+
+/**
  * css
  * @param {Object} el
  * @param {Object} obj
