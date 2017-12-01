@@ -1,0 +1,36 @@
+{
+  "name": "@jyb/lib-ajax",
+  "version": "0.1.0",
+  "description": "ajax模块",
+  "main": "dist/ajax.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Ajax",
+    "devDest": "dist/ajax.dev.js",
+    "minDest": "dist/ajax.min.js",
+    "prodDest": "dist/ajax.js"
+  },
+  "dependencies": {
+    "@jyb/lib-type-of": "^1.0.0"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT"
+}
