@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="../dist/typeof.dev.js"></script>
+  <script>
+    (function() {
+      function noop() {}
+
+      console.log(TypeOf(new Date) == 'date');
+      console.log(TypeOf({}) == 'object');
+      console.log(TypeOf(null) == 'null');
+      console.log(TypeOf(undefined) == 'undefined');
+      console.log(TypeOf("hey") == 'string');
+      console.log(TypeOf(true) == 'boolean');
+      console.log(TypeOf(false) == 'boolean');
+      console.log(TypeOf(12) == 'number');
+      console.log(TypeOf(noop) == 'function');
+      console.log(TypeOf(/asdf/) == 'regexp');
+      console.log(TypeOf((function(){ return arguments })()) == 'arguments');
+      console.log(TypeOf([]) == 'array');
+      console.log(TypeOf(document.createElement('div')) == 'element');
+    })();
+  </script>
+</body>
+
+</html>
