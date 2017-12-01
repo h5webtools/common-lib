@@ -4,6 +4,91 @@
 	(global.Validate = factory());
 }(this, (function () { 'use strict';
 
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+
+
+
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+
+
+
+
+
+
+
+
+
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+var extend = createCommonjsModule(function (module, exports) {
+  !function (o, t) {
+    module.exports = t();
+  }(commonjsGlobal, function () {
+    "use strict";
+    function o(o) {
+      return Array.isArray(o);
+    }function t(o) {
+      if (!o || "[object Object]" !== e.call(o)) return !1;var t = n.call(o, "constructor"),
+          r = o.constructor && o.constructor.prototype && n.call(o.constructor.prototype, "isPrototypeOf");if (o.constructor && !t && !r) return !1;var i = void 0;for (i in o) {}return void 0 === i || n.call(o, i);
+    }function r() {
+      var n = void 0,
+          e = void 0,
+          c = void 0,
+          f = void 0,
+          u = void 0,
+          y = void 0,
+          p = arguments[0],
+          l = 1,
+          d = !1,
+          s = arguments.length;for ("boolean" == typeof p && (d = p, p = arguments[1] || {}, l = 2), (null == p || "object" !== (void 0 === p ? "undefined" : i(p)) && "function" != typeof p) && (p = {}); l < s; ++l) {
+        if (null != (n = arguments[l])) for (e in n) {
+          c = p[e], p !== (f = n[e]) && (d && f && (t(f) || (u = o(f))) ? (u ? (u = !1, y = c && o(c) ? c : []) : y = c && t(c) ? c : {}, p[e] = r(d, y, f)) : void 0 !== f && (p[e] = f));
+        }
+      }return p;
+    }var n = Object.prototype.hasOwnProperty,
+        e = Object.prototype.toString,
+        i = "function" == typeof Symbol && "symbol" == _typeof(Symbol.iterator) ? function (o) {
+      return typeof o === 'undefined' ? 'undefined' : _typeof(o);
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o === 'undefined' ? 'undefined' : _typeof(o);
+    };return r;
+  });
+});
+
 /**
  * 工具库
  */
@@ -212,30 +297,6 @@ var validators = [{
   }
 }];
 
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
 /**
  * 表单校验
  */
@@ -262,7 +323,10 @@ var Validate = function () {
     var rules = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     classCallCheck(this, Validate);
 
-    this.rules = rules;
+    if (!Array.isArray(rules)) {
+      throw new Error('rules格式有误');
+    }
+    this.rules = extend(true, [], rules);
     this.validators = {};
     this.cacheNodes = {};
     this._init();

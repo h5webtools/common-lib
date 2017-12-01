@@ -26,6 +26,9 @@
     "devDest": "dist/validate.dev.js",
     "prodDest": "dist/validate.js"
   },
+  "dependencies": {
+    "@jyb/lib-extend": "^0.1.9"
+  },
   "author": "canye.wu@jyblife.com",
   "license": "MIT"
 }
