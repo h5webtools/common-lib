@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-ajax",
-  "version": "0.1.0",
+  "version": "1.0.14",
   "description": "ajax模块",
   "main": "dist/ajax.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "prodDest": "dist/ajax.js"
   },
   "dependencies": {
-    "@jyb/lib-type-of": "^1.0.0"
+    "@jyb/lib-type-of": "^1.0.14"
   },
   "author": "canye.wu@jyblife.com",
   "license": "MIT"
