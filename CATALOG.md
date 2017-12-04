@@ -1,0 +1,28 @@
+# 目录
+- @jyb/lib-ajax - ajax模块
+- @jyb/lib-bimta - BI and MTA data statistic.
+- @jyb/lib-countdown - 倒计时
+- @jyb/lib-coupon-list - 红包通用弹层
+- @jyb/lib-dialog - dialog ui component
+- @jyb/lib-elastic - 在元素上应用橡皮筋效果
+- @jyb/lib-event-emit - 自定义事件模块
+- @jyb/lib-extend - extend method from jQuery
+- @jyb/lib-img-lazyload - 图片延时加载
+- @jyb/lib-img-preview - 图片上传预览
+- @jyb/lib-jsapi - 加油宝客户端API
+- @jyb/lib-lottery - 九宫格转盘抽奖
+- @jyb/lib-payhelper - 统一支付模块
+- @jyb/lib-personid-validate - 身份证号码校验
+- @jyb/lib-polyfill - 提供一个垫片
+- @jyb/lib-scrap-lottery - 刮奖
+- @jyb/lib-scroll-to - 滚动到指定位置
+- @jyb/lib-share - 分享模块，目前支持微信授权分享，QQ分享
+- @jyb/lib-slider - 图片轮播组件，根据设定的参数实现自动轮播，自动加载图片，状态点跟随
+- @jyb/lib-tips - 公共toast
+- @jyb/lib-tracker - 前端数据采集，目前包括错误信息
+- @jyb/lib-turntable - 转盘抽奖
+- @jyb/lib-type-of - 类型判断
+- @jyb/lib-util - 工具库
+- @jyb/lib-validate - 表单校验
+- @jyb/lib-verify-code - 基础数据接口
+- @jyb/lib-zepto - zepto

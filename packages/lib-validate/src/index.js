@@ -2,6 +2,7 @@
  * 表单校验
  */
 
+import extend from '@jyb/lib-extend';
 import validatorsSet from './validator';
 import * as util from './util';
 
@@ -23,7 +24,10 @@ import * as util from './util';
  */
 class Validate {
   constructor(rules = []) {
-    this.rules = rules;
+    if (!Array.isArray(rules)) {
+      throw new Error('rules格式有误');
+    }
+    this.rules = extend(true, [], rules);
     this.validators = {};
     this.cacheNodes = {};
     this._init();

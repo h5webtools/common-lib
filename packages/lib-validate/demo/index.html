@@ -76,6 +76,7 @@
       const v2 = new Validate(rule2);
 
       oSubmit.addEventListener('click', () => {
+        v1.setRuleStatus(0, true);
         const result1 = v1.validate();
         console.log(result1);
       });
