@@ -4,6 +4,8 @@
  */
 import tips from '@jyb/lib-tips';
 
+function noop() {}
+
 const PayTypes = {
   weixinPay: 2,
   newWXPay: window.wxPayType || 7,
@@ -84,6 +86,7 @@ const payHandler = {
       orderId: this.payData.orderId,
       buttons: this.payData.buttons,
       extra: this.payData.extra,
+      success: this.payData.success || noop
     });
   }
 };
