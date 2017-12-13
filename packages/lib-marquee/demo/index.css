@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  color: #666;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.main {
+  width: 800px;
+  margin: 20px auto;
+}
+
+.demo1 {
+  width: 400px;
+  height: 30px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  line-height: 30px;
+}
+
+.demo1 .title {
+  width: 80px;
+  float: left;
+  background: #efefef;
+  text-align: center;
+}
+
+.demo1 .wrap {
+  width: 320px;
+  height: 30px;
+  float: left;
+  overflow: hidden;
+  position: relative;
+}
+
+.demo1 .wrap ul,
+.demo1 #demo2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.demo1 .wrap li {
+  width: 400px;
+  height: 30px;
+  float: left;
+  overflow: hidden;
+}
+
+.demo1 #demo2 a {
+  display: block;
+  padding-left: 10px;
+  font-size: 12px;
+  overflow: hidden;
+}
