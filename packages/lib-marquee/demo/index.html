@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>跑马灯</title>
+  <link rel="stylesheet" href="./index.css">
+  <script src="../dist/marquee.dev.js"></script>
+</head>
+
+<body>
+  <div class="main">
+    <!-- 左右滚动 -->
+    <div class="demo1">
+      <div class="title">滚动新闻</div>
+      <div class="wrap">
+        <ul id="demo1">
+          <li>
+            <a href="http://p.gmw.cn/article-2328-1.html" target="_blank">南京：世界最大最长3D地画恢弘亮相 </a><span>|</span>
+          </li>
+          <li>
+            <a href="http://www.bt.chinanews.com/News/jisheng/201406/366249.html" target="_blank">三十团“新家庭文化书屋”发挥作用宣传计生知识</a><span>|</span>
+          </li>
+          <li>
+            <a href="http://news.qtv.com.cn/system/2014/06/12/011484225.shtml" target="_blank">潘石屹被指打深航女员工 回应：完全是胡说八道</a><span>|</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      (function() {
+        new Marquee(document.getElementById('demo1'), {
+          autoPlay: true,
+          step: 3,
+          stepInterval: 0,
+          interval: 50,
+          dir: 'left'
+        });
+      })();
+    </script>
+
+    <!-- 上下滚动 -->
+    <div class="demo1">
+      <div class="title">滚动新闻</div>
+      <div class="wrap">
+        <div id="demo2">
+          <a href="http://p.gmw.cn/article-2328-1.html" target="_blank">1. 南京：世界最大最长3D地画恢弘亮相 </a>
+          <a href="http://www.bt.chinanews.com/News/jisheng/201406/366249.html" target="_blank">2. 三十团“新家庭文化书屋”发挥作用宣传计生知识</a>
+          <a href="http://news.qtv.com.cn/system/2014/06/12/011484225.shtml" target="_blank">3. 潘石屹被指打深航女员工 回应：完全是胡说八道</a>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function() {
+        new Marquee(document.getElementById('demo2'), {
+          autoPlay: true,
+          step: 30,
+          interval: 1000,
+          dir: 'up'
+        });
+      })();
+    </script>
+
+    <!-- 图片展示滚动带控制按钮 -->
+    <style>
+      .demo2 {
+        width: 500px;
+        height: 100px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .demo2 ul {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .demo2 li {
+        width: 97px;
+        padding-right: 3px;
+        float: left;
+      }
+
+      .demo2 .prevnext {
+        position: absolute;
+        top: 30px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: #333;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .demo2 .prev {
+        left: 4px;
+      }
+
+      .demo2 .next {
+        right: 7px;
+      }
+
+      .demo2 img {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <div class='demo2'>
+      <ul id="demo3">
+        <li><img src="//gw.alicdn.com/bao/uploaded/i4/3018270393/TB1j6XPaMn.PuJjSZFkXXc_lpXa_!!0-item_pic.jpg" alt=""></li>
+        <li><img src="//gw.alicdn.com/bao/uploaded/i2/725677994/TB1Laf4XQfb_uJkHFJHXXb4vFXa_!!0-item_pic.jpg" alt=""></li>
+        <li><img src="//gw.alicdn.com/bao/uploaded/i3/725677994/TB1ASZuh8TH8KJjy0FiXXcRsXXa_!!0-item_pic.jpg" alt=""></li>
+        <li><img src="//gw.alicdn.com/bao/uploaded/i4/725677994/TB1y3Jzc0HO8KJjSZFHXXbWJFXa_!!0-item_pic.jpg" alt=""></li>
+        <li><img src="//gw.alicdn.com/bao/uploaded/i4/2829060891/TB1RfEVhfDH8KJjy1XcXXcpdXXa_!!0-item_pic.jpg" alt=""></li>
+        <li><img src="//gw.alicdn.com/bao/uploaded/i2/3415686222/TB10C_qmWigSKJjSsppXXabnpXa_!!0-item_pic.jpg" alt=""></li>
+      </ul>
+      <div class="prevnext prev">&lt;</div>
+      <div class="prevnext next">&gt;</div>
+    </div>
+    <script>
+      (function() {
+
+        var oUl = document.getElementById('demo3'),
+          aPrevNext = oUl.parentNode.getElementsByTagName('div');
+
+        var m1 = new Marquee(oUl, {
+          autoPlay: false,
+          step: 100,
+          interval: 1000,
+          dir: 'right'
+        });
+
+        aPrevNext[0].onclick = function() {
+          m1.changeDir('right');
+        }
+        aPrevNext[1].onclick = function() {
+          m1.changeDir('left');
+        }
+
+      })();
+    </script>
+
+  </div>
+</body>
+
+</html>
