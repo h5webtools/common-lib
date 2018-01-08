@@ -6,21 +6,23 @@ import Validate from '@jyb/lib-validate'
 
 ## 初始化
 
-### new Validate(rules);
+### new Validate(rules, [options]);
 
 ```jsdoc
 @param {Object[]} rules
+@param {Object} options
 ```
 
 ## 选项
 
 ### rule
-- Type: `Object`
+- Type: `Object[]`
 - Default: 
 
 ```javascript
 {
   node: '#name', // 元素，可以传入字符串或者元素对象
+  event: ['input'], // 事件触发，没有可以不传
   validators: [{ // 校验器
     name: 'required', // 名称
     options: { // 选项
@@ -30,6 +32,16 @@ import Validate from '@jyb/lib-validate'
   }],
   callback(el, validResult, value) {} // 回调
 }
+```
+
+### options
+- Type: `Object`
+- Default:
+
+```javascript
+const defaultOptions = {
+  eventInterval: 200 // 事件触发间隔时间
+};
 ```
 
 ## 实例方法
