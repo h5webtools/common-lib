@@ -115,7 +115,7 @@ var Dialog = function () {
 
       this.dialogNode = $(anonymous(options));
       this.dialogNode.css({
-        display: 'none',
+        opacity: 0,
         visibility: 'hidden'
       });
       $('body').append(this.dialogNode);
@@ -136,6 +136,8 @@ var Dialog = function () {
       }
 
       this.dialogNode.css({
+        display: 'none',
+        opacity: 1,
         visibility: 'visible'
       });
 
@@ -163,10 +165,10 @@ var Dialog = function () {
   }, {
     key: 'close',
     value: function close() {
-      this.options.onClose();
       this.dialogNode.css({
         display: 'none'
       });
+      this.options.onClose();
     }
 
     /**
