@@ -26,15 +26,15 @@ import detect from '@jyb/lib-detect';
 
 ```javascript
 const env = {
-  jyb: false,
-  weixin: false,
-  qq: false,
-  android: undefined,
-  ios: undefined,
-  iphone: undefined,
-  ipad: undefined,
-  ipod: undefined,
-  version: undefined
+  jyb: false, // 是否加油宝客户端
+  weixin: false, // 是否微信客户端
+  qq: false, // 是否QQ客户端
+  android: undefined, // 是否安卓客户端
+  ios: undefined, // 是否iOS客户端
+  iphone: undefined, // 是否iPhone
+  ipad: undefined, // 是否iPad
+  ipod: undefined, // 是否iPod
+  version: undefined // iOS或者android版本
 };
 ```
 
