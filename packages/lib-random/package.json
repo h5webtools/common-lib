@@ -1,0 +1,33 @@
+{
+  "name": "@jyb/lib-random",
+  "version": "0.1.0",
+  "description": "获取随机数",
+  "main": "dist/random.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "random",
+    "devDest": "dist/random.dev.js",
+    "minDest": "dist/random.min.js",
+    "prodDest": "dist/random.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT"
+}
