@@ -13,6 +13,7 @@
 - @jyb/lib-jsapi - 加油宝客户端API
 - @jyb/lib-lottery - 九宫格转盘抽奖
 - @jyb/lib-marquee - 跑马灯效果
+- @jyb/lib-orienter - 横竖屏重力感应的易用组件
 - @jyb/lib-payhelper - 统一支付模块
 - @jyb/lib-personid-validate - 身份证号码校验
 - @jyb/lib-polyfill - 提供一个垫片
