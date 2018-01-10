@@ -16,6 +16,7 @@
 - @jyb/lib-payhelper - 统一支付模块
 - @jyb/lib-personid-validate - 身份证号码校验
 - @jyb/lib-polyfill - 提供一个垫片
+- @jyb/lib-preload - 预加载图片
 - @jyb/lib-random - 获取随机数
 - @jyb/lib-scrap-lottery - 刮奖
 - @jyb/lib-scroll-to - 滚动到指定位置
