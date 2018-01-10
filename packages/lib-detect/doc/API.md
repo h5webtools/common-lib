@@ -16,7 +16,7 @@ import detect from '@jyb/lib-detect';
 
 #### ua
 - Type: `String`
-- Default: ''
+- Default: navigator.userAgent
 
 用户代理
 
