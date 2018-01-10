@@ -8,6 +8,7 @@
 - @jyb/lib-elastic - 在元素上应用橡皮筋效果
 - @jyb/lib-event-emit - 自定义事件模块
 - @jyb/lib-extend - extend method from jQuery
+- @jyb/lib-fullpage - 移动端的fullPage
 - @jyb/lib-img-lazyload - 图片延时加载
 - @jyb/lib-img-preview - 图片上传预览
 - @jyb/lib-jsapi - 加油宝客户端API
