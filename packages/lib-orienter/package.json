@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-orienter",
-  "version": "0.1.0",
+  "version": "1.1.1",
   "description": "横竖屏重力感应的易用组件",
   "main": "dist/orienter.js",
   "scripts": {
