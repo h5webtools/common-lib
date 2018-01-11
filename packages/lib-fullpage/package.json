@@ -1,0 +1,33 @@
+{
+  "name": "@jyb/lib-fullpage",
+  "version": "1.1.1",
+  "description": "移动端的fullPage",
+  "main": "dist/fullpage.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "FullPage",
+    "devDest": "dist/fullpage.dev.js",
+    "minDest": "dist/fullpage.min.js",
+    "prodDest": "dist/fullpage.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT"
+}

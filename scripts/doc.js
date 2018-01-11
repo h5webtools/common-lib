@@ -32,6 +32,7 @@ const dir = fse.readdirSync(packagesPath);
 summaryContent.push('# 目录');
 summaryContent.push('* [主页](/README.md)');
 summaryContent.push('* [目录](/CATALOG.md)');
+summaryContent.push('* [常用模块推荐](/Awesome.md)');
 
 // catalog
 catalogContent.push('# 目录');

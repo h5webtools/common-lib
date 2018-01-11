@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
 function anonymous(it
-/*``*/) {
+/**/) {
   var out = '<div class="' + it.elementCls.el + '"> ';if (it.mask) {
     out += ' <div class="' + it.elementCls.mask + '"></div> ';
   }out += ' <div class="' + it.elementCls.wrap + '" style="position:absolute;top:' + it.top + 'px;"> ';if (it.title) {
@@ -115,7 +115,7 @@ var Dialog = function () {
 
       this.dialogNode = $(anonymous(options));
       this.dialogNode.css({
-        display: 'none',
+        opacity: 0,
         visibility: 'hidden'
       });
       $('body').append(this.dialogNode);
@@ -136,6 +136,8 @@ var Dialog = function () {
       }
 
       this.dialogNode.css({
+        display: 'none',
+        opacity: 1,
         visibility: 'visible'
       });
 

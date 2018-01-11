@@ -1,0 +1,33 @@
+{
+  "name": "@jyb/lib-preload",
+  "version": "1.1.1",
+  "description": "预加载图片",
+  "main": "dist/preload.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Preload",
+    "devDest": "dist/preload.dev.js",
+    "minDest": "dist/preload.min.js",
+    "prodDest": "dist/preload.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT"
+}

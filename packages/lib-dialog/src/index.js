@@ -57,7 +57,7 @@ class Dialog {
 
     this.dialogNode = $(dialogTpl(options));
     this.dialogNode.css({
-      display: 'none',
+      opacity: 0,
       visibility: 'hidden'
     });
     $('body').append(this.dialogNode);
@@ -78,6 +78,8 @@ class Dialog {
     }
 
     this.dialogNode.css({
+      display: 'none',
+      opacity: 1,
       visibility: 'visible'
     });
 

@@ -27,6 +27,7 @@
     callback: validateCallback
   }, {
     node: '#phone',
+    event: ['input'],
     validators: [{
       name: 'format',
       options: {
@@ -37,6 +38,7 @@
     callback: validateCallback
   }, {
     node: '#pwd',
+    event: ['input'],
     validators: [{
       name: 'length',
       options: {

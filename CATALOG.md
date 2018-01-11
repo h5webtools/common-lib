@@ -3,18 +3,23 @@
 - @jyb/lib-bimta - BI and MTA data statistic.
 - @jyb/lib-countdown - 倒计时
 - @jyb/lib-coupon-list - 红包通用弹层
+- @jyb/lib-detect - 当前环境检测
 - @jyb/lib-dialog - dialog ui component
 - @jyb/lib-elastic - 在元素上应用橡皮筋效果
 - @jyb/lib-event-emit - 自定义事件模块
 - @jyb/lib-extend - extend method from jQuery
+- @jyb/lib-fullpage - 移动端的fullPage
 - @jyb/lib-img-lazyload - 图片延时加载
 - @jyb/lib-img-preview - 图片上传预览
 - @jyb/lib-jsapi - 加油宝客户端API
 - @jyb/lib-lottery - 九宫格转盘抽奖
 - @jyb/lib-marquee - 跑马灯效果
+- @jyb/lib-orienter - 横竖屏重力感应的易用组件
 - @jyb/lib-payhelper - 统一支付模块
 - @jyb/lib-personid-validate - 身份证号码校验
 - @jyb/lib-polyfill - 提供一个垫片
+- @jyb/lib-preload - 预加载图片
+- @jyb/lib-random - 获取随机数
 - @jyb/lib-scrap-lottery - 刮奖
 - @jyb/lib-scroll-to - 滚动到指定位置
 - @jyb/lib-share - 分享模块，目前支持微信授权分享，QQ分享
