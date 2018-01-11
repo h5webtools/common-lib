@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-marquee",
-  "version": "1.0.17",
+  "version": "1.0.19",
   "description": "跑马灯效果",
   "main": "dist/marquee.js",
   "scripts": {

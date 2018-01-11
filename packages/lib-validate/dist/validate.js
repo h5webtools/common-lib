@@ -122,6 +122,29 @@ function each(obj, cb) {
 }
 
 /**
+ * 数组去重
+ * @param {Array} arr
+ */
+function uniqueArray(arr) {
+  if (Array.isArray(arr)) {
+    return arr.filter(function (item, index) {
+      return arr.indexOf(item) === index;
+    });
+  }
+  return arr;
+}
+
+/**
+ * 转换数组
+ * @param {Any} val
+ */
+function toArray$1(val) {
+  if (Array.isArray(val)) return val;
+  if (val) return [val];
+  return [];
+}
+
+/**
  * 是否是对象
  * @param {Object} obj
  * @return {Boolean}
@@ -174,6 +197,29 @@ function getElement(node) {
     return document.querySelector(node);
   }
   return node;
+}
+
+/**
+ * 防抖动
+ * @param {Function} fn
+ * @param {Number} time
+ */
+function debounce(fn) {
+  var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 200;
+
+  var timer = null;
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(_this, args);
+    }, time);
+  };
 }
 
 /**
@@ -304,6 +350,7 @@ var validators = [{
 /**
  * const validObj = new Validate([{
  *  node: '',
+ *  event: ['input'],
  *  validators: [{
  *    name: 'required',
  *    disabled: true,
@@ -318,15 +365,22 @@ var validators = [{
  * validObj.validate();
  */
 
+var defaultOptions = {
+  eventInterval: 200 // 事件触发间隔时间
+};
+
 var Validate = function () {
   function Validate() {
     var rules = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     classCallCheck(this, Validate);
 
     if (!Array.isArray(rules)) {
       throw new Error('rules格式有误');
     }
     this.rules = extend(true, [], rules);
+    this.options = extend({}, defaultOptions, options);
+    this.allValidResult = []; // 所有校验结果
     this.validators = {};
     this.cacheNodes = {};
     this._init();
@@ -344,6 +398,32 @@ var Validate = function () {
 
       validators.forEach(function (validator) {
         _this.addValidator(validator.name, validator.callback);
+      });
+      this._bindEvent();
+    }
+
+    /**
+     * 绑定事件
+     */
+
+  }, {
+    key: '_bindEvent',
+    value: function _bindEvent() {
+      var _this2 = this;
+
+      this.rules.forEach(function (rule) {
+        var node = _this2.getRealNode(rule.node);
+
+        if (rule.event) {
+          var eventFn = debounce(function () {
+            _this2.executeRule(rule);
+          }, _this2.options.eventInterval);
+          uniqueArray(toArray$1(rule.event)).forEach(function (ev) {
+            node.addEventListener(ev, function () {
+              eventFn();
+            });
+          });
+        }
       });
     }
 
@@ -421,35 +501,48 @@ var Validate = function () {
   }, {
     key: 'validate',
     value: function validate() {
-      var _this2 = this;
+      var _this3 = this;
 
-      var results = [];
-
+      this.allValidResult = [];
       this.rules.forEach(function (rule) {
-        if (rule.disabled) return;
-        var node = _this2.getRealNode(rule.node);
-        var validators$$1 = rule.validators || [];
-        var val = node.value.trim();
-        var validResult = [];
-
-        each(validators$$1, function (i, obj) {
-          var name = obj.name,
-              options = obj.options;
-
-          var validator = _this2.validators[name];
-
-          if (validator) {
-            validResult = validResult.concat(validator.call(_this2, node, val, options || {}) || []);
-            return validResult.length === 0;
-          }
-          return true;
-        });
-
-        results = results.concat(validResult);
-        rule.callback && rule.callback(node, validResult, val);
+        _this3.executeRule(rule);
       });
 
-      return results;
+      return this.allValidResult;
+    }
+
+    /**
+     * 执行规则
+     * @param {Array} rule
+     */
+
+  }, {
+    key: 'executeRule',
+    value: function executeRule(rule) {
+      var _this4 = this;
+
+      if (rule.disabled) return;
+
+      var validResult = [];
+      var validators$$1 = rule.validators || [];
+      var node = this.getRealNode(rule.node);
+      var val = node.value.trim();
+
+      each(validators$$1, function (i, obj) {
+        var name = obj.name,
+            options = obj.options;
+
+        var validator = _this4.validators[name];
+
+        if (validator) {
+          validResult = validResult.concat(validator.call(_this4, node, val, options || {}) || []);
+          return validResult.length === 0;
+        }
+        return true;
+      });
+
+      this.allValidResult = this.allValidResult.concat(validResult);
+      rule.callback && rule.callback(node, validResult, val);
     }
   }]);
   return Validate;

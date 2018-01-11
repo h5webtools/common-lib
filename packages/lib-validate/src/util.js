@@ -31,6 +31,27 @@ export function each(obj, cb) {
 }
 
 /**
+ * 数组去重
+ * @param {Array} arr
+ */
+export function uniqueArray(arr) {
+  if (Array.isArray(arr)) {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+  }
+  return arr;
+}
+
+/**
+ * 转换数组
+ * @param {Any} val
+ */
+export function toArray(val) {
+  if (Array.isArray(val)) return val;
+  if (val) return [val];
+  return [];
+}
+
+/**
  * 是否是对象
  * @param {Object} obj
  * @return {Boolean}
@@ -89,4 +110,19 @@ export function getElement(node) {
     return document.querySelector(node);
   }
   return node;
+}
+
+/**
+ * 防抖动
+ * @param {Function} fn
+ * @param {Number} time
+ */
+export function debounce(fn, time = 200) {
+  let timer = null;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, time);
+  };
 }

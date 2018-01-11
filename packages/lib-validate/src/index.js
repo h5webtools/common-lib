@@ -9,6 +9,7 @@ import * as util from './util';
 /**
  * const validObj = new Validate([{
  *  node: '',
+ *  event: ['input'],
  *  validators: [{
  *    name: 'required',
  *    disabled: true,
@@ -22,12 +23,19 @@ import * as util from './util';
  * validObj.addValidator('required', (el, value, options) => {});
  * validObj.validate();
  */
+
+const defaultOptions = {
+  eventInterval: 200 // 事件触发间隔时间
+};
+
 class Validate {
-  constructor(rules = []) {
+  constructor(rules = [], options = {}) {
     if (!Array.isArray(rules)) {
       throw new Error('rules格式有误');
     }
     this.rules = extend(true, [], rules);
+    this.options = extend({}, defaultOptions, options);
+    this.allValidResult = []; // 所有校验结果
     this.validators = {};
     this.cacheNodes = {};
     this._init();
@@ -39,6 +47,23 @@ class Validate {
   _init() {
     validatorsSet.forEach((validator) => {
       this.addValidator(validator.name, validator.callback);
+    });
+    this._bindEvent();
+  }
+
+  /**
+   * 绑定事件
+   */
+  _bindEvent() {
+    this.rules.forEach((rule) => {
+      const node = this.getRealNode(rule.node);
+
+      if (rule.event) {
+        const eventFn = util.debounce(() => { this.executeRule(rule); }, this.options.eventInterval);
+        util.uniqueArray(util.toArray(rule.event)).forEach((ev) => {
+          node.addEventListener(ev, () => { eventFn(); });
+        });
+      }
     });
   }
 
@@ -102,31 +127,39 @@ class Validate {
    * 校验
    */
   validate() {
-    let results = [];
-
+    this.allValidResult = [];
     this.rules.forEach((rule) => {
-      if (rule.disabled) return;
-      const node = this.getRealNode(rule.node);
-      const validators = rule.validators || [];
-      const val = node.value.trim();
-      let validResult = [];
-
-      util.each(validators, (i, obj) => {
-        const { name, options } = obj;
-        const validator = this.validators[name];
-
-        if (validator) {
-          validResult = validResult.concat(validator.call(this, node, val, options || {}) || []);
-          return validResult.length === 0;
-        }
-        return true;
-      });
-
-      results = results.concat(validResult);
-      rule.callback && rule.callback(node, validResult, val);
+      this.executeRule(rule);
     });
 
-    return results;
+    return this.allValidResult;
+  }
+
+  /**
+   * 执行规则
+   * @param {Array} rule
+   */
+  executeRule(rule) {
+    if (rule.disabled) return;
+
+    let validResult = [];
+    const validators = rule.validators || [];
+    const node = this.getRealNode(rule.node);
+    const val = node.value.trim();
+
+    util.each(validators, (i, obj) => {
+      const { name, options } = obj;
+      const validator = this.validators[name];
+
+      if (validator) {
+        validResult = validResult.concat(validator.call(this, node, val, options || {}) || []);
+        return validResult.length === 0;
+      }
+      return true;
+    });
+
+    this.allValidResult = this.allValidResult.concat(validResult);
+    rule.callback && rule.callback(node, validResult, val);
   }
 }
 
