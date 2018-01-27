@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-jsapi",
-  "version": "1.0.18",
+  "version": "1.1.2",
   "description": "加油宝客户端API",
   "main": "dist/jsapi.js",
   "scripts": {
