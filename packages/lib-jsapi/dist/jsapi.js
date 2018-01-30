@@ -33,6 +33,9 @@ var _extends = Object.assign || function (target) {
 // 2017年06月09日JavaScript APIv1.4.0: 事件上报添加页面参数
 // 2017年07月18日JavaScript APIv1.5.0: 新增获取App信息；
 // 2017年08月16日JavaScript APIv1.5.1：实名认证增加存管channel参数；选择银行卡增加cardType参数；
+// 2017年08月25日JavaScript APIv1.6.0: 新增风控API; 白拿商城新增classId和subClassId参数; 新增react通用跳转API
+// 2017年12月21日JavaScript APIv1.7.0: 新增授信API; 支付新增是否跳转结果页面参数
+// 2018年01月27日JavaScript APIv1.8.0: 新增授权API; 设置交易密码支持存管参数; App信息接口新增返回存管相关信息
 function jybWebview(context, b) {
   function invoke(name, params, obj) {
     if (context.NativeBridge) {
@@ -154,7 +157,9 @@ function jybWebview(context, b) {
       change: "change",
       freeMall: "freeMall",
       getAppInfo: "getAppInfo",
-      riskValidate: "riskValidate"
+      riskValidate: "riskValidate",
+      credit: "credit",
+      custodyAuthorize: "custodyAuthorize"
     };
     var supportApiList = function () {
       var api,
@@ -355,6 +360,9 @@ function jybWebview(context, b) {
       },
       credit: function credit(a) {
         invoke("credit", {}, a);
+      },
+      custodyAuthorize: function custodyAuthorize(a) {
+        invoke("custodyAuthorize", {}, a);
       }
     };
     if (b) {
