@@ -512,7 +512,9 @@ var MTA = function () {
         window.MtaH5.clickStat(arrIds[0], para);
       } else {
         this._trackCache.push(function () {
-          window.MtaH5.clickStat(arrIds[0], para);
+          if (window.MtaH5) {
+            window.MtaH5.clickStat(arrIds[0], para);
+          }
         });
       }
       if (this.debug) {
@@ -886,36 +888,35 @@ var Bimta = function () {
     key: '_dataAttrReport',
     value: function _dataAttrReport(method, el, attrs) {
       var dataSetObj = {};
-      var dataSetArr = [];
       var parseOpts = {};
       var isOk = true;
       var ids = '';
+      var attrSlice = [];
       var dataAttribute = this.dataAttribute;
       var alias = dataAttribute.alias;
       var needAttrs = attrs.concat(alias.id);
 
       while (el && el !== document.documentElement) {
         _extends(dataSetObj, dataAttribute.getDataSetObj(needAttrs, el.dataset));
-
         // 如果第一个层级有值，跳出循环
         if (dataSetObj[alias.ea]) {
           break;
         }
-
         el = el.parentNode;
       }
 
       // 如果获取到事件ID，直接上报
       if (dataSetObj[alias.id]) {
-        this._call(method, dataSetObj[alias.id]);
+        parseOpts = this.parseOption(dataSetObj[alias.para]);
+        this._call(method, dataSetObj[alias.id], parseOpts);
       }
 
       // 检查ea,eb,ec是否有值
-      isOk = dataAttribute.checkDataSetValue(dataSetObj, attrs.slice(0, 3));
+      attrSlice = attrs.slice(0, 3);
+      isOk = dataAttribute.checkDataSetValue(dataSetObj, attrSlice);
       if (isOk) {
-        dataSetArr = dataAttribute.getDataSetArr(dataSetObj, attrs);
-        parseOpts = this.parseOption(dataSetArr.pop());
-        ids = this._getIdsStr.apply(this, toConsumableArray(dataSetArr));
+        ids = this._getIdsStr.apply(this, toConsumableArray(dataAttribute.getDataSetArr(dataSetObj, attrSlice)));
+        parseOpts = this.parseOption(dataSetObj[alias.para]);
         this._call(method, ids, parseOpts);
       }
     }
