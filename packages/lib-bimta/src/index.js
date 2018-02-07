@@ -175,36 +175,35 @@ class Bimta {
    */
   _dataAttrReport(method, el, attrs) {
     const dataSetObj = {};
-    let dataSetArr = [];
     let parseOpts = {};
     let isOk = true;
     let ids = '';
+    let attrSlice = [];
     const dataAttribute = this.dataAttribute;
     const alias = dataAttribute.alias;
     const needAttrs = attrs.concat(alias.id);
 
     while (el && el !== document.documentElement) {
       Object.assign(dataSetObj, dataAttribute.getDataSetObj(needAttrs, el.dataset));
-
       // 如果第一个层级有值，跳出循环
       if (dataSetObj[alias.ea]) {
         break;
       }
-
       el = el.parentNode;
     }
 
     // 如果获取到事件ID，直接上报
     if (dataSetObj[alias.id]) {
-      this._call(method, dataSetObj[alias.id]);
+      parseOpts = this.parseOption(dataSetObj[alias.para]);
+      this._call(method, dataSetObj[alias.id], parseOpts);
     }
 
     // 检查ea,eb,ec是否有值
-    isOk = dataAttribute.checkDataSetValue(dataSetObj, attrs.slice(0, 3));
+    attrSlice = attrs.slice(0, 3);
+    isOk = dataAttribute.checkDataSetValue(dataSetObj, attrSlice);
     if (isOk) {
-      dataSetArr = dataAttribute.getDataSetArr(dataSetObj, attrs);
-      parseOpts = this.parseOption(dataSetArr.pop());
-      ids = this._getIdsStr(...dataSetArr);
+      ids = this._getIdsStr(...dataAttribute.getDataSetArr(dataSetObj, attrSlice));
+      parseOpts = this.parseOption(dataSetObj[alias.para]);
       this._call(method, ids, parseOpts);
     }
   }

@@ -86,7 +86,9 @@ class MTA {
       window.MtaH5.clickStat(arrIds[0], para);
     } else {
       this._trackCache.push(() => {
-        window.MtaH5.clickStat(arrIds[0], para);
+        if (window.MtaH5) {
+          window.MtaH5.clickStat(arrIds[0], para);
+        }
       });
     }
     if (this.debug) {
