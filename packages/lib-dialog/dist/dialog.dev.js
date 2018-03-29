@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
 function anonymous(it
-/**/) {
+/*``*/) {
   var out = '<div class="' + it.elementCls.el + '"> ';if (it.mask) {
     out += ' <div class="' + it.elementCls.mask + '"></div> ';
-  }out += ' <div class="' + it.elementCls.wrap + '" style="position:absolute;top:' + it.top + 'px;"> ';if (it.title) {
+  }out += ' <div class="' + it.elementCls.wrap + '" style="position:absolute;top:' + (it.top || 0) + 'px;"> ';if (it.title) {
     out += ' <div class="' + it.elementCls.head + '"> ' + it.title + ' ';if (it.showClose) {
       out += ' <span class="' + it.elementCls.close + '" et="click:closeDialog">&#10005;</span> ';
     }out += ' </div> ';
@@ -62,6 +62,7 @@ var defaultOptions = {
   content: '内容', // 显示的内容
   btns: [], // 按钮列表{ text: '', callback: function(){}, css:'' }
   mask: true, // 是否显示mask
+  fixed: false, // 是否一直使用fixed
   onClose: noop,
   onShow: noop,
   onDispose: noop,
@@ -124,8 +125,8 @@ var Dialog = function () {
       var modDialogNode = $('.' + options.elementCls.wrap);
       var dh = modDialogNode[0].scrollHeight;
 
-      // 浮层高度小于窗口高度的情况下
-      if (dh < wh) {
+      // options.fixed=true或者浮层高度小于窗口高度的情况下
+      if (options.fixed || dh < wh) {
         modDialogNode.css({
           position: 'fixed',
           top: '50%',

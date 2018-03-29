@@ -13,6 +13,7 @@ const defaultOptions = {
   content: '内容', // 显示的内容
   btns: [], // 按钮列表{ text: '', callback: function(){}, css:'' }
   mask: true, // 是否显示mask
+  fixed: false, // 是否一直使用fixed
   onClose: noop,
   onShow: noop,
   onDispose: noop,
@@ -66,8 +67,8 @@ class Dialog {
     const modDialogNode = $(`.${options.elementCls.wrap}`);
     const dh = modDialogNode[0].scrollHeight;
 
-    // 浮层高度小于窗口高度的情况下
-    if (dh < wh) {
+    // options.fixed=true或者浮层高度小于窗口高度的情况下
+    if (options.fixed || dh < wh) {
       modDialogNode.css({
         position: 'fixed',
         top: '50%',
