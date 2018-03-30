@@ -22,6 +22,7 @@ const defaultOptions = {
   content: '内容', // 显示的内容
   btns: [], // 按钮列表{ text: '', callback: function(){}, css:'' }
   mask: true, // 是否显示mask
+  fixed: false, // 是否一直使用fixed
   onClose: function() {}, // close调用
   onShow: function() {}, // show调用
   onDispose: function() {}, // dispose调用
