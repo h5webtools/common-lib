@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-slider",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "图片轮播组件，根据设定的参数实现自动轮播，自动加载图片，状态点跟随",
   "main": "dist/slider.js",
   "scripts": {
