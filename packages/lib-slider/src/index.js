@@ -179,7 +179,9 @@ class Slide {
   _doAnimate(movePx, fast) {
     const time = fast ? 0 : this.option.animateTime;
 
+    this.animateNode.style.transform = `translate3d(${movePx}px, 0, 0)`;
     this.animateNode.style.webkitTransform = `translate3d(${movePx}px, 0, 0)`;
+    this.animateNode.style.transitionDuration = `${time}ms`;
     this.animateNode.style.webkitTransitionDuration = `${time}ms`;
     return this;
   }
@@ -216,7 +218,9 @@ class Slide {
     if (Math.abs(dif) > 20) {
       e.preventDefault();
       // 移动容器元素实现动画
+      this.animateNode.style.transform = `translate3d(${this.currentPosition + dif}px, 0, 0)`;
       this.animateNode.style.webkitTransform = `translate3d(${this.currentPosition + dif}px, 0, 0)`;
+      this.animateNode.style.transitionDuration = '0ms';
       this.animateNode.style.webkitTransitionDuration = '0ms';
     }
   }
