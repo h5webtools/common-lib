@@ -130,6 +130,8 @@ class Slide {
     wrapNode.addEventListener('touchstart', this._handleEvent.bind(this));
     wrapNode.addEventListener('touchmove', this._handleEvent.bind(this));
     wrapNode.addEventListener('touchend', this._handleEvent.bind(this));
+    wrapNode.addEventListener('touchcancel', this._handleEvent.bind(this));
+    wrapNode.addEventListener('click', this._handleEvent.bind(this));
     this.animateNode.addEventListener('webkitTransitionEnd', this._animateEnd.bind(this));
     return this;
   }
@@ -146,7 +148,11 @@ class Slide {
         this._move(e);
         break;
       case 'touchend':
+      case 'touchcancel':
         this._end(e);
+        break;
+      case 'click':
+        this.scrollLock = false;
         break;
       default:
         break;
@@ -226,6 +232,7 @@ class Slide {
   }
 
   _end(e) {
+    if (!this.scrollLock) return;
     if (!this.position.sx) {
       this.scrollLock = false;
       return;
