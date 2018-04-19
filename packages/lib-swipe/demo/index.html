@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .swipe {
+      overflow: hidden;
+      visibility: hidden;
+      position: relative;
+    }
+    .swipe-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    .swipe-wrap > div {
+      float: left;
+      width: 100%;
+      height: 100vh;
+      line-height: 100vh;
+      text-align: center;
+      position: relative;
+      font-size: 60px;
+    }
+    .bg-red {
+      background-color: red;
+    }
+    .bg-green {
+      background-color: green;
+    }
+    .bg-yellow {
+      background-color: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='slider' class='swipe'>
+    <div class='swipe-wrap'>
+      <div class="bg-red">1</div>
+      <div class="bg-green">2</div>
+      <div class="bg-yellow">3</div>
+    </div>
+  </div>
+  <script src="../dist/swipe.dev.js"></script>
+  <script>
+    (function() {
+      Swipe(document.getElementById('slider'), {
+        startSlide: 0,
+        speed: 400,
+        auto: 1000,
+        continuous: true,
+        disableScroll: false,
+        stopPropagation: false,
+        callback: function(index, elem) {},
+        transitionEnd: function(index, elem) {}
+      });
+    })();
+  </script>
+</body>
+
+</html>
