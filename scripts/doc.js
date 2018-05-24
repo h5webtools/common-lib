@@ -37,17 +37,14 @@ summaryContent.push('* [常用模块推荐](/Awesome.md)');
 // catalog
 catalogContent.push('# 目录');
 
-dir.filter((d) => {
-  try {
-    return fse.statSync(path.join(packagesPath, d)).isDirectory();
-  } catch (e) {
-    return false;
-  }
-}).forEach((d) => {
+dir.filter(d => isDirectory(path.join(packagesPath, d))).forEach((d) => {
   summaryContent.push(`* [${d}](/packages/${d}/README.md)`);
-  indexs.forEach((idx) => {
-    summaryContent.push(`  * [${idx.title}](${idx.url.replace('{{name}}', d)})`);
-  });
+
+  if (isDirectory(path.join(packagesPath, d, 'doc'))) {
+    indexs.forEach((idx) => {
+      summaryContent.push(`  * [${idx.title}](${idx.url.replace('{{name}}', d)})`);
+    });
+  }
 
   const pkgContent = tryRequire(path.join(packagesPath, d, 'package.json'));
   if (pkgContent) {
@@ -66,6 +63,14 @@ try {
 function tryRequire(file) {
   try {
     return require(file);
+  } catch (e) {
+    return false;
+  }
+}
+
+function isDirectory(dirPath) {
+  try {
+    return fse.statSync(dirPath).isDirectory();
   } catch (e) {
     return false;
   }
