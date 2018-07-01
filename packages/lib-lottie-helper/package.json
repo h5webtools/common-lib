@@ -1,11 +1,12 @@
 {
-  "name": "@jyb/lib-jsapi",
+  "name": "@jyb/lib-lottie-helper",
   "version": "1.1.11",
-  "description": "加油宝客户端API",
-  "main": "dist/jsapi.js",
+  "description": "lottie-web帮助类",
+  "main": "dist/bundle.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
     "test": "node ../../scripts/test.js",
     "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
   },
@@ -22,10 +23,11 @@
     "lib"
   ],
   "libDefine": {
-    "moduleName": "jybwv",
-    "devDest": "dist/jsapi.dev.js",
-    "prodDest": "dist/jsapi.js"
+    "moduleName": "LottieHelper",
+    "devDest": "dist/bundle.dev.js",
+    "minDest": "dist/bundle.min.js",
+    "prodDest": "dist/bundle.js"
   },
-  "author": "",
+  "author": "xiaohai.xi@jyblife.com",
   "license": "MIT"
 }
