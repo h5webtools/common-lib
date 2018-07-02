@@ -49,6 +49,30 @@ import tracker from '@jyb/lib-tracker'
 
 如果接口响应的数据code值在该列表中，则上报（`t_type`为`2`）
 
+### apiReportFilter
+- Type: `Function`
+- Default: function(/* xhr, sendParams */) { return true; }
+
+接口上报过滤函数，返回true则上报，返回false不上报
+
+包含两个参数，`xhr`，XMLHttpRequest对象，`sendParams`发送参数
+
+`xhr`，查看[XMLHttpRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest)
+
+`sendParams`：
+
+```javascript
+{
+  body: "" // 请求body
+  method: "get" // 请求method
+  result: "" // 响应结果，有经过处理
+  statusCode: 404 // 状态码
+  statusText: "Not Found" // 状态文本
+  time: 10 // 响应时间
+  url: "/api/getName" // 接口url
+}
+```
+
 ### env
 - Type: `String`
 - Default: 'prod'

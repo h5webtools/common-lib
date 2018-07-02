@@ -15,6 +15,9 @@ const defaultOptions = {
   perf: false, // 是否上报性能数据
   apiThreshold: 3000, // 接口响应时间超过3s上报
   apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
+  apiReportFilter(/* xhr, param */) { // 接口上报过滤函数，返回true则上报，返回false不上报
+    return true;
+  },
   collectWindowErrors: true, // 是否通过window.onerror收集
   stackDepth: 8, // 堆栈深度
   env: 'prod', // 上报环境，test/prod

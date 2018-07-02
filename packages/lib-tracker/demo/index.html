@@ -28,6 +28,10 @@
         ajax: true,
         perf: true,
         apiCodeList: ['1000'],
+        apiReportFilter: function() {
+          console.log(arguments);
+          return false;
+        },
         pid: 'haha',
         debug: true,
         env: 'test'
