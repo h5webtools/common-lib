@@ -76,6 +76,7 @@ class ApiTracker {
       if (xhr.readyState === 4) {
         const trackData = xhr._apiTrackData;
         const apiCodeList = this.$options.apiCodeList;
+        const apiReportFilter = this.$options.apiReportFilter;
 
         if (!trackData) return;
 
@@ -92,15 +93,12 @@ class ApiTracker {
           statusText: xhr.statusText
         };
         let result = null;
+        let sendParams = null;
 
         // 如果状态码大于等于400，上报
         if (xhr.status >= 400) {
-          this._send(Object.assign({ result: '' }, reportParams));
-          return;
-        }
-
-        // 如果状态码为200
-        if (xhr.status === 200) {
+          sendParams = Object.assign({ result: '' }, reportParams);
+        } else if (xhr.status === 200) { // 如果状态码为200
           try {
             result = JSON.parse(xhr.responseText);
 
@@ -108,17 +106,18 @@ class ApiTracker {
             // 如果code值在apiCodeList列表中，则上报
             if ((apiCodeList.length === 0 && result.code !== 0 && result.code !== '0') ||
               apiCodeList.indexOf(result.code) > -1) {
-              this._send(Object.assign({ result: `${result.code || ''}, ${result.msg || ''}` }, reportParams));
-              return;
+              sendParams = Object.assign({ result: `${result.code || ''}, ${result.msg || ''}` }, reportParams);
             }
           } catch (e) {
             // e
           }
+        } else if (responseTime > this.$options.apiThreshold) { // 时间超过apiThreshold，则上报
+          sendParams = Object.assign({ result: '' }, reportParams);
         }
 
-        // 时间超过apiThreshold，则上报
-        if (responseTime > this.$options.apiThreshold) {
-          this._send(Object.assign({ result: '' }, reportParams));
+        // 如果send参数存在并且reportFilter返回值为true，则上报
+        if (sendParams && apiReportFilter(xhr, sendParams)) {
+          this._send(sendParams);
         }
       }
     }, true);

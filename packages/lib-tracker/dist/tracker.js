@@ -718,6 +718,7 @@ var ApiTracker = function () {
         if (xhr.readyState === 4) {
           var trackData = xhr._apiTrackData;
           var apiCodeList = _this.$options.apiCodeList;
+          var apiReportFilter = _this.$options.apiReportFilter;
 
           if (!trackData) return;
 
@@ -734,32 +735,32 @@ var ApiTracker = function () {
             statusText: xhr.statusText
           };
           var result = null;
+          var sendParams = null;
 
           // 如果状态码大于等于400，上报
           if (xhr.status >= 400) {
-            _this._send(_extends({ result: '' }, reportParams));
-            return;
-          }
-
-          // 如果状态码为200
-          if (xhr.status === 200) {
+            sendParams = _extends({ result: '' }, reportParams);
+          } else if (xhr.status === 200) {
+            // 如果状态码为200
             try {
               result = JSON.parse(xhr.responseText);
 
               // 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报
               // 如果code值在apiCodeList列表中，则上报
               if (apiCodeList.length === 0 && result.code !== 0 && result.code !== '0' || apiCodeList.indexOf(result.code) > -1) {
-                _this._send(_extends({ result: (result.code || '') + ', ' + (result.msg || '') }, reportParams));
-                return;
+                sendParams = _extends({ result: (result.code || '') + ', ' + (result.msg || '') }, reportParams);
               }
             } catch (e) {
               // e
             }
+          } else if (responseTime > _this.$options.apiThreshold) {
+            // 时间超过apiThreshold，则上报
+            sendParams = _extends({ result: '' }, reportParams);
           }
 
-          // 时间超过apiThreshold，则上报
-          if (responseTime > _this.$options.apiThreshold) {
-            _this._send(_extends({ result: '' }, reportParams));
+          // 如果send参数存在并且reportFilter返回值为true，则上报
+          if (sendParams && apiReportFilter(xhr, sendParams)) {
+            _this._send(sendParams);
           }
         }
       }, true);
@@ -964,6 +965,11 @@ var defaultOptions = {
   perf: false, // 是否上报性能数据
   apiThreshold: 3000, // 接口响应时间超过3s上报
   apiCodeList: [], // 如果接口响应的数据code值在该列表中，则上报
+  apiReportFilter: function apiReportFilter() /* xhr, param */{
+    // 接口上报过滤函数，返回true则上报，返回false不上报
+    return true;
+  },
+
   collectWindowErrors: true, // 是否通过window.onerror收集
   stackDepth: 8, // 堆栈深度
   env: 'prod', // 上报环境，test/prod
