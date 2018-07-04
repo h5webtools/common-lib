@@ -1,0 +1,39 @@
+{
+  "name": "@jyb/lib-qcloud-upload",
+  "version": "0.1.0",
+  "description": "腾讯云上传帮助类",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "LibQcloudUpload",
+    "devDest": "dist/bundle.dev.js",
+    "minDest": "dist/bundle.min.js",
+    "prodDest": "dist/bundle.js"
+  },
+  "author": "xiaohai.xi@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    "@jyb/lib-extend": "^0.1.9",
+    "cos-js-sdk-v4": "^1.1.11",
+    "exif-js": "^2.3.0",
+    "uuid": "^3.3.2"
+  }
+}
