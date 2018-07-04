@@ -1199,6 +1199,7 @@ var Upload = function () {
     key: 'compress',
     value: function compress(file, urlData) {
       var quantify = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      var ratio = arguments[3];
 
       if (/^image/.test(file.type)) {
         return this.compressImage(file, urlData, quantify);
@@ -1210,6 +1211,7 @@ var Upload = function () {
     key: 'compressImage',
     value: function compressImage(file, urlData) {
       var quantify = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 5;
 
       var image = new Image();
       image.src = urlData;
@@ -1226,7 +1228,6 @@ var Upload = function () {
 
           var cw = void 0,
               ch = void 0;
-          var ratio = 5;
 
           // 大于400万像素，需要等比压缩到400万像素
           // iphone限制canvas最大400万像素画布
@@ -1283,6 +1284,7 @@ var Upload = function () {
     key: 'createPreview',
     value: function createPreview(file) {
       var quantify = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : .6;
+      var ratio = arguments[2];
 
       if (!file || !window.FileReader) return Promise.resolve();
       if (/^image/.test(file.type)) {
@@ -1292,7 +1294,7 @@ var Upload = function () {
         var that = this;
         return new Promise(function (resolve, reject) {
           reader.onload = function () {
-            resolve(that.compress(file, this.result, quantify));
+            resolve(that.compress(file, this.result, quantify, ratio));
           };
 
           reader.onerror = function () {

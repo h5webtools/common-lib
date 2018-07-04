@@ -44,7 +44,7 @@ class Upload {
     this.init(options);
   }
 
-  compress(file, urlData, quantify = 1) {
+  compress(file, urlData, quantify = 1, ratio) {
     if (/^image/.test(file.type)) {
       return this.compressImage(file, urlData, quantify);
     }
@@ -53,7 +53,7 @@ class Upload {
     }
   }
 
-  compressImage(file, urlData, quantify = 1) {
+  compressImage(file, urlData, quantify = 1, ratio = 5) {
     const image = new Image();
     image.src = urlData;
 
@@ -68,7 +68,6 @@ class Upload {
         let ih = image.height;
 
         let cw, ch;
-        let ratio = 5;
 
         // 大于400万像素，需要等比压缩到400万像素
         // iphone限制canvas最大400万像素画布
@@ -119,7 +118,7 @@ class Upload {
     })
   }
 
-  createPreview(file, quantify = .6) {
+  createPreview(file, quantify = .6, ratio) {
     if (!file || !window.FileReader) return Promise.resolve();
     if (/^image/.test(file.type)) {
       let reader = new FileReader();
@@ -128,7 +127,7 @@ class Upload {
       const that = this;
       return new Promise((resolve, reject) => {
         reader.onload = function () {
-          resolve(that.compress(file, this.result, quantify));
+          resolve(that.compress(file, this.result, quantify, ratio));
         }
 
         reader.onerror = function () {
