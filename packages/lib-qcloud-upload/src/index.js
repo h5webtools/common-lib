@@ -44,16 +44,16 @@ class Upload {
     this.init(options);
   }
 
-  compress(file, urlData, quantify = 1, ratio) {
+  compress(file, urlData, quantify = 1, ratio, minWidth, minHeight) {
     if (/^image/.test(file.type)) {
-      return this.compressImage(file, urlData, quantify);
+      return this.compressImage(file, urlData, quantify, ratio, minWidth, minHeight);
     }
     else {
       return urlData;
     }
   }
 
-  compressImage(file, urlData, quantify = 1, ratio = 5) {
+  compressImage(file, urlData, quantify = 1, ratio = 5, minWidth = 0 , minHeight = 0) {
     const image = new Image();
     image.src = urlData;
 
@@ -78,6 +78,17 @@ class Upload {
         //   ratio = 5;
         // }
         // console.log('>>>>', ratio)
+        cw = parseInt(iw / ratio, 10);
+        ch = parseInt(ih / ratio, 10);
+
+        if (cw < minWidth) {
+          ratio = iw / minWidth;
+        }
+
+        if (ch < minHeight) {
+          ratio = ih / minHeight;
+        }
+
         cw = parseInt(iw / ratio, 10);
         ch = parseInt(ih / ratio, 10);
 
@@ -118,7 +129,7 @@ class Upload {
     })
   }
 
-  createPreview(file, quantify = .6, ratio) {
+  createPreview(file, quantify = .6, ratio, minWidth, minHeight) {
     if (!file || !window.FileReader) return Promise.resolve();
     if (/^image/.test(file.type)) {
       let reader = new FileReader();
@@ -127,7 +138,7 @@ class Upload {
       const that = this;
       return new Promise((resolve, reject) => {
         reader.onload = function () {
-          resolve(that.compress(file, this.result, quantify, ratio));
+          resolve(that.compress(file, this.result, quantify, ratio, minWidth, minHeight));
         }
 
         reader.onerror = function () {

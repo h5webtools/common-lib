@@ -1200,9 +1200,11 @@ var Upload = function () {
     value: function compress(file, urlData) {
       var quantify = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       var ratio = arguments[3];
+      var minWidth = arguments[4];
+      var minHeight = arguments[5];
 
       if (/^image/.test(file.type)) {
-        return this.compressImage(file, urlData, quantify);
+        return this.compressImage(file, urlData, quantify, ratio, minWidth, minHeight);
       } else {
         return urlData;
       }
@@ -1212,6 +1214,8 @@ var Upload = function () {
     value: function compressImage(file, urlData) {
       var quantify = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 5;
+      var minWidth = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+      var minHeight = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
 
       var image = new Image();
       image.src = urlData;
@@ -1238,6 +1242,17 @@ var Upload = function () {
           //   ratio = 5;
           // }
           // console.log('>>>>', ratio)
+          cw = parseInt(iw / ratio, 10);
+          ch = parseInt(ih / ratio, 10);
+
+          if (cw < minWidth) {
+            ratio = iw / minWidth;
+          }
+
+          if (ch < minHeight) {
+            ratio = ih / minHeight;
+          }
+
           cw = parseInt(iw / ratio, 10);
           ch = parseInt(ih / ratio, 10);
 
@@ -1285,6 +1300,8 @@ var Upload = function () {
     value: function createPreview(file) {
       var quantify = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : .6;
       var ratio = arguments[2];
+      var minWidth = arguments[3];
+      var minHeight = arguments[4];
 
       if (!file || !window.FileReader) return Promise.resolve();
       if (/^image/.test(file.type)) {
@@ -1294,7 +1311,7 @@ var Upload = function () {
         var that = this;
         return new Promise(function (resolve, reject) {
           reader.onload = function () {
-            resolve(that.compress(file, this.result, quantify, ratio));
+            resolve(that.compress(file, this.result, quantify, ratio, minWidth, minHeight));
           };
 
           reader.onerror = function () {
