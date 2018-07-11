@@ -1,7 +1,7 @@
 {
-  "name": "@jyb/lib-lottie-helper",
-  "version": "1.1.13",
-  "description": "lottie-web帮助类",
+  "name": "@jyb/lib-qcloud-upload",
+  "version": "1.1.15",
+  "description": "腾讯云上传帮助类",
   "main": "dist/bundle.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
@@ -23,11 +23,17 @@
     "lib"
   ],
   "libDefine": {
-    "moduleName": "LottieHelper",
+    "moduleName": "LibQcloudUpload",
     "devDest": "dist/bundle.dev.js",
     "minDest": "dist/bundle.min.js",
     "prodDest": "dist/bundle.js"
   },
   "author": "xiaohai.xi@jyblife.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@jyb/lib-extend": "^0.1.9",
+    "cos-js-sdk-v4": "^1.1.11",
+    "exif-js": "^2.3.0",
+    "uuid": "^3.3.2"
+  }
 }
