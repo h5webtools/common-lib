@@ -104,7 +104,7 @@ class ApiTracker {
 
             // 如果apiCodeList为空，并且code值不为0和'0'（活动接口没有统一类型，蛋疼），则上报
             // 如果code值在apiCodeList列表中，则上报
-            if ((apiCodeList.length === 0 && result.code !== 0 && result.code !== '0') ||
+            if ((apiCodeList.length === 0 && result.code !== undefined && result.code !== 0 && result.code !== '0') ||
               apiCodeList.indexOf(result.code) > -1) {
               sendParams = Object.assign({ result: `${result.code || ''}, ${result.msg || ''}` }, reportParams);
             }
