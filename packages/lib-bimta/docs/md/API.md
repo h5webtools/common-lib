@@ -66,7 +66,7 @@ const configMap = {
 - Type: `Function`
 - Default: function() { return {}; }
 
-生成公共参数
+生成公共参数，如果要给每个上报增加公共参数，可以使用
 
 ```javascript
 function createCommonParams(defaults) {
