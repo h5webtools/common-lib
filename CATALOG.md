@@ -8,6 +8,7 @@
 - @jyb/lib-elastic - 在元素上应用橡皮筋效果
 - @jyb/lib-event-emit - 自定义事件模块
 - @jyb/lib-extend - extend method from jQuery
+- @jyb/lib-fastclick - forked from fastclick 
 - @jyb/lib-fullpage - 移动端的fullPage
 - @jyb/lib-img-lazyload - 图片延时加载
 - @jyb/lib-img-preview - 图片上传预览
@@ -21,6 +22,7 @@
 - @jyb/lib-polyfill - 提供一个垫片
 - @jyb/lib-preload - 预加载图片
 - @jyb/lib-qcloud-upload - 腾讯云上传帮助类
+- @jyb/lib-qrcode - 二维码生成模块
 - @jyb/lib-random - 获取随机数
 - @jyb/lib-scrap-lottery - 刮奖
 - @jyb/lib-scroll-to - 滚动到指定位置
