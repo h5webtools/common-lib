@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-qrcode",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "二维码生成模块",
   "main": "dist/qrcode.js",
   "scripts": {
