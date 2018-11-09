@@ -539,7 +539,6 @@ var platform = {
  */
 
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-useless-escape */
 var DATA_REGEX = /data\-(\w*)\-(\w*)/;
 
 // 定义自定义属性
@@ -830,10 +829,8 @@ var Bimta = function () {
     key: '_initQueryStringReport',
     value: function _initQueryStringReport() {
       var mtaID = getQuery('mta_id');
-      // 检查事件ID格式
       if (this._checkEventID(mtaID)) {
-        // 只报MTA
-        this._call('event', mtaID, {}, ['mta']);
+        this._call('event', mtaID, {}, os.jyb ? ['mta'] : ['bi', 'mta']);
       }
     }
 
