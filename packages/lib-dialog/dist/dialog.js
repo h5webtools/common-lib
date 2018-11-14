@@ -8,8 +8,10 @@ function anonymous(it
 /*``*/) {
   var out = '<div class="' + it.elementCls.el + '"> ';if (it.mask) {
     out += ' <div class="' + it.elementCls.mask + '"></div> ';
-  }out += ' <div class="' + it.elementCls.wrap + '" style="position:absolute;top:' + (it.top || 0) + 'px;"> ';if (it.title) {
-    out += ' <div class="' + it.elementCls.head + '"> ' + it.title + ' ';if (it.showClose) {
+  }out += ' <div class="' + it.elementCls.wrap + '" style="position:absolute;top:' + (it.top || 0) + 'px;"> ';if (it.showClose && it.closePos === 'outer') {
+    out += ' <span class="' + it.elementCls.close + '" et="click:closeDialog">&#10005;</span> ';
+  }out += ' ';if (it.title) {
+    out += ' <div class="' + it.elementCls.head + '"> ' + it.title + ' ';if (it.showClose && it.closePos === 'inner') {
       out += ' <span class="' + it.elementCls.close + '" et="click:closeDialog">&#10005;</span> ';
     }out += ' </div> ';
   }out += ' ';if (it.content) {
@@ -59,6 +61,7 @@ var defaultOptions = {
   title: '标题', // 标题内容
   visible: true, // 默认显示
   showClose: true, // 是否显示close按钮
+  closePos: 'inner', // 头部，inner/outer
   content: '内容', // 显示的内容
   btns: [], // 按钮列表{ text: '', callback: function(){}, css:'' }
   mask: true, // 是否显示mask
