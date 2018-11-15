@@ -21,6 +21,7 @@ const dialog = new Dialog({
   title: '标题', // 标题内容
   visible: false, // 默认是否显示
   showClose: true, // 是否显示close按钮
+  closePos: 'inner', // 头部，inner/outer
   content: '这是内容', // 显示的内容
   btns: [{ // 按钮列表{text:"",callback:function(){},css:""}
     text: '确定',

@@ -19,6 +19,7 @@ const defaultOptions = {
   title: '标题', // 标题内容
   visible: true, // 默认显示
   showClose: true, // 是否显示close按钮
+  closePos: 'inner', // 头部，inner/outer
   content: '内容', // 显示的内容
   btns: [], // 按钮列表{ text: '', callback: function(){}, css:'' }
   mask: true, // 是否显示mask
