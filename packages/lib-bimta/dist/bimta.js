@@ -390,9 +390,11 @@ var BI = function () {
             op_page: '', // h5为空（可选）
             op_params: assign({
               platform: platformStr, // 平台
+              from: 'h5',
               in_app: os.jyb ? 1 : 0, // 1为加油宝app内，0为app外
               cust_id: custId, // 客户id
               uniq_id: custId || uuid, // 如果未登录设置此id,如果登录与custId一致
+              referrer: document.referrer,
               source: getQuery('channel') || getQuery('from') || '', // baidu
               act_id: '', // 活动ID
               group: '' // 用户群
@@ -831,7 +833,7 @@ var Bimta = function () {
     value: function _initQueryStringReport() {
       var mtaID = getQuery('mta_id');
       if (this._checkEventID(mtaID)) {
-        this._call('event', mtaID, {}, os.jyb ? ['mta'] : ['bi', 'mta']);
+        this._call('event', mtaID, {}, ['bi', 'mta']);
       }
     }
 

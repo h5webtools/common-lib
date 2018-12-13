@@ -6,7 +6,6 @@
 import * as _ from './util/index';
 import * as log from './util/log';
 import platform from './platform/index';
-import utilEnv from './util/env';
 import DataAttribute from './dataset/index';
 import { createCommonParams } from './param';
 
@@ -132,7 +131,7 @@ class Bimta {
   _initQueryStringReport() {
     const mtaID = _.getQuery('mta_id');
     if (this._checkEventID(mtaID)) {
-      this._call('event', mtaID, {}, utilEnv.jyb ? ['mta'] : ['bi', 'mta']);
+      this._call('event', mtaID, {}, ['bi', 'mta']);
     }
   }
 
