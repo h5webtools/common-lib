@@ -8,16 +8,18 @@ import os from '../util/env';
 
 const uuid = _.getUUID();
 
-// 上报地址
-const reportURL = {
-  test: '//172.16.1.16:8890',
-  prod: '//report.jyblife.com'
-};
-
 // 默认配置
 const defaultOptions = {
-  ak: 'KVQiUTJf',
-  cmd: '65010000'
+  test: {
+    url: '//172.16.1.16:8890', // 上报地址
+    ak: 'KVQiUTJf',
+    cmd: '65010000'
+  },
+  prod: {
+    url: '//report.jyblife.com',
+    ak: 'KVQiUTJf',
+    cmd: '65010000'
+  }
 };
 
 // 平台
@@ -34,7 +36,7 @@ class BI {
     this.platform = 'bi';
     this.debug = debug;
     this.env = env;
-    this.options = _.assign(defaultOptions, options);
+    this.options = _.assign(defaultOptions[env] || {}, options);
   }
 
   init() {
@@ -60,7 +62,7 @@ class BI {
     const custId = _.getCustId();
     /* eslint-disable camelcase */
     const oImg = new Image();
-    const url = reportURL[this.env] || '';
+    const url = this.options.url || '';
     const oParam = {
       ak: this.options.ak,
       body: JSON.stringify({
