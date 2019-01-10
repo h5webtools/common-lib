@@ -41,5 +41,8 @@
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.0.0",
     "should": "^11.2.1"
+  },
+  "dependencies": {
+    "gitbook-plugin-toggle-chapters": "0.0.3"
   }
 }

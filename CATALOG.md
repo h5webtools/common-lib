@@ -5,6 +5,7 @@
 - @jyb/lib-coupon-list - 红包通用弹层
 - @jyb/lib-detect - 当前环境检测
 - @jyb/lib-dialog - dialog ui component
+- @jyb/lib-dx-captcha - 顶象验证码
 - @jyb/lib-elastic - 在元素上应用橡皮筋效果
 - @jyb/lib-event-emit - 自定义事件模块
 - @jyb/lib-extend - extend method from jQuery
