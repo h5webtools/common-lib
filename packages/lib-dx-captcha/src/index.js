@@ -25,7 +25,7 @@ class Captcha extends EventEmit {
   init() {
     // 初始化验证码
     if (window._dx && typeof window._dx.Captcha === 'function') {
-      if (!this.options.isAuto) this.reload();
+      if (!this.options.isAuto) Captcha.clear();
 
       this.dxCaptcha = window._dx.Captcha(this.$el, extend(true, {
         style: 'popup',
@@ -57,7 +57,10 @@ class Captcha extends EventEmit {
     if (this.has('success')) {
       this.hide();
       this.emit('success', token);
-      if (!this.options.isAuto) this.reload();
+      if (!this.options.isAuto) {
+        Captcha.clear();
+        this.reload();
+      }
     }
   }
   reload() {
