@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>验证码</title>
+  <link rel="stylesheet" href="./tips.css">
+  <style>
+    html,
+    body,
+    h6 {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      padding: 20px;
+    }
+
+    .box {
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      font-size: 13px;
+    }
+
+    .box-title {
+      margin-bottom: 8px;
+    }
+
+    .btn-disabled {
+      cursor: not-allowed;
+      color: #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h6 class="box-title">是否使用滑动验证码：</h6>
+    <div>
+      <input type="radio" id="use-captcha" name="useCaptcha" value="yes" checked>
+      <label for="use-captcha">是</label>
+      <input type="radio" id="nonuse-captcha" name="useCaptcha" value="no">
+      <label for="nonuse-captcha">否</label>
+    </div>
+  </div>
+  <div class="box">
+    <h6 class="box-title">获取短信验证码：</h6>
+    <input id="mobile" type="text">
+    <button id="get-sms">获取短信验证码</button>
+    <span class="code"></span>
+  </div>
+  <script>
+    window.interface_env = '/proxy';
+  </script>
+  <script src="../dist/sms-code.dev.js"></script>
+  <script>
+    (function() {
+      var mobile = document.getElementById('mobile');
+      var getSms = document.getElementById('get-sms');
+      var smsCode = new SmsCode();
+
+      var captchaRadios = document.querySelectorAll('[name="useCaptcha"]');
+      [].slice.call(captchaRadios).forEach(function (captchaRadio) {
+        captchaRadio.addEventListener('change', function (e) {
+          smsCode = new SmsCode({
+            disabled: e.target.value === 'no'
+          });
+        });
+      });
+
+      getSms.addEventListener('click', function() {
+        smsCode.getCode(getSms, mobile.value.trim());
+      });
+    })();
+  </script>
+</body>
+
+</html>
