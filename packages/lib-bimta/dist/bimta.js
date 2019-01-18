@@ -315,16 +315,18 @@ var toConsumableArray = function (arr) {
 
 var uuid = getUUID();
 
-// 上报地址
-var reportURL = {
-  test: '//172.16.1.16:8890',
-  prod: '//report.jyblife.com'
-};
-
 // 默认配置
 var defaultOptions$1 = {
-  ak: 'KVQiUTJf',
-  cmd: '65010000'
+  test: {
+    url: '//172.16.1.16:8890', // 上报地址
+    ak: 'KVQiUTJf',
+    cmd: '65010000'
+  },
+  prod: {
+    url: '//report.jyblife.com',
+    ak: 'KVQiUTJf',
+    cmd: '65010000'
+  }
 };
 
 // 平台
@@ -345,7 +347,7 @@ var BI = function () {
     this.platform = 'bi';
     this.debug = debug;
     this.env = env;
-    this.options = assign(defaultOptions$1, options);
+    this.options = assign(defaultOptions$1[env] || {}, options);
   }
 
   createClass(BI, [{
@@ -376,7 +378,7 @@ var BI = function () {
       var custId = getCustId();
       /* eslint-disable camelcase */
       var oImg = new Image();
-      var url = reportURL[this.env] || '';
+      var url = this.options.url || '';
       var oParam = {
         ak: this.options.ak,
         body: JSON.stringify({

@@ -5,6 +5,7 @@
 - @jyb/lib-coupon-list - 红包通用弹层
 - @jyb/lib-detect - 当前环境检测
 - @jyb/lib-dialog - dialog ui component
+- @jyb/lib-dx-captcha - 顶象验证码
 - @jyb/lib-elastic - 在元素上应用橡皮筋效果
 - @jyb/lib-event-emit - 自定义事件模块
 - @jyb/lib-extend - extend method from jQuery
@@ -28,6 +29,7 @@
 - @jyb/lib-scroll-to - 滚动到指定位置
 - @jyb/lib-share - 分享模块，目前支持微信授权分享，QQ分享
 - @jyb/lib-slider - 图片轮播组件，根据设定的参数实现自动轮播，自动加载图片，状态点跟随
+- @jyb/lib-sms-code - 业务组件，短信验证码，依赖zepto
 - @jyb/lib-swipe - swipe
 - @jyb/lib-tips - 公共toast
 - @jyb/lib-tracker - 前端数据采集，目前包括错误信息

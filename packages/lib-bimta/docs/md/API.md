@@ -50,6 +50,7 @@ const configMap = {
 ```javascript
 {
   bi: {
+    url: '', // 上报URL，默认：//report.jyblife.com
     ak: '', // 默认：KVQiUTJf
     cmd: '' // 默认：65010000
   },
