@@ -1,0 +1,36 @@
+{
+  "name": "@jyb/lib-request",
+  "version": "0.1.0",
+  "description": "网络请求库",
+  "main": "dist/request.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "Request",
+    "devDest": "dist/request.dev.js",
+    "minDest": "dist/request.min.js",
+    "prodDest": "dist/request.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@jyb/lib-promise": "^1.2.8"
+  }
+}
