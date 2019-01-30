@@ -22,9 +22,11 @@
 - @jyb/lib-personid-validate - 身份证号码校验
 - @jyb/lib-polyfill - 提供一个垫片
 - @jyb/lib-preload - 预加载图片
+- @jyb/lib-promise - promise polyfill
 - @jyb/lib-qcloud-upload - 腾讯云上传帮助类
 - @jyb/lib-qrcode - 二维码生成模块
 - @jyb/lib-random - 获取随机数
+- @jyb/lib-request - 网络请求库
 - @jyb/lib-scrap-lottery - 刮奖
 - @jyb/lib-scroll-to - 滚动到指定位置
 - @jyb/lib-share - 分享模块，目前支持微信授权分享，QQ分享
