@@ -1,8 +1,8 @@
 {
-  "name": "@jyb/lib-tracker",
-  "version": "1.2.8",
-  "description": "前端数据采集，目前包括错误信息",
-  "main": "dist/tracker.js",
+  "name": "@jyb/lib-request",
+  "version": "1.2.9",
+  "description": "网络请求库",
+  "main": "dist/request.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
@@ -23,11 +23,14 @@
     "lib"
   ],
   "libDefine": {
-    "moduleName": "Tracker",
-    "devDest": "dist/tracker.dev.js",
-    "minDest": "dist/tracker.min.js",
-    "prodDest": "dist/tracker.js"
+    "moduleName": "Request",
+    "devDest": "dist/request.dev.js",
+    "minDest": "dist/request.min.js",
+    "prodDest": "dist/request.js"
   },
   "author": "canye.wu@jyblife.com",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@jyb/lib-promise": "^1.2.8"
+  }
 }

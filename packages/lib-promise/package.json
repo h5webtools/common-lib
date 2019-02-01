@@ -1,8 +1,8 @@
 {
-  "name": "@jyb/lib-tracker",
+  "name": "@jyb/lib-promise",
   "version": "1.2.8",
-  "description": "前端数据采集，目前包括错误信息",
-  "main": "dist/tracker.js",
+  "description": "promise polyfill",
+  "main": "dist/promise.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
@@ -23,10 +23,10 @@
     "lib"
   ],
   "libDefine": {
-    "moduleName": "Tracker",
-    "devDest": "dist/tracker.dev.js",
-    "minDest": "dist/tracker.min.js",
-    "prodDest": "dist/tracker.js"
+    "moduleName": "Promise",
+    "devDest": "dist/promise.dev.js",
+    "minDest": "dist/promise.min.js",
+    "prodDest": "dist/promise.js"
   },
   "author": "canye.wu@jyblife.com",
   "license": "MIT"
