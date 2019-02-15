@@ -1,6 +1,7 @@
 # 目录
 * [主页](/README.md)
 * [目录](/CATALOG.md)
+* [快速开始](/QuickStart.md)
 * [常用模块推荐](/Awesome.md)
 * [lib-ajax](/packages/lib-ajax/README.md)
   * [快速开始](/packages/lib-ajax/doc/QuickStart.md)
