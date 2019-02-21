@@ -823,6 +823,7 @@ var SmsCode = function () {
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
       var getCodeDefaultOptions = {
+        scene: 1,
         mobileReg: /^1[23456789]\d{9}$/,
         disabledCls: 'btn-disabled',
         countDownTime: 60,
@@ -849,7 +850,7 @@ var SmsCode = function () {
         this.dxCaptcha.show(function (token) {
           _this._getSmsCode(BASE_CODE_URL, {
             cmd: SMS_CODE_BY_VERFIY_CMD,
-            scene: 1,
+            scene: options.scene,
             tel: mobile,
             verify_token: token
           }, node, options);

@@ -42,6 +42,7 @@ const defaultOptions = {
 @param {String} mobile 手机号码
 @param {Object} options 配置项
 @param {RegExp} options.mobileReg 手机号码校验正则表达式
+@param {RegExp} options.scene 场景，默认为1
 @param {String} options.disabledCls 禁用样式名，点击获取验证码之后会添加到node上
 @param {Number} options.countDownTime 倒计时时间
 @param {Function} options.countDownProcessCallback 倒计时执行回调
@@ -53,6 +54,7 @@ const defaultOptions = {
 ```javascript
 const getCodeDefaultOptions = {
   mobileReg: /^1[23456789]\d{9}$/,
+  scene: 1,
   disabledCls: 'btn-disabled',
   countDownTime: 60,
   countDownProcessCallback(el, time) {

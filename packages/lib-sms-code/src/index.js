@@ -56,6 +56,7 @@ class SmsCode {
   }
   getCode(node, mobile, options = {}) {
     const getCodeDefaultOptions = {
+      scene: 1,
       mobileReg: /^1[23456789]\d{9}$/,
       disabledCls: 'btn-disabled',
       countDownTime: 60,
@@ -82,7 +83,7 @@ class SmsCode {
       this.dxCaptcha.show((token) => {
         this._getSmsCode(BASE_CODE_URL, {
           cmd: SMS_CODE_BY_VERFIY_CMD,
-          scene: 1,
+          scene: options.scene,
           tel: mobile,
           verify_token: token
         }, node, options);
