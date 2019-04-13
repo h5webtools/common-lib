@@ -86,7 +86,8 @@ const payHandler = {
       orderId: this.payData.orderId,
       buttons: this.payData.buttons,
       extra: this.payData.extra,
-      success: this.payData.success || noop
+      success: this.payData.success || noop,
+      redirectURL: this.payData.redirectURL || '',
     });
   }
 };
