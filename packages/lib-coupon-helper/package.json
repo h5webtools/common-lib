@@ -1,11 +1,12 @@
 {
-  "name": "@jyb/lib-bimta",
-  "version": "1.2.11",
-  "description": "BI and MTA data statistic.",
-  "main": "dist/bimta.js",
+  "name": "@jyb/lib-coupon-helper",
+  "version": "1.2.13",
+  "description": "get coupon list",
+  "main": "dist/bundle.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
     "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
     "test": "node ../../scripts/test.js",
     "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
   },
@@ -15,19 +16,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://git.jtjr.com/lincan.wu/lib-data-stat.git"
+    "url": ""
   },
   "keywords": [
-    "bi",
-    "mta",
-    "statistic",
-    "report"
+    "common",
+    "lib"
   ],
   "libDefine": {
-    "moduleName": "Bimta",
-    "devDest": "dist/bimta.dev.js",
-    "prodDest": "dist/bimta.js"
+    "moduleName": "LibCouponHelper",
+    "devDest": "dist/bundle.dev.js",
+    "minDest": "dist/bundle.min.js",
+    "prodDest": "dist/bundle.js"
   },
-  "author": "canye.wu@jyblife.com",
+  "author": "xiaohai.xi@jyblife.com",
   "license": "MIT"
 }
