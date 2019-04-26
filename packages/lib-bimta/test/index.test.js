@@ -21,6 +21,18 @@ describe('src/index.js', () => {
           id: '2'
         }
       }
+    },
+    index: {
+      id: '30001',
+      search: {
+        id: '1',
+        pv: { // 访问
+          id: '1'
+        },
+        btn: { // 按钮
+          id: '2'
+        }
+      }      
     }
   };
   const timestamp = Date.now();
@@ -110,11 +122,14 @@ describe('src/index.js', () => {
     // pv
     const objR1 = report.reportURLInverse(oImage.loadQueue.dequeue());
     const objR1Body = JSON.parse(objR1.body);
-
     should(objR1.ak).be.equal('KVQiUTJf');
     should(objR1Body.cmd).be.equal('65010000');
     should(objR1Body.data[0].op_object).be.equal('30000.1.1');
-
+    should(objR1Body.data[0].op_page).be.equal('');
+    should(objR1Body.data[0].op_prepage).be.equal('');
+    should(objR1Body.data[0].op_preobject).be.equal('');  
+    should(objR1Body.data[0].op_type).be.equal('visit');
+    
     // event
     document.querySelector('.search-btn').click();
 
@@ -123,7 +138,10 @@ describe('src/index.js', () => {
 
     should(objR2.ak).be.equal('KVQiUTJf');
     should(objR2Body.cmd).be.equal('65010000');
+    should(objR2Body.data[0].op_page).be.equal('30000.1.1');
     should(objR2Body.data[0].op_object).be.equal('30000.1.2');
+    should(objR2Body.data[0].op_prepage).be.equal('');
+    should(objR2Body.data[0].op_preobject).be.equal(''); 
     should(objR2Body.data[0].op_params.action).be.equal('click');
 
     // event
@@ -135,6 +153,9 @@ describe('src/index.js', () => {
     should(objR3.ak).be.equal('KVQiUTJf');
     should(objR3Body.cmd).be.equal('65010000');
     should(objR3Body.data[0].op_object).be.equal('30008.1.1');
+    should(objR3Body.data[0].op_page).be.equal('30000.1.1');
+    should(objR3Body.data[0].op_prepage).be.equal('');
+    should(objR3Body.data[0].op_preobject).be.equal(''); 
 
     should(oImage.loadQueue.length()).be.equal(0);
   });
@@ -144,8 +165,8 @@ describe('src/index.js', () => {
     oImage.loadQueue.clear();
 
     // API track
-    bimta.pageview({ ea: 'home', eb: 'search' }, { op_type: 'pv' });
-    bimta.event({ ea: 'home', eb: 'search', ec: 'btn' });
+    bimta.pageview({ ea: 'index', eb: 'search' }, { op_type: 'pv' });
+    bimta.event({ ea: 'index', eb: 'search', ec: 'btn' });
 
     // pv
     const objR1 = report.reportURLInverse(oImage.loadQueue.dequeue());
@@ -154,7 +175,9 @@ describe('src/index.js', () => {
     should(objR1.ak).be.equal('KVQiUTJf');
     should(objR1Body.cmd).be.equal('65010000');
     should(objR1Body.data[0].op_type).be.equal('pv');
-    should(objR1Body.data[0].op_object).be.equal('30000.1.1');
+    should(objR1Body.data[0].op_object).be.equal('30001.1.1');
+    should(objR1Body.data[0].op_prepage).be.equal('30000.1.1');
+    should(objR1Body.data[0].op_preobject).be.equal('30008.1.1');     
 
     // event
     const objR2 = report.reportURLInverse(oImage.loadQueue.dequeue());
@@ -162,8 +185,10 @@ describe('src/index.js', () => {
 
     should(objR2.ak).be.equal('KVQiUTJf');
     should(objR2Body.cmd).be.equal('65010000');
-    should(objR2Body.data[0].op_object).be.equal('30000.1.2');
-
+    should(objR2Body.data[0].op_object).be.equal('30001.1.2');
+    should(objR2Body.data[0].op_page).be.equal('30001.1.1');
+    should(objR2Body.data[0].op_prepage).be.equal('');
+    should(objR2Body.data[0].op_preobject).be.equal('');      
     should(oImage.loadQueue.length()).be.equal(0);
   });
 });
