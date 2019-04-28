@@ -47,11 +47,10 @@ class BI {
   }
 
   get lastPage() {
-    if (this._history.length)  {
+    if (this._history.length) {
       return this._history[this._history.length - 1];
-    } else {
-      return _.getQuery('op_prepage') || storage.get('page');
-    }     
+    }
+    return _.getQuery('op_prepage') || storage.get('page');
   }
 
   get lastObject() {
@@ -63,7 +62,7 @@ class BI {
   }
 
   pageview(ids, params) {
-    params.op_type = params.op_type || 'visit'; 
+    params.op_type = params.op_type || 'visit';
     this._track('pageview', ids, params);
     this._cachePageview(ids, params);
   }
@@ -126,7 +125,7 @@ class BI {
     }
   }
 
-  _cachePageview(ids, _) {
+  _cachePageview(ids) {
     storage.set('page', ids);
     if (this._currentPage) {
       this._history.push(this._currentPage);
@@ -134,7 +133,7 @@ class BI {
     this._currentPage = ids;
   }
 
-  _cacheObject(ids, _) {
+  _cacheObject(ids) {
     storage.set('object', ids);
     this._lastObject = ids;
   }

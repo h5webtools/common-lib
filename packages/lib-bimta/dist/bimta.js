@@ -156,6 +156,21 @@ function isObject(obj) {
   return toStr.call(obj) === '[object Object]';
 }
 
+function setCookie(name, value) {
+  var expires = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var path = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '/';
+  var domain = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+  var secure = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
+
+  var exp = new Date();
+
+  if (expires) {
+    exp.setTime(exp.getTime() + expires * 24 * 3600 * 1000);
+  }
+
+  document.cookie = name + '=' + escape(value) + (expires ? ';expires=' + exp.toGMTString() : '') + (path ? ';path=' + path : '') + (domain ? ';domain=' + domain : '') + (secure ? ';secure' : '');
+}
+
 /**
  * 日志
  */
@@ -309,11 +324,45 @@ var toConsumableArray = function (arr) {
   }
 };
 
+var Storage = function () {
+  function Storage(key) {
+    classCallCheck(this, Storage);
+
+    this._data = {};
+    this._key = key;
+    var str = getCookie(this._key);
+    if (str) {
+      try {
+        this._data = JSON.parse(str);
+      } catch (e) {
+        this._data = {};
+      }
+    }
+  }
+
+  createClass(Storage, [{
+    key: 'get',
+    value: function get$$1(k) {
+      return this._data[k] || '';
+    }
+  }, {
+    key: 'set',
+    value: function set$$1(k, val) {
+      this._data[k] = val;
+      setCookie(this._key, JSON.stringify(this._data), 1);
+    }
+  }]);
+  return Storage;
+}();
+
 /**
  * BI统计
  */
 
 var uuid = getUUID();
+var CACHEID = 'BIMTA_VISIT';
+var storage = new Storage(CACHEID);
+var BI_VERSION = '1.1';
 
 // 默认配置
 var defaultOptions$1 = {
@@ -344,6 +393,9 @@ var BI = function () {
     var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     classCallCheck(this, BI);
 
+    this._history = [];
+    this._currentPage = '';
+    this._lastObject = '';
     this.platform = 'bi';
     this.debug = debug;
     this.env = env;
@@ -358,12 +410,15 @@ var BI = function () {
   }, {
     key: 'pageview',
     value: function pageview(ids, params) {
+      params.op_type = params.op_type || 'visit';
       this._track('pageview', ids, params);
+      this._cachePageview(ids, params);
     }
   }, {
     key: 'event',
     value: function event(ids, params) {
       this._track('event', ids, params);
+      this._cacheObject(ids, params);
     }
   }, {
     key: '_track',
@@ -374,8 +429,8 @@ var BI = function () {
 
       // set params
       params = params || {};
-
       var custId = getCustId();
+      var isPageview = method === 'pageview';
       /* eslint-disable camelcase */
       var oImg = new Image();
       var url = this.options.url || '';
@@ -385,11 +440,14 @@ var BI = function () {
           cmd: this.options.cmd,
           data: [{
             sid: '', // 会话id（可选）
+            ver: BI_VERSION,
+            op_prepage: isPageview ? this.lastPage : '',
+            op_preobject: isPageview ? this.lastObject : '',
             op_type: params.op_type || 'click', // click，touch，share
             op_result: '', // （可选）
             op_time: getTime(), // 事件发生的时间（时间戳）
             op_object: ids, // 操作对象，格式1000.1.1
-            op_page: '', // h5为空（可选）
+            op_page: this._currentPage, // h5为空（可选）
             op_params: assign({
               platform: platformStr, // 平台
               from: 'h5',
@@ -415,6 +473,34 @@ var BI = function () {
       if (this.debug) {
         info('[' + method + '] platform: ' + this.platform + ', ids: ' + ids + ', query: ' + JSON.stringify(oParam));
       }
+    }
+  }, {
+    key: '_cachePageview',
+    value: function _cachePageview(ids) {
+      storage.set('page', ids);
+      if (this._currentPage) {
+        this._history.push(this._currentPage);
+      }
+      this._currentPage = ids;
+    }
+  }, {
+    key: '_cacheObject',
+    value: function _cacheObject(ids) {
+      storage.set('object', ids);
+      this._lastObject = ids;
+    }
+  }, {
+    key: 'lastPage',
+    get: function get$$1() {
+      if (this._history.length) {
+        return this._history[this._history.length - 1];
+      }
+      return getQuery('op_prepage') || storage.get('page');
+    }
+  }, {
+    key: 'lastObject',
+    get: function get$$1() {
+      return this._lastObject || getQuery('op_preobject') || storage.get('object');
     }
   }]);
   return BI;
