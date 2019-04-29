@@ -447,7 +447,7 @@ var BI = function () {
             op_result: '', // （可选）
             op_time: getTime(), // 事件发生的时间（时间戳）
             op_object: ids, // 操作对象，格式1000.1.1
-            op_page: this._currentPage, // h5为空（可选）
+            op_page: isPageview ? '' : this._currentPage, // h5为空（可选）
             op_params: assign({
               platform: platformStr, // 平台
               from: 'h5',
