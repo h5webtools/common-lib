@@ -107,3 +107,13 @@ export function isArray(arr) {
 export function isObject(obj) {
   return toStr.call(obj) === '[object Object]';
 }
+
+export function setCookie(name, value, expires = null, path = '/', domain = null, secure = false) {
+  const exp = new Date();
+
+  if (expires) {
+    exp.setTime(exp.getTime() + (expires * 24 * 3600 * 1000));
+  }
+
+  document.cookie = name + '=' + escape(value) + (expires ? ';expires=' + exp.toGMTString() : '') + (path ? ';path=' + path : '') + (domain ? ';domain=' + domain : '') + (secure ? ';secure' : '');
+}
