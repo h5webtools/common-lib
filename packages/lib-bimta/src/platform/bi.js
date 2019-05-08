@@ -15,7 +15,7 @@ const BI_VERSION = '1.1';
 // 默认配置
 const defaultOptions = {
   test: {
-    url: '//172.16.1.16:8890', // 上报地址
+    url: 'http://report.sit.jyblife.com', // 上报地址
     ak: 'KVQiUTJf',
     cmd: '65010000'
   },
