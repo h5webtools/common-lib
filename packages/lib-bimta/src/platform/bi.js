@@ -80,7 +80,7 @@ class BI {
     // set params
     params = params || {};
     const custId = _.getCustId();
-    const isPageview = method === 'pageview';
+    const isPageview = method === 'pageview' || params.op_type === 'visit';
     /* eslint-disable camelcase */
     const oImg = new Image();
     const url = this.options.url || '';
