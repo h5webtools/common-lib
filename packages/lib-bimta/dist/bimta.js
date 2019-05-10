@@ -430,7 +430,7 @@ var BI = function () {
       // set params
       params = params || {};
       var custId = getCustId();
-      var isPageview = method === 'pageview';
+      var isPageview = method === 'pageview' || params.op_type === 'visit';
       /* eslint-disable camelcase */
       var oImg = new Image();
       var url = this.options.url || '';
