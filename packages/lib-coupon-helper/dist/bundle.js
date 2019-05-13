@@ -4,11 +4,8 @@
 	(factory((global.LibCouponHelper = global.LibCouponHelper || {})));
 }(this, (function (exports) { 'use strict';
 
-/* eslint-disable eqeqeq */
-/* eslint-disable no-mixed-operators */
-/* eslint-disable prefer-const */
-/* eslint-disable one-var */
-/* eslint-disable camelcase */
+/* eslint-disable */
+
 /**
  * 获取红包列表
  * @param couponData  红包数据
@@ -49,10 +46,11 @@ function getCouponList(couponData, prdId, amount) {
     }
 
     // 满足上述条件之后，判断套餐金额是否满足该红包的使用条件
-    if (amountLimit && amountLimit[prdId]) {
+    var limit = amountLimit && (amountLimit[prdId] || amountLimit[0]);
+    if (limit) {
       // 找到对应套餐的红包，判断其金额，记录该红包信息
-      item.amountVal = parseInt(amountLimit[prdId], 10);
-      if (parseInt(amountLimit[prdId], 10) <= amount) {
+      item.amountVal = parseInt(limit, 10);
+      if (parseInt(limit, 10) <= amount) {
         matchItem.push(item);
       }
     } else {
@@ -144,11 +142,11 @@ function getDiscountMatch(item, amount) {
 
 var getCouponList_1 = getCouponList;
 
-var index = {
+var src = {
   getCouponList: getCouponList_1
 };
 
-exports['default'] = index;
+exports['default'] = src;
 exports.getCouponList = getCouponList_1;
 
 Object.defineProperty(exports, '__esModule', { value: true });
