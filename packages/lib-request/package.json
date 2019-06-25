@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-request",
-  "version": "1.2.14",
+  "version": "1.2.20",
   "description": "网络请求库",
   "main": "dist/request.js",
   "scripts": {
@@ -31,6 +31,6 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "devDependencies": {
-    "@jyb/lib-promise": "^1.2.14"
+    "@jyb/lib-promise": "^1.2.20"
   }
 }

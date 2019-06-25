@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-qcloud-upload",
-  "version": "1.1.16",
+  "version": "1.2.20",
   "description": "腾讯云上传帮助类",
   "main": "dist/bundle.js",
   "scripts": {
