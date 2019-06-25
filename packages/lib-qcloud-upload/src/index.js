@@ -165,13 +165,13 @@ class Upload {
     return new Blob([array], { type });
   }
 
-  doUpload(file, urlData, progressCallback) {
+  doUpload(file, catalog = 'act/initial-image/', urlData, progressCallback) {
     if (!this.cos || !file) {
       return Promise.resolve();
     }
-
+    const address = catalog + this.getFileName(file)
     const data = /^image/.test(file.type) ? this.toBlob(urlData, file.type) : file;
-    return this.cosUpload(data, this.getFileName(file), progressCallback);
+    return this.cosUpload(data, address, progressCallback);
   }
 
   cosUpload(data, name, progressCallback = noop) {
@@ -217,7 +217,6 @@ export default (function () {
     if (inst) {
       return inst;
     }
-
     return new Upload(options);
   }
 })();
