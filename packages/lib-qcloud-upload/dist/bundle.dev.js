@@ -1390,16 +1390,16 @@ var Upload = function () {
   }, {
     key: 'doUpload',
     value: function doUpload(file) {
-      var catalog = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'act/com-images';
+      var initCatalog = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'act/initial-image/';
       var urlData = arguments[2];
       var progressCallback = arguments[3];
 
       if (!this.cos || !file) {
         return Promise.resolve();
       }
-      var address = catalog + this.getFileName(file);
+      var cloudAddress = initCatalog + this.getFileName(file);
       var data = /^image/.test(file.type) ? this.toBlob(urlData, file.type) : file;
-      return this.cosUpload(data, address, progressCallback);
+      return this.cosUpload(data, cloudAddress, progressCallback);
     }
   }, {
     key: 'cosUpload',
@@ -1452,18 +1452,15 @@ var Upload = function () {
   return Upload;
 }();
 
-var index = Upload = function () {
+var index = (function () {
   var inst = null;
   return function (options) {
     if (inst) {
       return inst;
     }
-
     return new Upload(options);
   };
-}();
-
-// export default new Upload();
+})();
 
 return index;
 

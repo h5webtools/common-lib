@@ -1390,14 +1390,14 @@ var Upload = function () {
   }, {
     key: 'doUpload',
     value: function doUpload(file) {
-      var catalog = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'act/initial-image/';
+      var initCatalog = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'act/initial-image/';
       var urlData = arguments[2];
       var progressCallback = arguments[3];
 
       if (!this.cos || !file) {
         return Promise.resolve();
       }
-      var cloudAddress = catalog + this.getFileName(file);
+      var cloudAddress = initCatalog + this.getFileName(file);
       var data = /^image/.test(file.type) ? this.toBlob(urlData, file.type) : file;
       return this.cosUpload(data, cloudAddress, progressCallback);
     }
