@@ -169,9 +169,9 @@ class Upload {
     if (!this.cos || !file) {
       return Promise.resolve();
     }
-    const address = catalog + this.getFileName(file)
+    const cloudAddress = catalog + this.getFileName(file)
     const data = /^image/.test(file.type) ? this.toBlob(urlData, file.type) : file;
-    return this.cosUpload(data, address, progressCallback);
+    return this.cosUpload(data, cloudAddress, progressCallback);
   }
 
   cosUpload(data, name, progressCallback = noop) {

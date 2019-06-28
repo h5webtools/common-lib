@@ -1397,9 +1397,9 @@ var Upload = function () {
       if (!this.cos || !file) {
         return Promise.resolve();
       }
-      var address = catalog + this.getFileName(file);
+      var cloudAddress = catalog + this.getFileName(file);
       var data = /^image/.test(file.type) ? this.toBlob(urlData, file.type) : file;
-      return this.cosUpload(data, address, progressCallback);
+      return this.cosUpload(data, cloudAddress, progressCallback);
     }
   }, {
     key: 'cosUpload',
