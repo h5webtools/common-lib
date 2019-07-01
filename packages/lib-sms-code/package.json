@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-sms-code",
-  "version": "1.2.20",
+  "version": "1.2.23",
   "description": "业务组件，短信验证码",
   "main": "dist/sms-code.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "license": "MIT",
   "devDependencies": {
     "@jyb/lib-countdown": "^0.1.17",
-    "@jyb/lib-dx-captcha": "^1.2.20",
+    "@jyb/lib-dx-captcha": "^1.2.23",
     "@jyb/lib-tips": "^0.2.12"
   }
 }
