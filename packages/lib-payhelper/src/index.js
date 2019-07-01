@@ -81,14 +81,14 @@ const payHandler = {
       tips.showError('唤起支付失败');
     }
   },
-  [PayTypes.jybPay]: function () {
-    wv.pay({// eslint-disable-line no-undef
+  [PayTypes.jybPay]: function (option = {}) {
+    wv.pay(Object.assign({// eslint-disable-line no-undef
       orderId: this.payData.orderId,
       buttons: this.payData.buttons,
       extra: this.payData.extra,
       success: this.payData.success || noop,
       redirectURL: this.payData.redirectURL || '',
-    });
+    }, option));
   }
 };
 
