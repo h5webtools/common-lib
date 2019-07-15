@@ -17,13 +17,19 @@ function detect(regain = false, ua = '') {
   const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
   const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
   const iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
-  const inApp = /jiayoubao/.test(ualc); // 加油宝app
+  const jyb = ua.match(/jiayoubao[^\d]*(\d+\.\d+\.\d+)/);
+  const inJybApp = /jiayoubao/.test(ualc); // 加油宝app
   const inWX = /micromessenger/.test(ualc); // 微信
   const inQQ = /qq\//.test(ualc); // QQ
 
-  env.jyb = inApp;
   env.weixin = inWX;
   env.qq = inQQ;
+
+  // jyb
+  if (inJybApp) {
+    env.jyb = true;
+    env.version = jyb ? jyb[1] : null;
+  }
 
   // android
   if (android) {
@@ -49,5 +55,7 @@ function detect(regain = false, ua = '') {
 
   return env;
 }
+
+detect.env = detect();
 
 export default detect;

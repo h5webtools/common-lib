@@ -26,13 +26,19 @@ function detect() {
   var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
   var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
   var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
-  var inApp = /jiayoubao/.test(ualc); // 加油宝app
+  var jyb = ua.match(/jiayoubao[^\d]*(\d+\.\d+\.\d+)/);
+  var inJybApp = /jiayoubao/.test(ualc); // 加油宝app
   var inWX = /micromessenger/.test(ualc); // 微信
   var inQQ = /qq\//.test(ualc); // QQ
 
-  env.jyb = inApp;
   env.weixin = inWX;
   env.qq = inQQ;
+
+  // jyb
+  if (inJybApp) {
+    env.jyb = true;
+    env.version = jyb ? jyb[1] : null;
+  }
 
   // android
   if (android) {
@@ -58,6 +64,8 @@ function detect() {
 
   return env;
 }
+
+detect.env = detect();
 
 return detect;
 
