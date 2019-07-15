@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>页面导航模块</title>
+  <script type="text/javascript">
+    (function(doc, win) {
+      var basicWidth = window.basicWidth || 750;
+      var minWidth = 320;
+      var htmlElement = doc.documentElement;
+      var dpr = parseInt(window.devicePixelRatio || 1, 10);
+      var recalc = function() {
+          var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+          window.rootFontSize = 100 * (clientWidth / basicWidth);
+          clientWidth = clientWidth < minWidth? minWidth : clientWidth;
+          htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+          htmlElement.setAttribute("data-dpi", dpr);
+      };
+      recalc();
+      if (!win.addEventListener) return;
+      win.addEventListener('resize', recalc, false);
+    })(document, window);
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .ui-no-tap-highlight {
+      -webkit-tap-highlight-color: rgba(255,255,255,0);
+    }
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
+    body {
+      -webkit-user-select: none;
+      -webkit-text-size-adjust: none
+    }
+    html {
+      font-family: sans-serif;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      font-size: 1.25rem;
+    }
+    .header {
+      box-sizing: border-box;
+      height: 5.3rem;
+      padding-top: .2rem;
+      background-image: linear-gradient(36deg,#201f24 12%,#4e4c56);
+      text-align: center;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .main {
+      padding: .3rem;
+    }
+
+    .section {
+      padding: .5rem;
+      margin-bottom: .3rem;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .section__orange {
+      background-color: orange;
+    }
+
+    .section__blue {
+      background-color: blue;
+    }
+
+    .section__green {
+      background-color: green;
+    }
+
+    .section__pink {
+      background-color: pink;
+    }
+
+    .section__gray {
+      background-color: gray;
+    }
+
+    .section__red {
+      background-color: red;
+    }
+
+    .section__purple {
+      background-color: purple;
+    }
+
+    .section__brown {
+      background-color: brown;
+    }
+
+    .section__black {
+      background-color: black;
+    }
+
+    .navbar-bg-color {
+      background-image: linear-gradient(36deg, #201F24 12%, #4E4C56 100%);
+      transition: all .3s ease-in;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper ui-no-tap-highlight">
+    <div class="header">header</div>
+    <div class="main">
+      <div class="section section__orange">section</div>
+      <div class="section section__blue">section</div>
+      <div class="section section__green">section</div>
+      <div class="section section__pink">section</div>
+      <div class="section section__gray">section</div>
+      <div class="section section__red">section</div>
+      <div class="section section__purple">section</div>
+      <div class="section section__brown">section</div>
+      <div class="section section__black">section</div>
+    </div>
+  </div>
+  <script src="https://cdn.jyblife.com/static/js/lib/jsapi-2.0.3.js"></script>
+  <script src="../dist/navbar.dev.js"></script>
+  <script>
+    (function() {
+      wv.ready(function() {
+        wv.configWebView({
+          bounces: false
+        });
+      });
+
+      const navBar = new NavBar({
+        title: '导航测试',
+        link: {
+          title: '说明',
+          url: ''
+        }
+      });
+
+      navBar.callPlugin('common', {
+        addCssText(ctx) {
+          ctx.util.addCssText(`.header { padding-top: ${ctx.rect.height}px }`);
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

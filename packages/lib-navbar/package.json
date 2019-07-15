@@ -1,0 +1,38 @@
+{
+  "name": "@jyb/lib-navbar",
+  "version": "0.1.0",
+  "description": "页面导航模块",
+  "main": "dist/navbar.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib"
+  ],
+  "libDefine": {
+    "moduleName": "NavBar",
+    "devDest": "dist/navbar.dev.js",
+    "minDest": "dist/navbar.min.js",
+    "prodDest": "dist/navbar.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@jyb/lib-detect": "^1.1.1",
+    "@jyb/lib-event-emit": "^0.2.8",
+    "@jyb/lib-extend": "^0.1.9"
+  }
+}

@@ -1,0 +1,14 @@
+<div class="md-navbar-wrap">
+  <div class="md-status-bar{{=it._isIPhoneX ? ' md-status-bar__iphonex' : ''}}"></div>
+  <div class="md-navbar md-navbar-light">
+    <div class="md-navbar-left">
+      <a href="jtjr://close" class="md-navbar-left-icon"></a>
+    </div>
+    <div class="md-navbar-title">{{=it._title || ''}}</div>
+    <div class="md-navbar-right">
+      {{? it._link.title}}
+      <a class="md-navbar-right-link" href="{{=it._link.url || 'javascript:;'}}">{{=it._link.title}}</a>
+      {{?}}
+    </div>
+  </div>
+</div>
