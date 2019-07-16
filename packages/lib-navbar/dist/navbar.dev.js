@@ -513,13 +513,13 @@ var commonPlugin = {
 
 var currentEnv = detect.env;
 var defaultOptions = {
-  el: document.body,
-  title: '',
-  wrapCls: 'md-navbar-wrap',
-  link: {
-    title: '',
-    url: '',
-    query: {}
+  el: document.body, // 导航栏父元素，HTMLElement类型
+  title: '', // 导航栏标题，String类型
+  wrapCls: 'md-navbar-wrap', // 导航栏class，String类型
+  link: { // 导航栏右上角链接
+    title: '', // 链接标题，String类型
+    url: '', // 链接url，String类型
+    query: {} // 链接querystring，Object类型
   }
 };
 
