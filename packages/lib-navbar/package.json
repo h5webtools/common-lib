@@ -1,6 +1,6 @@
 {
   "name": "@jyb/lib-navbar",
-  "version": "0.1.0",
+  "version": "1.3.0",
   "description": "页面导航模块",
   "main": "dist/navbar.js",
   "scripts": {
@@ -31,7 +31,7 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "devDependencies": {
-    "@jyb/lib-detect": "^1.1.1",
+    "@jyb/lib-detect": "^1.3.0",
     "@jyb/lib-event-emit": "^0.2.8",
     "@jyb/lib-extend": "^0.1.9"
   }
