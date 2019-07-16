@@ -2,6 +2,8 @@
 
 页面导航模块
 
+客户端页面全屏展示文档：[APP协议](https://ones.ai/wiki/#/team/Tnb2S5Qj/space/YVQyvvRX/page/JcrWVQMk) => 打开H5页面跳转
+
 ## 安装
 
 ```shell
