@@ -453,7 +453,7 @@ function createPageUrl(url) {
     return k + '=' + encodeURIComponent(query[k]);
   }).join('&');
   if (!queryStr) return url;
-  return url + (url.indexOf('?') !== -1) ? '&' + queryStr : '?' + queryStr;
+  return url + (url.indexOf('?') !== -1 ? '&' + queryStr : '?' + queryStr);
 }
 
 var util = Object.freeze({
@@ -468,13 +468,13 @@ var util = Object.freeze({
 
 function anonymous(it
 /*``*/) {
-  var out = '<div class="md-navbar-wrap"> <div class="md-status-bar' + (it._isIPhoneX ? ' md-status-bar__iphonex' : '') + '"></div> <div class="md-navbar md-navbar-light"> <div class="md-navbar-left"> <a href="jtjr://close" class="md-navbar-left-icon"></a> </div> <div class="md-navbar-title">' + (it._title || '') + '</div> <div class="md-navbar-right"> ';if (it._link.title) {
-    out += ' <a class="md-navbar-right-link" href="' + (it._link.url || 'javascript:;') + '">' + it._link.title + '</a> ';
+  var out = '<div class="' + it.wrapCls + '"> <div class="md-status-bar' + (it.isIPhoneX ? ' md-status-bar__iphonex' : '') + '"></div> <div class="md-navbar md-navbar-light"> <div class="md-navbar-left"> <a href="jtjr://close" class="md-navbar-left-icon"></a> </div> <div class="md-navbar-title">' + (it.title || '') + '</div> <div class="md-navbar-right"> ';if (it.link.title) {
+    out += ' <a class="md-navbar-right-link" href="' + (it.url || 'javascript:;') + '">' + it.link.title + '</a> ';
   }out += ' </div> </div></div>';return out;
 }
 
 /* eslint max-len:0 */
-var cssText = "\n  .md-navbar-wrap {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    z-index: 99;\n    transition: all .3s ease-in;\n  }\n\n  .md-navbar {\n    display: flex;\n    align-items: center;\n    height: .88rem;\n  }\n\n  .md-status-bar {\n    width: 100%;\n    height: 20px;\n  }\n\n  .md-status-bar__iphonex {\n    height: 44px;\n  }\n\n  .md-navbar-light {\n\n  }\n\n  .md-navbar-left {\n    flex: 1;\n    display: flex;\n    align-items: center;\n    margin-left: .3rem;\n  }\n\n  .md-navbar-left-icon {\n    display: inline-block;\n    width: .18rem;\n    height: .3rem;\n    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAeCAYAAAAhDE4sAAAAAXNSR0IArs4c6QAAAINJREFUSA1jYCAT/P//nwmEYdoZYQxSaKgB86F6EhkZGf+Roh+sFuqShUAaBkBsuMuIMhCkAYiRDYEZ1k2UASBFeAx5CJRTJMqgUUMwg2k0TAZzmADdRlpmw/QMqghVohtm5KhhxJc9o2EGTC1gMHjDjPjqCE9sguo5poGrstFcBi89AKU14Oo0Ck4xAAAAAElFTkSuQmCC);\n    background-size: 100%;\n    background-repeat: no-repeat;\n  }\n\n  .md-navbar-title {\n    flex: 2;\n    justify-content: center;\n    font-family: PingFangSC-Semibold;\n    font-size: .36rem;\n    color: #fff;\n    text-align: center;\n  }\n\n  .md-navbar-right {\n    flex: 1;\n    display: flex;\n    justify-content: flex-end;\n    margin-right: .3rem;\n  }\n\n  .md-navbar-right-link {\n    font-size: .3rem;\n    color: #fff;\n    line-height: .34rem;\n    text-decoration: none;\n  }\n";
+var cssText = "\n  .md-navbar-wrap {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    z-index: 99;\n    transition: all .3s ease-in;\n  }\n\n  .md-navbar-wrap .md-navbar {\n    display: flex;\n    align-items: center;\n    height: .88rem;\n  }\n\n  .md-navbar-wrap .md-status-bar {\n    width: 100%;\n    height: 20px;\n  }\n\n  .md-navbar-wrap .md-status-bar__iphonex {\n    height: 44px;\n  }\n\n  .md-navbar-wrap .md-navbar-light {\n\n  }\n\n  .md-navbar-wrap .md-navbar-left {\n    flex: 1;\n    display: flex;\n    align-items: center;\n    margin-left: .3rem;\n  }\n\n  .md-navbar-wrap .md-navbar-left-icon {\n    display: inline-block;\n    width: .18rem;\n    height: .3rem;\n    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAeCAYAAAAhDE4sAAAAAXNSR0IArs4c6QAAAINJREFUSA1jYCAT/P//nwmEYdoZYQxSaKgB86F6EhkZGf+Roh+sFuqShUAaBkBsuMuIMhCkAYiRDYEZ1k2UASBFeAx5CJRTJMqgUUMwg2k0TAZzmADdRlpmw/QMqghVohtm5KhhxJc9o2EGTC1gMHjDjPjqCE9sguo5poGrstFcBi89AKU14Oo0Ck4xAAAAAElFTkSuQmCC);\n    background-size: 100%;\n    background-repeat: no-repeat;\n  }\n\n  .md-navbar-wrap .md-navbar-title {\n    flex: 2;\n    justify-content: center;\n    font-family: PingFangSC-Semibold;\n    font-size: .36rem;\n    color: #fff;\n    text-align: center;\n  }\n\n  .md-navbar-wrap .md-navbar-right {\n    flex: 1;\n    display: flex;\n    justify-content: flex-end;\n    margin-right: .3rem;\n  }\n\n  .md-navbar-wrap .md-navbar-right-link {\n    font-size: .3rem;\n    color: #fff;\n    line-height: .34rem;\n    text-decoration: none;\n  }\n";
 
 /**
  * 通用插件
@@ -515,6 +515,7 @@ var currentEnv = detect.env;
 var defaultOptions = {
   el: document.body,
   title: '',
+  wrapCls: 'md-navbar-wrap',
   link: {
     title: '',
     url: '',
@@ -530,7 +531,7 @@ var NavBar = function (_EventEmit) {
 
     var _this = possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).call(this));
 
-    _this.$options = extend({}, defaultOptions, options);
+    _this.$options = extend(true, {}, defaultOptions, options);
     _this.$parentEl = _this.$options.el;
     if (typeof _this.$parentEl === 'string') {
       _this.$parentEl = document.querySelector(_this.$parentEl);
@@ -578,18 +579,14 @@ var NavBar = function (_EventEmit) {
   }, {
     key: 'render',
     value: function render() {
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
       if (this.rendered || !this.canFullScreen()) return false;
       if (currentEnv.jyb && this.$options.link.url) {
         this.$options.link.url = createPageUrl('jtjr://web?url=' + encodeURIComponent(this.$options.link.url) + '&fullscreen=true', this.$options.link.query);
       }
 
-      var el = wrapperElement(anonymous(extend({
-        _title: this.$options.title,
-        _link: this.$options.link,
-        _isIPhoneX: isIPhoneX()
-      }, data)));
+      var el = wrapperElement(anonymous(extend(true, {
+        isIPhoneX: isIPhoneX()
+      }, this.$options)));
       this.$parentEl.appendChild(el);
 
       this.$el = el;

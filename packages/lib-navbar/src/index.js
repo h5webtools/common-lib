@@ -9,13 +9,13 @@ import * as util from './util';
 
 import tmpl from './index.dot';
 import cssText from './css';
-
 import commonPlugin from './plugin/common';
 
 const currentEnv = detect.env;
 const defaultOptions = {
   el: document.body,
   title: '',
+  wrapCls: 'md-navbar-wrap',
   link: {
     title: '',
     url: '',
@@ -26,7 +26,7 @@ const defaultOptions = {
 class NavBar extends EventEmit {
   constructor(options) {
     super();
-    this.$options = extend({}, defaultOptions, options);
+    this.$options = extend(true, {}, defaultOptions, options);
     this.$parentEl = this.$options.el;
     if (typeof this.$parentEl === 'string') {
       this.$parentEl = document.querySelector(this.$parentEl);
@@ -61,7 +61,7 @@ class NavBar extends EventEmit {
       this.emit('scroll', this);
     }
   }
-  render(data = {}) {
+  render() {
     if (this.rendered || !this.canFullScreen()) return false;
     if (currentEnv.jyb && this.$options.link.url) {
       this.$options.link.url = util.createPageUrl(
@@ -70,11 +70,9 @@ class NavBar extends EventEmit {
       );
     }
 
-    const el = util.wrapperElement(tmpl(extend({
-      _title: this.$options.title,
-      _link: this.$options.link,
-      _isIPhoneX: util.isIPhoneX()
-    }, data)));
+    const el = util.wrapperElement(tmpl(extend(true, {
+      isIPhoneX: util.isIPhoneX()
+    }, this.$options)));
     this.$parentEl.appendChild(el);
 
     this.$el = el;

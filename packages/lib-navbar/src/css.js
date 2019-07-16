@@ -10,33 +10,33 @@ const cssText = `
     transition: all .3s ease-in;
   }
 
-  .md-navbar {
+  .md-navbar-wrap .md-navbar {
     display: flex;
     align-items: center;
     height: .88rem;
   }
 
-  .md-status-bar {
+  .md-navbar-wrap .md-status-bar {
     width: 100%;
     height: 20px;
   }
 
-  .md-status-bar__iphonex {
+  .md-navbar-wrap .md-status-bar__iphonex {
     height: 44px;
   }
 
-  .md-navbar-light {
+  .md-navbar-wrap .md-navbar-light {
 
   }
 
-  .md-navbar-left {
+  .md-navbar-wrap .md-navbar-left {
     flex: 1;
     display: flex;
     align-items: center;
     margin-left: .3rem;
   }
 
-  .md-navbar-left-icon {
+  .md-navbar-wrap .md-navbar-left-icon {
     display: inline-block;
     width: .18rem;
     height: .3rem;
@@ -45,7 +45,7 @@ const cssText = `
     background-repeat: no-repeat;
   }
 
-  .md-navbar-title {
+  .md-navbar-wrap .md-navbar-title {
     flex: 2;
     justify-content: center;
     font-family: PingFangSC-Semibold;
@@ -54,14 +54,14 @@ const cssText = `
     text-align: center;
   }
 
-  .md-navbar-right {
+  .md-navbar-wrap .md-navbar-right {
     flex: 1;
     display: flex;
     justify-content: flex-end;
     margin-right: .3rem;
   }
 
-  .md-navbar-right-link {
+  .md-navbar-wrap .md-navbar-right-link {
     font-size: .3rem;
     color: #fff;
     line-height: .34rem;

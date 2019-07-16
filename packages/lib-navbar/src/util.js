@@ -92,5 +92,5 @@ export function isIPhoneX() {
 export function createPageUrl(url, query = {}) {
   const queryStr = Object.keys(query).map(k => `${k}=${encodeURIComponent(query[k])}`).join('&');
   if (!queryStr) return url;
-  return url + (url.indexOf('?') !== -1) ? `&${queryStr}` : `?${queryStr}`;
+  return url + (url.indexOf('?') !== -1 ? `&${queryStr}` : `?${queryStr}`);
 }
