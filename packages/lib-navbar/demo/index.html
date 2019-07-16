@@ -61,7 +61,7 @@
       });
 
       navBar.callPlugin('common', {
-        addCssText(ctx) {
+        rendered(ctx) {
           ctx.util.addCssText(`.header { padding-top: ${ctx.rect.height}px }`);
         }
       });

@@ -4,14 +4,14 @@
 
 export default {
   defaultOptions: {
-    addCssText(/* ctx */) {},
+    rendered(/* ctx */) {},
     navbarBgCls: 'navbar-bg-color'
   },
   plugin(options) {
-    const { navbarBgCls, addCssText } = options;
+    const { navbarBgCls, rendered } = options;
 
     this.on('rendered', (ctx) => {
-      if (typeof addCssText === 'function') addCssText(ctx);
+      if (typeof addCssText === 'function') rendered(ctx);
     });
 
     this.on('scrollTop', (ctx) => {

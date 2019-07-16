@@ -615,4 +615,3 @@ var NavBar = function (_EventEmit) {
 return NavBar;
 
 })));
-//# sourceMappingURL=navbar.dev.js.map

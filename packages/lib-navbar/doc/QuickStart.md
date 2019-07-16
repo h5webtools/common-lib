@@ -27,7 +27,7 @@ const navBar = new NavBar({
 
 // 使用通用插件
 navBar.callPlugin('common', {
-  addCssText(ctx) {
+  rendered(ctx) {
     ctx.util.addCssText(`.header { padding-top: ${ctx.rect.height}px }`);
   }
 });

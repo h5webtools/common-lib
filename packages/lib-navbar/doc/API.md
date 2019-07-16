@@ -109,8 +109,8 @@ navBar.callPlugin('demo', {
 
 ```javascript
 const defaultOptions = {
-  addCssText(/* ctx */) {},
-  navbarBgCls: 'navbar-bg-color'
+  rendered(/* ctx */) {}, // 渲染之后调用
+  navbarBgCls: 'navbar-bg-color' // 该class在滚动到顶部remove，滚动add
 };
 ```
 
@@ -118,7 +118,7 @@ const defaultOptions = {
 
 ```javascript
 navBar.callPlugin('common', {
-  addCssText(ctx) {
+  rendered(ctx) {
     ctx.util.addCssText(`.header { padding-top: ${ctx.rect.height}px }`);
   }
 });
