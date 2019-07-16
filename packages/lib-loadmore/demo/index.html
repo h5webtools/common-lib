@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>加载更多</title>
+  <script type="text/javascript">
+    (function(doc, win) {
+      var basicWidth = window.basicWidth || 750;
+      var minWidth = 320;
+      var htmlElement = doc.documentElement;
+      var dpr = parseInt(window.devicePixelRatio || 1, 10);
+      var recalc = function() {
+          var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+          window.rootFontSize = 100 * (clientWidth / basicWidth);
+          clientWidth = clientWidth < minWidth? minWidth : clientWidth;
+          htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+          htmlElement.setAttribute("data-dpi", dpr);
+      };
+      recalc();
+      if (!win.addEventListener) return;
+      win.addEventListener('resize', recalc, false);
+    })(document, window);
+  </script>
+  <link rel="stylesheet" href="../style/default.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .c-buy-record .record-list {
+      overflow-y: scroll;
+    }
+
+    .c-buy-record .record-head {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 0 0.32rem;
+      height: 0.8rem;
+      font-size: 0.26rem;
+      color: #3D3F48;
+      line-height: 0.32rem;
+      background-color: #f7f9f9;
+    }
+
+    .c-buy-record .record-col__person {
+      width: 30%;
+    }
+
+    .c-buy-record .record-col__amount {
+      width: 40%;
+    }
+
+    .c-buy-record .record-col__time {
+      width: 30%;
+      text-align: right;
+    }
+
+    .c-buy-record .record-body {
+      padding: 0 0.32rem;
+      background-color: #fff;
+    }
+
+    .c-buy-record .record-body__item {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      height: 1.02rem;
+      font-size: 0.3rem;
+      color: #5D667A;
+      line-height: 0.36rem;
+    }
+
+    .c-buy-record .record-body__item:not(:last-child):after {
+      content: "";
+      height: 0;
+      display: block;
+      border-bottom: 1px solid #e6e6e6;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    [data-dpi="2"] .c-buy-record .record-body__item:not(:last-child):after {
+      -webkit-transform: scaleY(0.5);
+          -ms-transform: scaleY(0.5);
+              transform: scaleY(0.5);
+      -webkit-transform-origin: 50% 0;
+          -ms-transform-origin: 50% 0;
+              transform-origin: 50% 0;
+    }
+
+    [data-dpi="3"] .c-buy-record .record-body__item:not(:last-child):after {
+      -webkit-transform: scaleY(0.333);
+          -ms-transform: scaleY(0.333);
+              transform: scaleY(0.333);
+      -webkit-transform-origin: 50% 0;
+          -ms-transform-origin: 50% 0;
+              transform-origin: 50% 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="js-buy-record" class="c-buy-record">
+      <div class="record-list">
+        <div class="record-head">
+          <div class="record-col__person">参与人</div>
+          <div class="record-col__amount">金额(元)</div>
+          <div class="record-col__time">时间</div>
+        </div>
+        <div id="js-record-body" class="record-body">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../dist/loadmore.dev.js"></script>
+  <script>
+    (function() {
+      // 页面信息
+      let pageIndex = 0;
+      const pageSize = 10;
+
+      const $recordBody = document.getElementById('js-record-body');
+      const loadMore = LoadMore.create(document.getElementById('js-buy-record'));
+      loadMore.on('scroll:bottom', () => {
+        fetchData();
+      });
+      loadMore.start();
+
+      function renderList(el, data) {
+        if (!(el instanceof HTMLElement)) return;
+        if (!Array.isArray(data)) return;
+        const fragment = document.createDocumentFragment();
+        data.forEach((item) => {
+          const $item = document.createElement('div');
+          $item.classList.add('record-body__item');
+          $item.innerHTML = `
+            <div class="record-col__person">${item.user_name}</div>
+            <div class="record-col__amount">${(item.total_amount / 100).toFixed(2)}</div>
+            <div class="record-col__time">${item.time.slice(0, 10)}</div>
+          `;
+          fragment.appendChild($item);
+        });
+        el.appendChild(fragment);
+      }
+
+      function getRecord({ page_index }) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            console.log(`数据加载完成！当前页面: ${page_index}`);
+            const data = {"code":"0","data":{"items":[{"time":"2019-07-16 10:49:41","total_amount":"1000","user_name":"\u674e*"},{"time":"2019-07-12 18:24:26","total_amount":"10000","user_name":"\u9ec4*"},{"time":"2019-07-11 11:35:59","total_amount":"10000","user_name":"\u9a6c*"},{"time":"2019-07-11 11:35:28","total_amount":"10000","user_name":"\u9a6c*"},{"time":"2019-07-11 11:34:31","total_amount":"1000","user_name":"\u9a6c*"},{"time":"2019-07-11 11:30:44","total_amount":"1000","user_name":"\u9a6c*"},{"time":"2019-07-11 11:30:28","total_amount":"1000","user_name":"\u9a6c*"},{"time":"2019-07-11 11:30:19","total_amount":"1000","user_name":"\u9a6c*"},{"time":"2019-07-11 11:29:55","total_amount":"1000","user_name":"\u9a6c*"},{"time":"2019-07-11 11:29:42","total_amount":"1000","user_name":"\u9a6c*"}],"page_index":"1","page_size":"10"}};
+            if (page_index === 2) {
+              data.data.page_size = 11;
+            }
+            resolve(data);
+          }, 1000);
+        });
+      }
+
+      function fetchData() {
+        loadMore.disabled = true;
+        getRecord({
+          page_index: pageIndex,
+          page_size: pageSize
+        }).then((json) => {
+          if (json.code != 0) return;
+          const jsonData = json.data || {};
+          pageIndex++;
+          renderList($recordBody, jsonData.items || []);
+          // 如果列表长度小于pageSize，可以认为已经加载完数据
+          if (jsonData.items.length < Number(jsonData.page_size)) {
+            loadMore.end = true;
+          } else {
+            loadMore.disabled = false;
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

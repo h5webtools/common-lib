@@ -1,0 +1,38 @@
+{
+  "name": "@jyb/lib-loadmore",
+  "version": "0.1.0",
+  "description": "加载更多模块",
+  "main": "dist/loadmore.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ../../scripts/build.js",
+    "build": "cross-env NODE_ENV=production node ../../scripts/build.js",
+    "build:min": "cross-env NODE_ENV=min node ../../scripts/build.js",
+    "test": "node ../../scripts/test.js",
+    "test:cover": "cross-env NODE_ENV=cover node ../../scripts/test.js"
+  },
+  "files": [
+    "src",
+    "style",
+    "dist/*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "common",
+    "lib",
+    "loadmore"
+  ],
+  "libDefine": {
+    "moduleName": "LoadMore",
+    "devDest": "dist/loadmore.dev.js",
+    "minDest": "dist/loadmore.min.js",
+    "prodDest": "dist/loadmore.js"
+  },
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@jyb/lib-event-emit": "^0.2.8"
+  }
+}
